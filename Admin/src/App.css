@@ -1,0 +1,25 @@
+.ReactCollapse--collapse{
+    transition:height 500ms;
+}
+body{
+    background:#f1f1f1 !important;
+}
+.btn-blue{
+    background:#3872fa !important;
+    color:white !important;
+    padding:7px 8px !important;
+}
+.btn-blue:hove{
+    background:#3067e5 !important;
+}
+
+.MuiAppBar-colorPrimary{background:white !important;}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@theme {
+    --breakpoint-xs: 30rem;
+  }
+  html, body {
+    width: 100%;
+    overflow-x:clip;
+    max-width: 100%;
+    background: #f5f0f0;
+    color: #666;
+    font-family:Roboto, Inter, Helvetica, Arial, sans-serif;
+  }
+  p{
+    font-size:14px;
+    line-height:25px;
+    margin-bottom:10px;
+  }
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 10px !important; /* Scrollbar width */
+  height: 10px !important; /* Scrollbar height */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7d0492; /* Scrollbar thumb (handle) color */
+}
+
+::-webkit-scrollbar-track {
+  background: white; /* Scrollbar track color */
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #ccc; /* Scrollbar thumb (handle) color */
+}
+
+.reviewScroll::-webkit-scrollbar-thumb{
+  background:white !important;
+}
+.reviewScroll::-webkit-scrollbar{
+ width:5px !important;
+}
+
+.container {
+  margin: auto;
+  max-width: 1200px; /* Adjust as needed */
+  width: 90%;
+}
+
+
+.btn-org {
+  background: #7d0492 !important;
+  color: #fff !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  padding: 5px 20px !important;
+}
+
+/* header .top-strip{
+    border-top:1px solid rgba(0,0,0,0.1);
+    border-bottom:1px solid rgba(0,0,0,0.1);
+} */
+
+.link:hover {
+  color: #7d0492 !important;
+  /* color:gray; */
+  /* font-weight:600; */
+}
+
+.MuiTabs-indicator {
+  background-color: #7d0492 !important;
+}
+
+.MuiTab-textColorPrimary.Mui-Selected {
+  color: #7d0492 !important;
+}
+
+.MuiBadge-badge {
+  background-color: #7d0492 !important;
+}
+
+nav ul button {
+  color: rgba(0, 0, 0, 0.7) !important;
+  text-transform: none;
+}
+
+/* nav ul button:hover {
+  color: #7d0492 !important;
+  font-weight: 600;
+} */
+
+nav ul button:hover {
+  background: none !important;
+}
+
+footer form input::placeholder {
+  font-size: 14px;
+}
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #7d0492 !important;
+}
+.css-19opgx6-MuiFormControlLabel-root .MuiFormControlLabel-label{
+  font-size: 13px !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
+
+.zoomProductSliderThumb .swiper-slide{
+  height:auto !important;
+}
