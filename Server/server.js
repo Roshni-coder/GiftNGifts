@@ -1,50 +1,49 @@
 import express from "express";
 import cors from "cors";
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import cookieParser from "cookie-parser";
-import connectDB from './config/mongobd.js';
-import router from './routes/auth_routes.js';
-import userRouter from "./routes/user_routes.js";
-import productRouter from "./routes/product_routes.js";
-import uploadRouter from "./routes/upload_routes.js";
-import categoryRouter from "./routes/category_routes.js";
-import subcategoryRouter from "./routes/subcategory_routes.js";
-import connectCloudinary from "./config/cloudinary.js";
-import sellerRouter from "./routes/sellerroutes.js";
-import paymentRoutes from './routes/paymentrazorpay.js'; // ✅ Payment routes
-import clientrouter from "../../GiftnGifts/Server/routes/productdetails_api.js";
-import ProductDetails from '../../GiftnGifts/Server/routes/productdetails_api.js'
-dotenv.config();
+import connectDB from './config/mongobd.js'
+import router from './routes/auth_routes.js'
+import userouter from "./routes/user_routes.js";
+import productrouter from "./routes/product_routes.js"
+import uploadrouter from "./routes/upload_routes.js"
+import categoryrouter from "./routes/category_routes.js"
+import subcategoryrouter from "./routes/subcategory_routes.js"
+import connectcloudinary from "./config/cloudinary.js";
+import sellerrouter from "./routes/sellerroutes.js";
+import clientrouter from "./routes/clientroute.js";
+import ProductDetails from "./routes/productdetails_api.js";
 
 const app = express();
-const port = process.env.PORT || 7000;
-
+const port = process.env.port || 7000
 connectDB();
-connectCloudinary();
-
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
-  credentials: true
-}));
-
+connectcloudinary()
 app.use(express.json());
 app.use(cookieParser());
 
-// API Routes
-app.use('/api/auth', router);
-app.use('/api/user', userRouter);
-app.use('/api/product', productRouter);
-app.use('/api', uploadRouter);
-app.use('/uploads', express.static('uploads'));
-app.use('/api', categoryRouter);
-app.use('/api', subcategoryRouter);
-app.use('/api/seller', sellerRouter);
-app.use('/api/payment', paymentRoutes); // ✅ Payment route
-app.use('/api',productRouter)
+app.use(cors({
+  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175'], // Explicitly allow your frontend URL
+  credentials: true // Allow cookies and auth headers
+}));
+  
+
+// API End-points--
+app.use('/api/auth',router)
+app.use('/api/user',userouter)
+app.use('/api/product',productrouter)
+
+app.use("/api", uploadrouter);
+
+// Serve uploaded images
+app.use("/uploads", express.static("uploads"));
+app.use('/api',productrouter)
+app.use('/api',categoryrouter)
+app.use('/api',subcategoryrouter)
+app.use("/api/seller",sellerrouter)
 app.use("/api/client",clientrouter)
 //app.use('/',(req,res)=>res.json({ message: "API working..." }));
-
 //product Details----
 app.use('/api/products',ProductDetails);
 
-app.listen(port, () => console.log(`Server started on port ${port}.........`));
+app.listen(port, ()=> console.log(`Server started on ${port}.........`));
+

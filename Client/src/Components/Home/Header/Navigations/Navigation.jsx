@@ -18,10 +18,7 @@ import { toast } from 'react-toastify'
 import { BsBox } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa6";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { MdOutlineMail } from "react-icons/md";
-import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
-import { SearchResultlist } from "./SearchResultlist.jsx";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -34,7 +31,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 function Navigation() {
   const navigate = useNavigate()
-  const { userData, backendurl,logout } = useContext(AppContext)
+  const { userData, backendurl,logout , cartItems,wishlistItems} = useContext(AppContext)
+  
   const [results,setResults] = useState([])
 
   const sendVerifyingotp = async ()=>{
@@ -76,7 +74,7 @@ function Navigation() {
             <Search setResults={setResults}/>
           </div>
 
-          <div className="col3 lg:col-span-3 pt-1 ml-5">
+          <div className="col3 lg:col-span-3 pt-1 ">
             <ul className="flex items-center justify-center  xl:gap-3  w-full">
 
               <li>
@@ -120,7 +118,7 @@ function Navigation() {
                   </Button>
                 )}
               </li>
-
+{/* 
               <li>
                 <Tooltip title="Compare">
                   <IconButton aria-label="compare">
@@ -129,13 +127,13 @@ function Navigation() {
                     </StyledBadge>
                   </IconButton>
                 </Tooltip>
-              </li>
+              </li> */}
 
               <li>
                 <Tooltip title="WhishList">
                   <Link to='/wishlist'>
                   <IconButton aria-label="like">
-                    <StyledBadge badgeContent={4} color="secondary">
+                    <StyledBadge badgeContent={wishlistItems.length} color="secondary">
                       <FiHeart className="md:text-[25px] text-[20px]" />
                     </StyledBadge>
                   </IconButton>
@@ -147,7 +145,7 @@ function Navigation() {
                 <Tooltip title="Cart">
                   <Link to='/cartlist'>
                   <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={4} color="secondary">
+                    <StyledBadge badgeContent={cartItems.length} color="secondary">
                       <MdOutlineShoppingCart className="md:text-[25px] text-[20px]" />
                     </StyledBadge>
                   </IconButton>

@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
 import SideMenu from "../My Profile/SideMenu.jsx";
+import { AppContext } from "../context/Appcontext.jsx";
 
 function WishlistPage() {
-  const [wishlistItems, setWishlistItems] = useState([]);
+
+  const { wishlistItems, setWishlistItems, fetchWishlist } = useContext(AppContext);
   const token = localStorage.getItem("token");
 
-  const fetchWishlist = async () => {
-    try {
-      const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setWishlistItems(res.data.wishlist || []);
-    } catch (err) {
-      console.error("Error fetching wishlist:", err);
-    }
-  };
+  // const fetchWishlist = async () => {
+  //   try {
+  //     const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     setWishlistItems(res.data.wishlist || []);
+  //   } catch (err) {
+  //     console.error("Error fetching wishlist:", err);
+  //   }
+  // };
 
   const handleRemove = async (productId) => {
     try {
@@ -58,7 +60,7 @@ function WishlistPage() {
               return (
                 <div key={product._id} className="wishlist-item border-b border-gray-100 py-2 flex items-center ">
                   <div className="img w-[15%] h-[20%] rounded-md overflow-hidden">
-                    <Link to={`/productdetails/${product._id}`} className="group">
+                    <Link to={`/products/${product._id}`} className="group">
                       <img
                         src={product.image || "https://via.placeholder.com/150"}
                         alt={product.title}
@@ -73,7 +75,7 @@ function WishlistPage() {
                       className="cursor-pointer absolute top-1 right-2 text-[20px]"
                     />
                     <h3 className="text-[16px] font-medium text-black">
-                      <Link to={`/productdetails/${product._id}`} className="link">
+                      <Link to={`/products/${product._id}`} className="link">
                         {product.title}
                       </Link>
                     </h3>

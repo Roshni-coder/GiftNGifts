@@ -13,6 +13,7 @@ export const AppContextProvider = (props) => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [userData, setUserdata] = useState(false);
   const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const getuserData = async () => {
     try {
@@ -48,6 +49,18 @@ export const AppContextProvider = (props) => {
     }
   };
 
+  const fetchWishlist = async () => {
+    const token = localStorage.getItem("token");
+      try {
+        const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setWishlistItems(res.data.wishlist || []);
+      } catch (err) {
+        console.error("Error fetching wishlist:", err);
+      }
+    };
+
   const logout = async () => {
     try {
       const { data } = await axios.post(`${backendurl}/api/auth/logout`);
@@ -76,7 +89,10 @@ export const AppContextProvider = (props) => {
     logout,
     cartItems,
     setCartItems,
-    fetchCart
+    wishlistItems,
+    setWishlistItems,
+    fetchCart,
+    fetchWishlist
   };
 
   return (

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Button, Typography, Box, styled, useScrollTrigger } from "@mui/material";
 import LocalOffer from "@mui/icons-material/LocalOffer";
 import Rating from "@mui/material/Rating";
-import { FaRegHeart,FaHeart } from "react-icons/fa";
-import { GoGitCompare } from "react-icons/go";
+import { FaRegHeart } from "react-icons/fa";
+// import { GoGitCompare } from "react-icons/go";
 import { ShoppingCart as Cart, FlashOn as Flash } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SmallText = styled(Box)`
   font-size: 13px;
@@ -24,7 +25,7 @@ const StyledBedge = styled(LocalOffer)`
 `;
 
 function RightComponent({ product }) {
-
+  const navigate = useNavigate();
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   const handleWishlistClick = async () => {
@@ -54,6 +55,7 @@ function RightComponent({ product }) {
 
       if (response.data?.cart) {
         console.log("Added to cart successfully", response.data.cart);
+        navigate('/cartlist')
         // Optionally show a toast or UI update
       }
     } catch (error) {
@@ -75,6 +77,7 @@ function RightComponent({ product }) {
 
       if (response.data.success) {
         console.log("Added to wishlist successfully:", response.data);
+        
         // Optionally show toast / update UI
       }
     } catch (error) {

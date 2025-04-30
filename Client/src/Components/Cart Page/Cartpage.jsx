@@ -4,6 +4,7 @@ import CartItems from "./CartItems";
 import Totalprice from "./Totalprice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button, Divider } from "@mui/material";
 
 function Cartpage() {
   const navigate = useNavigate(); // ✅ init navigate
@@ -16,10 +17,15 @@ function Cartpage() {
 
   const handleRemove = async (cartItemId) => {
     try {
-      await axios.delete(`http://localhost:7000/api/auth/delete/${cartItemId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCartItems((prev) => prev.filter((item) => item.product._id !== cartItemId));
+      await axios.delete(
+        `http://localhost:7000/api/auth/delete/${cartItemId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setCartItems((prev) =>
+        prev.filter((item) => item.product._id !== cartItemId)
+      );
     } catch (err) {
       console.error("Error removing cart item:", err);
     }
@@ -50,33 +56,48 @@ function Cartpage() {
 
   return (
     <section className="section py-3">
-      <div className="container w-[70%] lg:w-[80%] w-full lg:flex gap-4">
-        <div className="leftPart lg:w-[70%] w-full">
-          <div className="py-2 bg-white sm:px-3 px-2 border-b border-gray-200">
+      <div className="container w-[70%] lg:w-[80%] w-full  lg:flex gap-4">
+        <div className="leftPart lg:w-[70%] w-full bg-white !h-[600] ">
+          <div className="py-2 sm:px-3 px-2 border-b border-gray-200">
             <h2 className="text-black">Your Cart</h2>
             <p>
-              There are <span className="font-bold">{cartItems.length}</span> products in your cart.
+              There are <span className="font-bold">{cartItems.length}</span>{" "}
+              products in your cart.
             </p>
           </div>
-          <div className="shadow-md rounded-md bg-white max-h-[450px] overflow-y-scroll">
-            {cartItems.length > 0 ? (
-              cartItems.map((item) => (
-                <CartItems
-                  key={item.product._id}
-                  cartItemId={item.product._id}
-                  product={item.product}
-                  quantity={item.quantity}
-                  onRemove={handleRemove}
-                  onUpdateQuantity={handleUpdateQuantity}
-                />
-              ))
-            ) : (
-              <p className="p-4 text-gray-500">Your cart is empty.</p>
+          <div className=" rounded-md bg-white shadow-m">
+            <div className="max-h-[430px] overflow-y-scroll">
+              {cartItems.length > 0 ? (
+                cartItems.map((item) => (
+                  <CartItems
+                    key={item.product._id}
+                    cartItemId={item.product._id}
+                    product={item.product}
+                    quantity={item.quantity}
+                    onRemove={handleRemove}
+                    onUpdateQuantity={handleUpdateQuantity}
+                  />
+                ))
+              ) : (
+                <p className="p-4 text-gray-500">Your cart is empty.</p>
+              )}
+            </div>
+
+            {cartItems.length > 0 && (
+              <Button
+                type="submit"
+                variant="contained"
+                className="!w-[40%] float-right !mx-6 !my-5 !bg-[#fb541b] !rounded-none !h-[45px]"
+                onClick={handlePlaceOrder}
+              >
+                Continue
+              </Button>
             )}
           </div>
         </div>
         <div className="rightPart lg:w-[30%] w-[30%] mt-4 lg:mt-0">
-          <Totalprice handlePlaceOrder={handlePlaceOrder} /> {/* Pass the function here */}
+          <Totalprice handlePlaceOrder={handlePlaceOrder} />{" "}
+          {/* Pass the function here */}
         </div>
       </div>
     </section>
