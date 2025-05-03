@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: '*',
+  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'], // Explicitly allow your frontend URL
   credentials: true // Allow cookies and auth headers
 }));
   
