@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa6";
 import Badges from "./Badges";
-import SideMenu from "../My Profile/Sidemenu";
+import SideMenu from "../My Profile/SideMenu";
 
 function Orders() {
   const [isOpenOrderdProduct, setOpenOrderdProduct] = useState(null);
