@@ -1,0 +1,41 @@
+.menu{
+    display:none;
+
+}
+button{
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    padding:3px 10px;
+    cursor:pointer;
+    margin-right:5px;
+}
+
+@media screen and (max-width:767px){
+    .pera{
+        font-size:11px;
+    }
+    .menu-web{
+        display:none;
+    }
+   .menu{
+    display:inline-block;
+    text-align:end;
+   }
+   .menu-mobile{
+    position:absolute;
+    top:1.50rem;
+    left:0;
+    background-color:#7d0492;
+    color:white;
+    width:100%;
+    
+}
+   .menu-mobile ul{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    padding-right:18%;
+    justify-content:center;
+   }
+}

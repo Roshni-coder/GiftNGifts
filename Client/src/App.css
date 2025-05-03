@@ -1,0 +1,11 @@
+.categoryPanel .submenu{
+    display:none;
+} 
+ .nav li:hover .submenu{
+    visiblity:hidden;
+ }
+ .nav li:hover .submenu{
+    opacity: 1 !important;
+    visiblity:inherit;
+    top:100%;
+ }
