@@ -12,7 +12,7 @@ function Myprofile() {
 
   const getProfile = async () => {
     try {
-      const { data } = await axios.get('http://localhost:7000/api/user/profile', {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/profile`, {
         headers: { token },
       });
       if (data.success) {
@@ -35,7 +35,7 @@ function Myprofile() {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        'http://localhost:7000/api/user/updateprofile',
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/updateprofile`,
         profile,
         { headers: { token } }
       );

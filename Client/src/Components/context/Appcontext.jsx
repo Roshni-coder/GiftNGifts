@@ -52,7 +52,7 @@ export const AppContextProvider = (props) => {
   const fetchWishlist = async () => {
     const token = localStorage.getItem("token");
       try {
-        const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/wishlist`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setWishlistItems(res.data.wishlist || []);

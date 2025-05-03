@@ -15,7 +15,7 @@ function OrderSummery() {
   }, []);
   const handleRemove = async (cartItemId) => {
     try {
-      await axios.delete(`http://localhost:7000/api/auth/delete/${cartItemId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/auth/delete/${cartItemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems((prev) => prev.filter((item) => item.product._id !== cartItemId));
@@ -27,7 +27,7 @@ function OrderSummery() {
   const handleUpdateQuantity = async (productId, newQty) => {
     try {
       await axios.put(
-        "http://localhost:7000/api/auth/update-quantity",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/update-quantity`,
         { productId, quantity: newQty },
         { headers: { Authorization: `Bearer ${token}` } }
       );

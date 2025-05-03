@@ -40,7 +40,7 @@ function RightComponent({ product }) {
   const handleAddToCart = async (product) => {
     try {
       const response = await axios.post(
-        'http://localhost:7000/api/auth/Cart', // replace with actual route
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/Cart`, // replace with actual route
         {
           productId: product._id,
           quantity: 1,
@@ -66,7 +66,7 @@ function RightComponent({ product }) {
   const handleAddToWishlist = async (product) => {
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/auth/wishlist",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/wishlist`,
         { productId: product._id },
         {
           headers: {

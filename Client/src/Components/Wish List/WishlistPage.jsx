@@ -12,7 +12,7 @@ function WishlistPage() {
 
   // const fetchWishlist = async () => {
   //   try {
-  //     const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
+  //     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/auth/wishlist`, {
   //       headers: { Authorization: `Bearer ${token}` },
   //     });
   //     setWishlistItems(res.data.wishlist || []);
@@ -23,7 +23,7 @@ function WishlistPage() {
 
   const handleRemove = async (productId) => {
     try {
-      await axios.delete(`http://localhost:7000/api/auth/delete-wishlist/${productId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/auth/delete-wishlist/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlistItems((prev) =>
