@@ -11,7 +11,7 @@ import Reset_pass from "./Components/LoginPage/Reset_pass.jsx";
 import MyProfile from "./Components/My Profile/MyProfile.jsx";
 import Cartpage from "./Components/Cart Page/Cartpage.jsx";
 import Orders from "./Components/Orders/Orders.jsx";
-import ChatBot from "./Components/ChatBot/Chatbot.jsx";
+import ChatBot from "./Components/ChatBot/ChatBot.jsx";
 import AddAddress from "./Components/BillingPage/AddAddress.jsx";
 import WishlistPage from "./Components/Wish List/WishlistPage.jsx";
 import OrderSummery from './Components/Order Summery/OrderSummery.jsx'
