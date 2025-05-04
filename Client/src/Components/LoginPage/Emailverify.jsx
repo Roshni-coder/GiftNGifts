@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import { AppContext } from '../context/Appcontext.jsx';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
 
 function Emailverify() {
     //send for cokie--
@@ -80,7 +79,7 @@ function Emailverify() {
                     ))}
 
                 </div>
-                <Button className='w-full !py-3 !bg-[#fb541b] text-white rounded'>Verify Email</Button>
+                <button className='w-full !py-3 !bg-[#fb541b] text-white rounded'>Verify Email</button>
             </form>
         </div>
     )

@@ -64,7 +64,7 @@ export const register = async (req, res) => {
         //sending a email-
         await transporter.sendMail(mailOption)
 
-        return res.json({ success: true });
+        return res.json({ success: true ,token});
 
     } catch (error) {
         res.json({

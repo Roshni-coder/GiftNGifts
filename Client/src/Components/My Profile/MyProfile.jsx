@@ -55,7 +55,8 @@ function Myprofile() {
       <section className="py-6 w-full">
       <div className="container w-[100%] flex gap-5">
         <div className="col1 w-[20%]">
-          <SideMenu />
+        <SideMenu name={profile.name} email={profile.email} />
+
         </div>
 
         <div className="clo2 w-[80%]">

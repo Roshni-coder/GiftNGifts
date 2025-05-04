@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // 👈 import useParams
 import LeftComponent from "./ProductLeft/LeftComponent";
 import RightComponent from "./ProductRight/RightComponent";
-import ProductSlider from "../Home/ProductSlider/Productslider.jsx";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
@@ -14,6 +13,10 @@ function ProductDetail() {
   const [activeTab, setActiveTab] = useState(0);
   const [product, setProduct] = useState(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // 👉 scrolls to top when product detail is opened
+  }, []);
+  
   useEffect(() => {
     if (productId) {
       axios

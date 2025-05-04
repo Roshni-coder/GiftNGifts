@@ -8,9 +8,8 @@ import { IoBagCheckOutline } from "react-icons/io5";
 import { NavLink } from 'react-router-dom';
 import { AppContext } from '../context/Appcontext.jsx';
 
-function SideMenu() {
+function SideMenu({name,email}) {
   const { logout, userData } = useContext(AppContext);
-
   return (
     <div className="card bg-white shadow-md rounded-md">
       <div className="w-full px-5 pt-5 pb-3 flex items-center justify-center flex-col">
@@ -25,8 +24,8 @@ function SideMenu() {
             <input type="file" className='absolute top-0 left-0 w-full h-full opacity-0' />
           </div>
         </div>
-        <h2 className='font-[600] text-[15px]'>{userData?.name || "Name"}</h2>
-        <p className='text-[12px] font-[500]'>{userData?.email || "Email"}</p>
+        <h2 className='font-[600] text-[15px]'>{name || "Name"}</h2>
+        <p className='text-[12px] font-[500]'>{email || "Email"}</p>
       </div>
       <Divider />
       <ul className='list-none pb-5 pt-3 myAccountTabs'>

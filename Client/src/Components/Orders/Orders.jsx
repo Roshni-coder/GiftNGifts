@@ -83,16 +83,16 @@ function Orders() {
                     </button>
                   </td>
                   <td className="px-4 py-4 font-[500]">
-                    <span>834532762373276</span>
+                    <span>8345327342326</span>
                   </td>
                   <td className="px-4 py-4 font-[500]">
-                    <span>pay_PTP0qEXJSCHCV</span>
+                    <span>pay_PBIqJSHEHCV</span>
                   </td>
                   <td className="px-4 py-4 font-[500] whitespace-nowrap">
                     Bhoi Roshni
                   </td>
                   <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                   6737846728
+                  6354948868
                   </td>
                   <td className="px-4 py-4 font-[500]">
                     <span className="block w-[270px]">
@@ -103,19 +103,19 @@ function Orders() {
                   <td className="px-4 py-4 font-[500]">373742</td>
                   <td className="px-4 py-4 font-[500]">₹2,342</td>
                   <td className="px-4 py-4 font-[500]">
-                    roshuroshni264@gmail.com
+                    bhoiroshni847@gmail.com
                   </td>
                   <td className="px-4 py-4 font-[500]">
                     <Badges status="Delivered" />
                   </td>
                   <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                    2024-12-1
+                   2025-3-30
                   </td>
                 </tr>
                 {isOpenOrderdProduct === 0 && (
                   <tr>
                     <td colSpan={6}>
-                      <div className=" w-[60%] ml-25 my-2 mb-2">
+                      <div className=" w-[60%] ml-35 my-2 mb-2">
                         <table className="w-full   shadow-md text-sm items-center   text-gray-500 dark:text-gray-500">
                           <thead className="text-xs  uppercase text-[12px] bg-gray-100  !text-[rgba(0,0,0,0.8)]">
                             <tr>
@@ -143,12 +143,6 @@ function Orders() {
                               >
                                 Price
                               </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Sub Total
-                              </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -157,42 +151,37 @@ function Orders() {
                                 <span>64723c782ca93</span>
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
+                                <span>Birthday Bliss Red Velvet Cake- Half Kg</span>
                               </td>
                               <td className="px-4 py-4 font-[500]  !m-auto ">
                                 <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
+                                  src="https://res.cloudinary.com/duxg38zcx/image/upload/v1744714546/zrnu3b6ppqvfdsrtw7iq.webp"
                                   alt=""
                                   className="w-[50px] m-auto rounded-md h-[50px] object-cover"
                                 />
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
+                                ₹1000
                               </td>
                             </tr>
                             <tr className="bg-white border-b text-center dark:border-gray-200">
                               <td className="px-4 py-4 font-[500]">
-                                <span>64723c782ca93</span>
+                                <span>6472gd872443df</span>
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
+                                <span>Glass Full of Red Rose</span>
                               </td>
                               <td className="px-4 py-4 font-[500]  !m-auto ">
                                 <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
+                                  src="https://res.cloudinary.com/duxg38zcx/image/upload/v1744711870/dmbhqyn2mcposc1c1nzw.webp"
                                   alt=""
                                   className="w-[50px] m-auto rounded-md h-[50px] object-cover"
                                 />
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
+                                ₹1500
                               </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
+                             
                             </tr>
                           </tbody>
                         </table>
@@ -216,7 +205,7 @@ function Orders() {
                     </button>
                   </td>
                   <td className="px-4 py-4 font-[500]">
-                    <span>834532762373276</span>
+                    <span>4327882144276</span>
                   </td>
                   <td className="px-4 py-4 font-[500]">
                     <span>pay_PTP0qEXJSCHCV</span>
@@ -225,30 +214,30 @@ function Orders() {
                    Dimpal Bhoi
                   </td>
                   <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                    7374827386
+                    9016599013
                   </td>
                   <td className="px-4 py-4 font-[500]">
                     <span className="block w-[270px]">
                       {" "}
-                      Baji Patel Patel no vhoevad,Visnagar
+                     Marutinagar,Socity,Himatnagar
                     </span>
                   </td>
                   <td className="px-4 py-4 font-[500]">373742</td>
                   <td className="px-4 py-4 font-[500]">₹2,342</td>
                   <td className="px-4 py-4 font-[500]">
-                    roshuroshni264@gmail.com
+                    dimpal2001@gmail.com
                   </td>
                   <td className="px-4 py-4 font-[500]">
                     <Badges status="Pending" />
                   </td>
                   <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                    2024-12-1
+                    2025-1-4
                   </td>
                 </tr>
                 {isOpenOrderdProduct === 1 && (
                   <tr>
                     <td colSpan={6}>
-                      <div className=" w-[60%] ml-25 my-2 mb-2">
+                      <div className=" w-[60%] !ml-35 my-2 mb-2">
                         <table className="w-full   shadow-md text-sm items-center   text-gray-500 dark:text-gray-500">
                           <thead className="text-xs  uppercase text-[12px] bg-gray-100  !text-[rgba(0,0,0,0.8)]">
                             <tr>
@@ -276,56 +265,28 @@ function Orders() {
                               >
                                 Price
                               </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Sub Total
-                              </th>
+                              
                             </tr>
                           </thead>
                           <tbody>
                             <tr className="bg-white border-b text-center dark:border-gray-200">
                               <td className="px-4 py-4 font-[500]">
-                                <span>64723c782ca93</span>
+                                <span>73545c2ca3344</span>
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
+                                <span>Sneh Peacock Rakhi & Mera Bhai Mug</span>
                               </td>
                               <td className="px-4 py-4 font-[500]  !m-auto ">
                                 <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
+                                  src="https://res.cloudinary.com/duxg38zcx/image/upload/v1744715110/ljyhlsq3iizf3a6c7nsv.webp"
                                   alt=""
                                   className="w-[50px] m-auto rounded-md h-[50px] object-cover"
                                 />
                               </td>
                               <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
+                                ₹400
                               </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b text-center dark:border-gray-200">
-                              <td className="px-4 py-4 font-[500]">
-                                <span>64723c782ca93</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500]  !m-auto ">
-                                <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                  alt=""
-                                  className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                                />
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
+                              
                             </tr>
                           </tbody>
                         </table>
@@ -333,140 +294,7 @@ function Orders() {
                     </td>
                   </tr>
                 )}
-                  
-
-                  {/* Third  order */}
-                <tr className="bg-white border-b text-center dark:border-gray-200">
-                  <td className="pl-2 py-4 font-[500]">
-                    <button
-                      className=" !py-3 !px-4 flex items-center justify-center !rounded-full hover:!bg-gray-100"
-                      onClick={() => isShowOrder(2)}
-                    >
-                      {isOpenOrderdProduct === 2 ? (
-                        <FaAngleUp className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                      ) : (
-                        <FaAngleDown className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                      )}
-                    </button>
-                  </td>
-                  <td className="px-4 py-4 font-[500]">
-                    <span>834532762373276</span>
-                  </td>
-                  <td className="px-4 py-4 font-[500]">
-                    <span>pay_PTP0qEXJSCHCV</span>
-                  </td>
-                  <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                   Dimpal Bhoi
-                  </td>
-                  <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                    7374827386
-                  </td>
-                  <td className="px-4 py-4 font-[500]">
-                    <span className="block w-[270px]">
-                      {" "}
-                      Baji Patel Patel no vhoevad,Visnagar
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 font-[500]">373742</td>
-                  <td className="px-4 py-4 font-[500]">₹2,342</td>
-                  <td className="px-4 py-4 font-[500]">
-                    roshuroshni264@gmail.com
-                  </td>
-                  <td className="px-4 py-4 font-[500]">
-                    <Badges status="Pending" />
-                  </td>
-                  <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                    2024-12-1
-                  </td>
-                </tr>
-                {isOpenOrderdProduct === 2 && (
-                  <tr>
-                    <td colSpan={6}>
-                      <div className=" w-[60%] ml-25 my-2 mb-2">
-                        <table className="w-full   shadow-md text-sm items-center   text-gray-500 dark:text-gray-500">
-                          <thead className="text-xs  uppercase text-[12px] bg-gray-100  !text-[rgba(0,0,0,0.8)]">
-                            <tr>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Product Id
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Product Title
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Product Image
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Price
-                              </th>
-                              <th
-                                scope="col"
-                                className="px-4 py-4 whitespace-nowrap"
-                              >
-                                Sub Total
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="bg-white border-b text-center dark:border-gray-200">
-                              <td className="px-4 py-4 font-[500]">
-                                <span>64723c782ca93</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500]  !m-auto ">
-                                <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                  alt=""
-                                  className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                                />
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                            </tr>
-                            <tr className="bg-white border-b text-center dark:border-gray-200">
-                              <td className="px-4 py-4 font-[500]">
-                                <span>64723c782ca93</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                <span>Red Velvet Fresh Cream Cake Half kg</span>
-                              </td>
-                              <td className="px-4 py-4 font-[500]  !m-auto ">
-                                <img
-                                  src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                  alt=""
-                                  className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                                />
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                              <td className="px-4 py-4 font-[500] whitespace-nowrap">
-                                ₹2,000
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                 
               </tbody>
             </table>
           </div>

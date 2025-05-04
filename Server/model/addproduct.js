@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const addproductSchema = new mongoose.Schema({
-
     title:{
         type:String,
         required:true,
