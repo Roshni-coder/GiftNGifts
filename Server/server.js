@@ -21,10 +21,28 @@ connectcloudinary()
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'], // Explicitly allow your frontend URL
-  credentials: true // Allow cookies and auth headers
-}));
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow server-to-server or tools like Postman
+
+    const allowedOrigins = ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'];
+
+    const hostname = new URL(origin).hostname;
+
+    if (
+      allowedOrigins.includes(origin) ||
+      hostname === 'ishisofttech.com' ||
+      hostname.endsWith('.ishisofttech.com')
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
   
 
 // API End-points--
