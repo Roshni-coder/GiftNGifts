@@ -17,7 +17,7 @@ if(stoken){
   // Fetch profile data on component mount
   const getProfile = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/seller/profile`,{headers:{stoken}});
+      const { data } = await axios.get('http://localhost:7000/api/seller/profile',{headers:{stoken}});
       if (data.success) {
         setProfile({
           name: data.seller.name,
@@ -46,7 +46,7 @@ if(stoken){
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/seller/updateprofile`, profile,{headers:{stoken}});
+      const { data } = await axios.post('http://localhost:7000/api/seller/updateprofile', profile,{headers:{stoken}});
       if (data.message) {
         alert(data.message);
         setEditing(false);

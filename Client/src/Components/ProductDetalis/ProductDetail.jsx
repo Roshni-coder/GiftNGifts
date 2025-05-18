@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // 👈 import useParams
 import LeftComponent from "./ProductLeft/LeftComponent";
 import RightComponent from "./ProductRight/RightComponent";
-import ProductSlider from "../Home/ProductSlider/Productslider.jsx";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
@@ -15,9 +14,13 @@ function ProductDetail() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // 👉 scrolls to top when product detail is opened
+  }, []);
+  
+  useEffect(() => {
     if (productId) {
       axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`)
+        .get(`http://localhost:7000/api/products/${productId}`)
         .then((response) => {
           setProduct(response.data);
           console.log("fetched product successfully.....")

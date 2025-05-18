@@ -19,7 +19,7 @@ function ProductList() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getproducts`);
+      const response = await axios.get("http://localhost:7000/api/getproducts");
       setProducts(response.data.data);
 
       setLoading(false);
@@ -38,7 +38,7 @@ function ProductList() {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/getcategories`
+        "http://localhost:7000/api/getcategories"
       );
       setCategories(response.data);
     } catch (error) {
@@ -53,7 +53,7 @@ function ProductList() {
   const removeproduct = async (_id) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/deleteproduct/${_id}`
+        `http://localhost:7000/api/deleteproduct/${_id}`
       );
       if (response.data.success) {
         setProducts(products.filter((product) => product._id !== _id));
@@ -73,7 +73,7 @@ function ProductList() {
 
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/updateproduct/${_id}`,
+        `http://localhost:7000/api/updateproduct/${_id}`,
         updatetask[_id]
       );
       if (response.data.success) {
@@ -101,7 +101,7 @@ function ProductList() {
   const fetchSubcategories = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`
+        "http://localhost:7000/api/getsubcategories"
       );
       setSubcategories(response.data);
     } catch (error) {

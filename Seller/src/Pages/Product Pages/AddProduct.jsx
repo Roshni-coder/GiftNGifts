@@ -32,7 +32,7 @@ function AddProduct() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
+      const response = await axios.get('http://localhost:7000/api/getcategories');
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -41,7 +41,7 @@ function AddProduct() {
 
   const fetchSubcategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`);
+      const response = await axios.get('http://localhost:7000/api/getsubcategories');
       setSubcategories(response.data);
     } catch (error) {
       console.error('Error fetching subcategories:', error);
@@ -105,7 +105,7 @@ function AddProduct() {
       });
 
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/seller/addproducts`,
+        'http://localhost:7000/api/seller/addproducts',
         formData,
         {
           headers: {

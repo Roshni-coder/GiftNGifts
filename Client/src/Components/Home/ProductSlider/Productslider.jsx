@@ -27,7 +27,7 @@ function ProductSlider() {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
+      const { data } = await axios.get("http://localhost:7000/api/client/productsbycategory");
       if (data.success && Array.isArray(data.categories)) {
         setCategories(data.categories);
       } else {
@@ -52,18 +52,22 @@ function ProductSlider() {
 
   return (
     <section className="pt-6">
-      {categories?.slice(0, 4).map((cat, idx) => (
-        <div key={idx} className="container mx-auto px-4 md:px-6  !mb-3 bg-white rounded-lg shadow-lg mb-10">
+    {categories?.slice(0, 4).map((cat, idx) => {
+      const products = cat?.products || [];
+      if (products.length === 0) return null; // Skip this category if no products
+  
+      return (
+        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-3 bg-white rounded-lg shadow-lg mb-10">
           {/* Category Header */}
           <div className="flex items-center justify-between mb-4 px-6 py-4 border-b border-gray-200">
             <h3 className="text-[14px] sm:text-2xl font-semibold text-gray-800">
               {cat?.category || 'Untitled Category'}
             </h3>
-            <Link to="/productlist " state={{ category: cat.category }}>
+            <Link to="/productlist" state={{ category: cat.category }}>
               <ViewBtn>View</ViewBtn>
             </Link>
           </div>
-
+  
           {/* Product Slider */}
           <Swiper
             spaceBetween={20}
@@ -75,40 +79,38 @@ function ProductSlider() {
               1280: { slidesPerView: 4 },
             }}
           >
-            {cat?.products?.length > 0 ? (
-              cat.products.map((product) => (
-                <SwiperSlide key={product._id}>
-                  <Link to={`/products/${product._id}`}>
-                    <div className="productItem bg-white mb-4 rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                      {/* Image */}
-                      <div className="imgWrapper w-full h-[300px] sm:h-[280px] overflow-hidden pb-2">
-                        <img
-                          src={product?.images?.[0]?.url || '/default-image.jpg'}
-                          alt={product?.images?.[0]?.altText || product?.title}
-                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                        />
-                      </div>
-
-                      {/* Info */}
-                      <div className="info pb-4 px-2 text-center">
-                        <h3 className="text-gray-700 !text-[13px] md:text-base p-1">
-                          {product?.title || "No Title"}
-                        </h3>
-                        <h2 className="text-gray-900 !text-[14px] md:text-lg font-semibold">
-                          ₹{product?.price || "N/A"}
-                        </h2>
-                      </div>
+            {products.map((product) => (
+              <SwiperSlide key={product._id}>
+                <Link to={`/products/${product._id}`}>
+                  <div className="productItem bg-white mb-4 rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                    {/* Image */}
+                    <div className="imgWrapper w-full h-[300px] sm:h-[280px] overflow-hidden pb-2">
+                      <img
+                        src={product?.images?.[0]?.url || '/default-image.jpg'}
+                        alt={product?.images?.[0]?.altText || product?.title}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
                     </div>
-                  </Link>
-                </SwiperSlide>
-              ))
-            ) : (
-              <p className="text-gray-500 text-sm px-4 pb-4">No products available in this category.</p>
-            )}
+  
+                    {/* Info */}
+                    <div className="info pb-4 px-2 text-center">
+                      <h3 className="text-gray-700 !text-[13px] md:text-base p-1">
+                        {product?.title || "No Title"}
+                      </h3>
+                      <h2 className="text-gray-900 !text-[14px] md:text-lg font-semibold">
+                        ₹{product?.price || "N/A"}
+                      </h2>
+                    </div>
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
-      ))}
-    </section>
+      );
+    })}
+  </section>
+  
     
   );
 }

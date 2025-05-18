@@ -19,7 +19,7 @@ function SubCategoryList() {
 
   const fetchSubcategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`);
+      const response = await axios.get("http://localhost:7000/api/getsubcategories");
       setSubcategories(response.data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
@@ -28,7 +28,7 @@ function SubCategoryList() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deletesubcategory/${id}`);
+      await axios.delete(`http://localhost:7000/api/deletesubcategory/${id}`);
       setSubcategories(prev => prev.filter((item) => item._id !== id));
     } catch (error) {
       console.error("Error deleting subcategory:", error);
@@ -50,7 +50,7 @@ function SubCategoryList() {
     if (!newValue || newValue === originalValue) return;
 
     try {
-      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/updatesubcategory/${id}`, {
+      await axios.put(`http://localhost:7000/api/updatesubcategory/${id}`, {
         subcategory: newValue,
       });
 
@@ -95,7 +95,7 @@ function SubCategoryList() {
               <tr key={subcategory._id} className="border border-gray-300">
                 <td className="px-6 py-2 border border-gray-200">
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${subcategory.category?.image}`}
+                    src={`http://localhost:7000/${subcategory.category?.image}`}
                     alt="Category"
                     className="w-[60px] h-[60px] object-cover rounded-md border"
                   />

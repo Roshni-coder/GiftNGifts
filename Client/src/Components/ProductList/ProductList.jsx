@@ -15,7 +15,7 @@ function ProductList() {
   useEffect(() => {
     const fetchCategoryProducts = async () => {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
+        const { data } = await axios.get("http://localhost:7000/api/client/productsbycategory");
         if (data.success && Array.isArray(data.categories)) {
           const categoryData = data.categories.find(cat => cat.category === category);
           if (categoryData) {
@@ -38,7 +38,7 @@ function ProductList() {
   const applyFilters = async (appliedFilters) => {
     setFilters(appliedFilters);
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/filter`, {
+      const response = await axios.get("http://localhost:7000/api/filter", {
         params: {
           categoryname: appliedFilters.selectedCategories.join(","),
           minPrice: appliedFilters.priceRange[0],
@@ -67,7 +67,7 @@ function ProductList() {
             {products.length > 0 ? (
               products.map((product) => (
                 <div key={product._id} className="productItem bg-white rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 max-w-xs">
-                  <Link to={`/productDetails/${product._id}`}>
+                  <Link to={`/products/${product._id}`}>
                     <div className="imgWrapper w-[320px] h-[320px] sm:h-[280px] overflow-hidden pb-2">
                       <img
                         src={product?.images?.[0]?.url || "/default-image.jpg"}

@@ -13,45 +13,27 @@ import connectcloudinary from "./config/cloudinary.js";
 import sellerrouter from "./routes/sellerroutes.js";
 import clientrouter from "./routes/clientroute.js";
 import ProductDetails from "./routes/productdetails_api.js";
-
+import paymetRoutes from '../Server/routes/paymentRoutes.js'
+import feedbackRoutes from '../Server/routes/feedbackRoutes.js'
 const app = express();
 const port = process.env.port || 7000
 connectDB();
 connectcloudinary()
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server or tools like Postman
-
-    const allowedOrigins = ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'];
-
-    const hostname = new URL(origin).hostname;
-
-    if (
-      allowedOrigins.includes(origin) ||
-      hostname === 'ishisofttech.com' ||
-      hostname.endsWith('.ishisofttech.com')
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175','http://localhost:5176'], // Explicitly allow your frontend URL
+  credentials: true // Allow cookies and auth headers
+}));
   
 
 // API End-points--
 app.use('/api/auth',router)
 app.use('/api/user',userouter)
 app.use('/api/product',productrouter)
-
 app.use("/api", uploadrouter);
-
 // Serve uploaded images
 app.use("/uploads", express.static("uploads"));
 app.use('/api',productrouter)
@@ -62,6 +44,17 @@ app.use("/api/client",clientrouter)
 //app.use('/',(req,res)=>res.json({ message: "API working..." }));
 //product Details----
 app.use('/api/products',ProductDetails);
+// Routes
+
+app.use("/api", paymetRoutes);
+app.use('/api/feedback', feedbackRoutes);
+
+// Optional favicon fix
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+
+// Optional: handle favicon requests
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 app.listen(port, ()=> console.log(`Server started on ${port}.........`));
 

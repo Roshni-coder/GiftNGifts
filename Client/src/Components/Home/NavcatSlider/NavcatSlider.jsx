@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
-import ChatBot from "../../ChatBot/ChatBot.jsx";
+import ChatBot from "../../ChatBot/Chatbot.jsx";
 import axios from "axios";
 
 const NavCatSlider = () => {
@@ -16,7 +16,7 @@ const NavCatSlider = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
+      const response = await axios.get("http://localhost:7000/api/getcategories");
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -55,7 +55,7 @@ const NavCatSlider = () => {
               <Link to={`/products?category=${category.categoryname}`}>
                 <div className="link text-center mt-2">
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
+                    src={`http://localhost:7000/${category.image}`}
                     alt={category.categoryname}
                     className="mx-auto sm:w-20 sm:h-20 lg:w-25 lg:h-25 w-15 h-15 rounded-full shadow-lg object-cover"
                   />

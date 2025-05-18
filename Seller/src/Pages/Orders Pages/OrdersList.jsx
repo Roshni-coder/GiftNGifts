@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
-import { FaAngleUp } from "react-icons/fa6";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Badges from "../../Components/DashbordBoxes/Badges.jsx";
 import axios from "axios";
 
@@ -15,9 +14,12 @@ function OrdersList() {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/seller/orders`, {
-        headers: { stoken },
-      });
+      const { data } = await axios.get(
+        "http://localhost:7000/api/seller/orders",
+        {
+          headers: { stoken },
+        }
+      );
       if (data.success) {
         setOrders(data.orders);
       }
@@ -48,6 +50,7 @@ function OrdersList() {
               <th className="px-4 py-4">Pincode</th>
               <th className="px-4 py-4">Total</th>
               <th className="px-4 py-4">User ID</th>
+              <th className="px-4 py-4">Payment ID</th> {/* New column */}
               <th className="px-4 py-4">Status</th>
               <th className="px-4 py-4">Date</th>
             </tr>
@@ -55,7 +58,7 @@ function OrdersList() {
           <tbody>
             {orders.map((order, index) => (
               <React.Fragment key={order._id}>
-                <tr className="bg-white border-b text-center">
+                <tr className="bg-white text-[13px] border-b text-center">
                   <td className="py-4 px-4">
                     <button
                       onClick={() => toggleOrderDetails(index)}
@@ -77,6 +80,8 @@ function OrdersList() {
                   <td className="px-4 py-4">{order.shippingAddress?.pin}</td>
                   <td className="px-4 py-4">₹{order.totalAmount}</td>
                   <td className="px-4 py-4">{order.user}</td>
+                  <td className="px-4 py-4">{order.paymentId || "-"}</td>{" "}
+                  {/* Payment ID */}
                   <td className="px-4 py-4">
                     <Badges status={order.status} />
                   </td>
@@ -87,12 +92,13 @@ function OrdersList() {
 
                 {isOpenOrderdProduct === index && (
                   <tr>
-                    <td colSpan="10" className="py-2">
-                      <div className="w-[90%] mx-auto mb-3">
+                    <td colSpan="11" className="py-2">
+                      <div className="!w-[70%] mx-10 mb-3">
                         <table className="w-full text-sm text-gray-500 shadow-md">
                           <thead className="bg-gray-100 text-[12px] uppercase text-[rgba(0,0,0,0.8)]">
                             <tr>
                               <th className="px-4 py-3">Product ID</th>
+                              <th className="px-4 py-3">Image</th>
                               <th className="px-4 py-3">Product Title</th>
                               <th className="px-4 py-3">Price</th>
                               <th className="px-4 py-3">Quantity</th>
@@ -106,8 +112,24 @@ function OrdersList() {
                                   key={item._id}
                                   className="bg-white border-b text-center"
                                 >
-                                  <td className="px-4 py-3">{item.productId}</td>
-                                  <td className="px-4 py-3">{item.name}</td>
+                                  <td className="px-4 py-3">
+                                    {item.productId?._id || item.productId}
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    {item.productId?.images?.[0]?.url ? (
+                                      <img
+                                        src={item.productId.images[0].url}
+                                        alt="Product"
+                                        className="w-12 h-12 object-cover mx-auto rounded-md"
+                                      />
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    {item.productId?.title || "-"}
+                                  </td>
+
                                   <td className="px-4 py-3">₹{item.price}</td>
                                   <td className="px-4 py-3">{item.quantity}</td>
                                   <td className="px-4 py-3">
@@ -117,7 +139,10 @@ function OrdersList() {
                               ))
                             ) : (
                               <tr>
-                                <td colSpan="5" className="text-center py-4 text-gray-500">
+                                <td
+                                  colSpan="5"
+                                  className="text-center py-4 text-gray-500"
+                                >
                                   No items in this order.
                                 </td>
                               </tr>

@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import { Button, Typography, Box, styled, useScrollTrigger } from "@mui/material";
+import React, { useContext, useState } from "react";
+import {
+  Button,
+  Typography,
+  Box,
+  styled,
+  useScrollTrigger,
+} from "@mui/material";
 import LocalOffer from "@mui/icons-material/LocalOffer";
 import Rating from "@mui/material/Rating";
 import { FaRegHeart } from "react-icons/fa";
-// import { GoGitCompare } from "react-icons/go";
 import { ShoppingCart as Cart, FlashOn as Flash } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../context/Appcontext";
+import { toast } from "react-toastify";
 
 const SmallText = styled(Box)`
   font-size: 13px;
@@ -27,46 +34,16 @@ const StyledBedge = styled(LocalOffer)`
 function RightComponent({ product }) {
   const navigate = useNavigate();
   const [isWishlisted, setIsWishlisted] = useState(false);
-
-  const handleWishlistClick = async () => {
-    try {
-      await handleAddToWishlist(product);  // Wait for successful API call
-      setIsWishlisted(true);               // Then show the red heart
-    } catch (err) {
-      console.error("Wishlist error:", err);
-    }
-  };
-
-  const handleAddToCart = async (product) => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/Cart`, // replace with actual route
-        {
-          productId: product._id,
-          quantity: 1,
-        },
-
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // If using JWT auth
-          },
-        }
-      );
-
-      if (response.data?.cart) {
-        console.log("Added to cart successfully", response.data.cart);
-        navigate('/cartlist')
-        // Optionally show a toast or UI update
-      }
-    } catch (error) {
-      console.error("Error adding to cart:", error.response?.data || error.message);
-    }
-  };
-
+  const { isLoggedin, fetchWishlist, wishlistItems } = useContext(AppContext);
   const handleAddToWishlist = async (product) => {
+    if (!isLoggedin) {
+      toast.warning("Please login first to add products to wishlist");
+      return;
+    }
+  
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/auth/wishlist`,
+        "http://localhost:7000/api/auth/wishlist",
         { productId: product._id },
         {
           headers: {
@@ -74,19 +51,55 @@ function RightComponent({ product }) {
           },
         }
       );
-
+  
       if (response.data.success) {
         console.log("Added to wishlist successfully:", response.data);
-        
-        // Optionally show toast / update UI
+        setIsWishlisted(true);
+        fetchWishlist(); // Refresh wishlist items immediately after adding to wishlist
       }
     } catch (error) {
-      console.error("Error adding to wishlist:", error.response?.data || error.message);
+      console.error(
+        "Error adding to wishlist:",
+        error.response?.data || error.message
+      );
+    }
+  };
+  
+  const handleAddToCart = async (product) => {
+    if (!isLoggedin) {
+      toast.warning("Please login first to add products to cart");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:7000/api/auth/Cart",
+        {
+          productId: product._id,
+          quantity: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (response.data?.cart) {
+        console.log("Added to cart successfully", response.data.cart);
+        navigate("/cartlist");
+        // Assuming you want to update cart globally after adding an item
+      }
+    } catch (error) {
+      console.error(
+        "Error adding to cart:",
+        error.response?.data || error.message
+      );
     }
   };
 
   return (
-    <div className="productContent ">
+    <div className="productContent">
       <h1 className="text-[20px] font-[600] py-1">{product.title}</h1>
 
       <div className="flex items-center py-1 gap-3">
@@ -97,7 +110,9 @@ function RightComponent({ product }) {
           </span>
         </span>
         <Rating name="size-small" defaultValue={4} size="small" readOnly />
-        <span className="text-[13px] sm:!text-[14px] cursor-pointer">Review {5}</span>
+        <span className="text-[13px] sm:!text-[14px] cursor-pointer">
+          Review {5}
+        </span>
       </div>
 
       <div className="flex items-center gap-4 py-1">
@@ -117,7 +132,8 @@ function RightComponent({ product }) {
         <SmallText>
           <Typography>
             <StyledBedge />
-            Bank Offer : 10% off up to ₹749 on HDFC Bank Credit Card Transactions. T&C
+            Bank Offer : 10% off up to ₹749 on HDFC Bank Credit Card
+            Transactions. T&C
           </Typography>
           <Typography>
             <StyledBedge />
@@ -130,51 +146,36 @@ function RightComponent({ product }) {
         </SmallText>
       </div>
       <div className="additionalOptions mt-2 ">
-        <div className="flex items-center gap-3 py-2">
+        <div className="flex items-center gap-2 py-1">
           <Link
-            onClick={() => handleWishlistClick(product)}
+            onClick={() => handleAddToWishlist(product)}
             className="text-[15px] flex items-center gap-2"
           >
-            <FaRegHeart className="text-[15px] " /> Add to Wishlist
+            <FaRegHeart className="text-[15px]" /> Add to Wishlist
           </Link>
         </div>
       </div>
       <div className="addToCartSection py-2 flex gap-2">
-        <Button className=" h-[50px] w-[300px] !bg-[#ff9f00]" variant="contained"
+        <Button
+          className=" h-[50px] w-[300px] !bg-[#ff9f00]"
+          variant="contained"
           onClick={() => handleAddToCart(product)}
           startIcon={<Cart />}
         >
           Add to Cart
         </Button>
         <Link to="/addaddress">
-        <Button className=" h-[50px] w-[300px] !bg-[#fb541b] "
-         variant="contained"
-          startIcon={<Flash />}
-        >
-          Buy Now
-        </Button>
+          <Button
+            className=" h-[50px] w-[300px] !bg-[#fb541b] "
+            variant="contained"
+            startIcon={<Flash />}
+          >
+            Buy Now
+          </Button>
         </Link>
       </div>
-     
-
-      {/* <div className="additionalOptions mt-4">
-        <div className="flex items-center gap-3 py-2">
-          <button
-            onClick={handleWishlistClick()}
-            className="text-[14px] flex items-center gap-2 text-gray-600 hover:text-red-500"
-          >
-            {isWishlisted ? (
-              <FaHeart className="text-red-500" />
-            ) : (
-              <FaRegHeart />
-            )}
-            {isWishlisted ? "Added to Wishlist" : "Add to Wishlist"}
-          </button>
-        </div>
-      </div> */}
     </div>
   );
 }
 
 export default RightComponent;
-
