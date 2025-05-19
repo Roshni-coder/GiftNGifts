@@ -1,335 +1,153 @@
-import React, { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
-import { FaAngleUp } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import Badges from "../../Components/DashbordBoxes/Badges.jsx";
+import axios from "axios";
 
 function OrdersList() {
   const [isOpenOrderdProduct, setOpenOrderdProduct] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const stoken = localStorage.getItem("stoken");
 
-  const isShowOrder = (index) => {
-    if (isOpenOrderdProduct === index) {
-      setOpenOrderdProduct(null);
-    } else {
-      setOpenOrderdProduct(index);
+  const toggleOrderDetails = (index) => {
+    setOpenOrderdProduct(isOpenOrderdProduct === index ? null : index);
+  };
+
+  const getOrders = async () => {
+    try {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/seller/orders`, {
+        headers: { stoken },
+      });
+      if (data.success) {
+        setOrders(data.orders);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
     }
   };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
   return (
-    <>
-      <div className="orders  shadow-md rounded-md py-4 !px-7 bg-white">
-        <div className="flex items-center justify-between ">
-          <h2 className="text-[18px] pl-1 font-[600]">Recent Orders</h2>
-        </div>
-
-        <div className="relative pb-4 w-[100%] max-w-[100%] overflow-x-auto mt-5">
-          <table className="w-full text-sm text-gray-500 dark:text-gray-500">
-            <thead className="text-xs uppercase text-[12px] bg-gray-100 !text-[rgba(0,0,0,0.8)]">
-              <tr>
-                <th scope="col" className="!px-7 py-2">
-                  &nbsp;
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Order Id
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Payment Id
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Name
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Phone Number
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Address
-                </th>
-                <th scope="col" className="!px-7 py-4 whitespace-nowrap">
-                  Pincode
-                </th>
-                <th scope="col" className="px-7 py-4 whitespace-nowrap">
-                  Total Amount
-                </th>
-                <th scope="col" className="px-7 py-4 whitespace-nowrap">
-                  User Id
-                </th>
-                <th scope="col" className="px-7 py-4 whitespace-nowrap">
-                  Order Status
-                </th>
-                <th scope="col" className="px-7 py-4 whitespace-nowrap">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* first order */}
-              <tr className="bg-white border-b text-center dark:border-gray-200">
-                <td className=" pl-8 py-4 font-[500]">
-                  <button
-                    className=" !py-3 px-6 flex items-center justify-center !rounded-full hover:!bg-gray-100"
-                    onClick={() => isShowOrder(0)}
-                  >
-                    {isOpenOrderdProduct === 0 ? (
-                      <FaAngleUp className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                    ) : (
-                      <FaAngleDown className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                    )}
-                  </button>
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span>834532762373276</span>
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span>pay_PTP0qEXJSCHCV</span>
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  Bhoi Roshni
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  6737846728
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span className="block w-[270px]">
-                    {" "}
-                    Baji Patel Patel no vhoevad,Visnagar
-                  </span>
-                </td>
-                <td className="px-6 py-4 font-[500]">373742</td>
-                <td className="px-6 py-4 font-[500]">₹2,342</td>
-                <td className="px-6 py-4 font-[500]">
-                  roshuroshni264@gmail.com
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <Badges status="Delivered" />
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  2024-12-1
-                </td>
-              </tr>
-              {isOpenOrderdProduct === 0 && (
-                <tr>
-                  <td colSpan={6}>
-                    <div className=" w-[80%] ml-30 my-2 mb-2">
-                      <table className="w-full   shadow-md text-sm items-center   text-gray-500 dark:text-gray-500">
-                        <thead className="text-xs  uppercase text-[12px] bg-gray-100  !text-[rgba(0,0,0,0.8)]">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Id
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Title
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Image
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Price
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Sub Total
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="bg-white border-b text-center dark:border-gray-200">
-                            <td className="px-6 py-4 font-[500]">
-                              <span>64723c782ca93</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              <span>Red Velvet Fresh Cream Cake Half kg</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500]  !m-auto ">
-                              <img
-                                src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                alt=""
-                                className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                              />
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                          </tr>
-                          <tr className="bg-white border-b text-center dark:border-gray-200">
-                            <td className="px-6 py-4 font-[500]">
-                              <span>64723c782ca93</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              <span>Red Velvet Fresh Cream Cake Half kg</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500]  !m-auto ">
-                              <img
-                                src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                alt=""
-                                className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                              />
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </td>
-                </tr>
-              )}
-
-              {/* second order */}
-              <tr className="bg-white border-b text-center dark:border-gray-200">
-                <td className=" pl-8 py-4 font-[500]">
-                  <button
-                    className=" !py-3 px-6 flex items-center justify-center !rounded-full hover:!bg-gray-100"
-                    onClick={() => isShowOrder(1)}
-                  >
-                    {isOpenOrderdProduct === 1 ? (
-                      <FaAngleUp className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                    ) : (
-                      <FaAngleDown className="text-[16px] text-[rgba(0,0,0,0.7)]" />
-                    )}
-                  </button>
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span>834532762373276</span>
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span>pay_PTP0qEXJSCHCV</span>
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  Bhoi Roshni
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  6737846728
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <span className="block w-[270px]">
-                    {" "}
-                    Baji Patel Patel no vhoevad,Visnagar
-                  </span>
-                </td>
-                <td className="px-6 py-4 font-[500]">373742</td>
-                <td className="px-6 py-4 font-[500]">₹2,342</td>
-                <td className="px-6 py-4 font-[500]">
-                  roshuroshni264@gmail.com
-                </td>
-                <td className="px-6 py-4 font-[500]">
-                  <Badges status="Delivered" />
-                </td>
-                <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                  2024-12-1
-                </td>
-              </tr>
-              {isOpenOrderdProduct === 1 && (
-                <tr>
-                  <td colSpan={6}>
-                    <div className=" w-[80%] ml-30 my-2 mb-2">
-                      <table className="w-full   shadow-md text-sm items-center   text-gray-500 dark:text-gray-500">
-                        <thead className="text-xs  uppercase text-[12px] bg-gray-100  !text-[rgba(0,0,0,0.8)]">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Id
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Title
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Product Image
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Price
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 whitespace-nowrap"
-                            >
-                              Sub Total
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="bg-white border-b text-center dark:border-gray-200">
-                            <td className="px-6 py-4 font-[500]">
-                              <span>64723c782ca93</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              <span>Red Velvet Fresh Cream Cake Half kg</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500]  !m-auto ">
-                              <img
-                                src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                alt=""
-                                className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                              />
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                          </tr>
-                          <tr className="bg-white border-b text-center dark:border-gray-200">
-                            <td className="px-6 py-4 font-[500]">
-                              <span>64723c782ca93</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              <span>Red Velvet Fresh Cream Cake Half kg</span>
-                            </td>
-                            <td className="px-6 py-4 font-[500]  !m-auto ">
-                              <img
-                                src="https://www.fnp.com/images/pr/l/v20221205201829/red-velvet-fresh-cream-cake-half-kg_1.jpg"
-                                alt=""
-                                className="w-[50px] m-auto rounded-md h-[50px] object-cover"
-                              />
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                            <td className="px-6 py-4 font-[500] whitespace-nowrap">
-                              ₹2,000
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+    <div className="orders shadow-md rounded-md py-4 !px-7 bg-white">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[18px] pl-1 font-[600]">Recent Orders</h2>
       </div>
-    </>
+
+      <div className="relative pb-4 w-full overflow-x-auto mt-5">
+        <table className="w-full text-sm text-gray-500">
+          <thead className="text-xs uppercase text-[12px] bg-gray-100 text-[rgba(0,0,0,0.8)]">
+            <tr>
+              <th className="px-4 py-2"></th>
+              <th className="px-4 py-4">Order Id</th>
+              <th className="px-4 py-4">Name</th>
+              <th className="px-4 py-4">Phone</th>
+              <th className="px-4 py-4">Address</th>
+              <th className="px-4 py-4">Pincode</th>
+              <th className="px-4 py-4">Total</th>
+              <th className="px-4 py-4">User ID</th>
+              <th className="px-4 py-4">Payment ID</th>
+              <th className="px-4 py-4">Status</th>
+              <th className="px-4 py-4">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) => (
+              <React.Fragment key={order._id}>
+                <tr className="bg-white text-[13px] border-b text-center">
+                  <td className="py-4 px-4">
+                    <button
+                      onClick={() => toggleOrderDetails(index)}
+                      className="py-2 px-4 rounded-full hover:bg-gray-100"
+                    >
+                      {isOpenOrderdProduct === index ? (
+                        <FaAngleUp className="text-[16px]" />
+                      ) : (
+                        <FaAngleDown className="text-[16px]" />
+                      )}
+                    </button>
+                  </td>
+                  <td className="px-4 py-4">{order._id}</td>
+                  <td className="px-4 py-4">{order.shippingAddress?.name}</td>
+                  <td className="px-4 py-4">{order.shippingAddress?.phone}</td>
+                  <td className="px-4 py-4 max-w-[250px]">
+                    {order.shippingAddress?.address}
+                  </td>
+                  <td className="px-4 py-4">{order.shippingAddress?.pin}</td>
+                  <td className="px-4 py-4">₹{order.totalAmount}</td>
+                  <td className="px-4 py-4">{order.user}</td>
+                  <td className="px-4 py-4">{order.paymentId || "-"}</td>
+                  <td className="px-4 py-4">
+                    <Badges status={order.status} />
+                  </td>
+                  <td className="px-4 py-4">
+                    {new Date(order.placedAt).toLocaleDateString()}
+                  </td>
+                </tr>
+
+                {isOpenOrderdProduct === index && (
+                  <tr>
+                    <td colSpan="11" className="py-2">
+                      <div className="!w-[70%] mx-10 mb-3">
+                        <table className="w-full text-sm text-gray-500 shadow-md">
+                          <thead className="bg-gray-100 text-[12px] uppercase text-[rgba(0,0,0,0.8)]">
+                            <tr>
+                              <th className="px-4 py-3">Product ID</th>
+                              <th className="px-4 py-3">Image</th>
+                              <th className="px-4 py-3">Product Title</th>
+                              <th className="px-4 py-3">Price</th>
+                              <th className="px-4 py-3">Quantity</th>
+                              <th className="px-4 py-3">Subtotal</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {order.items?.length > 0 ? (
+                              order.items.map((item) => (
+                                <tr key={item._id} className="bg-white border-b text-center">
+                                  <td className="px-4 py-3">
+                                    {item.productId?._id || item.productId}
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    {item.productId?.images?.[0]?.url ? (
+                                      <img
+                                        src={item.productId.images[0].url}
+                                        alt="Product"
+                                        className="w-12 h-12 object-cover mx-auto rounded-md"
+                                      />
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </td>
+                                  <td className="px-4 py-3">
+                                    {item.productId?.title || "-"}
+                                  </td>
+                                  <td className="px-4 py-3">₹{item.price}</td>
+                                  <td className="px-4 py-3">{item.quantity}</td>
+                                  <td className="px-4 py-3">
+                                    ₹{(item.price * item.quantity).toFixed(2)}
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan="6" className="text-center py-4 text-gray-500">
+                                  No items in this order.
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

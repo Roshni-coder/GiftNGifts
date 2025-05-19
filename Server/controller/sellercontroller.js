@@ -97,19 +97,19 @@ export const loginseller = async (req, res) => {
 };
 
 
-export const sellerorders = async (req, res) => {
-  try {
-    const { sellerid } = req.body;
-    const orders = await orderModel.find({ sellerid });
-    if(!orders){
-      return res.status(404).json({message:"no orders"})
-    }
-    return res.status(201).json({ success: true, orders });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
+// export const sellerorders = async (req, res) => {
+//   try {
+//     const { sellerid } = req.body;
+//     const orders = await orderModel.find({ sellerid });
+//     if(!orders){
+//       return res.status(404).json({message:"no orders"})
+//     }
+//     return res.status(201).json({ success: true, orders });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
 
 export const ordercomplete = async (req, res) => {
   try {
@@ -117,7 +117,7 @@ export const ordercomplete = async (req, res) => {
     const orderdata = await appointmentmodel.findById(orderid);
 
     if (orderdata && orderdata.sellerid === sellerid) {
-      await ordermodel.findByIdAndUpdate(orderid, {
+      await orderModel.findByIdAndUpdate(orderid, {
         completed: true,
       });
       return res.json({ success: true, message: "Order Completed" });
@@ -229,4 +229,21 @@ export const updateSellerProfile = async (req, res) => {
     console.error(e);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const getSellerOrders = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find()
+      .populate({
+        path: "items.productId",
+        select: "title images" // only get title and images from Product
+      })
+      .sort({ placedAt: -1 });
+
+    res.status(200).json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching seller orders:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch orders" });
+  }
 };

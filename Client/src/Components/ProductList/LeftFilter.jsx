@@ -18,7 +18,7 @@ function LeftFilter({ onApplyFilters }) {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
+        const response = await axios.get("http://localhost:7000/api/getcategories");
         setCategory(response.data);
       } catch (error) {
         console.error('Error fetching categories:', error);

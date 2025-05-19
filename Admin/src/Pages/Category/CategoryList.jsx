@@ -105,8 +105,8 @@ function CategoryList() {
           </thead>
           <tbody>
             {categories.map((category) => (
-              <tr key={category._id}>
-                <td className="!px-6 py-4 relative">
+              <tr key={category._id} className="border border-gray-100">
+                <td className="!px-6 py-4 relative  border border-gray-200">
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
                     alt={category.categoryname}
@@ -121,7 +121,7 @@ function CategoryList() {
                     onChange={(e) => handleImageChange(e, category._id)}
                   />
                 </td>
-                <td className="!px-6 py-4">
+                <td className="!px-6 py-4  border border-gray-200">
                   <div
                     contentEditable
                     suppressContentEditableWarning
@@ -131,7 +131,7 @@ function CategoryList() {
                     {category.categoryname}
                   </div>
                 </td>
-                <td className="!px-6 py-4">
+                <td className="!px-6 py-4  border border-gray-200">
                   <div className="flex justify-center items-center gap-3">
                     <Tooltip title="Edit Image">
   <span className="text-xl text-blue-500 cursor-default">

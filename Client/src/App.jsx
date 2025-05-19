@@ -11,10 +11,13 @@ import Reset_pass from "./Components/LoginPage/Reset_pass.jsx";
 import MyProfile from "./Components/My Profile/MyProfile.jsx";
 import Cartpage from "./Components/Cart Page/Cartpage.jsx";
 import Orders from "./Components/Orders/Orders.jsx";
-import ChatBot from "./Components/ChatBot/ChatBot.jsx";
 import AddAddress from "./Components/BillingPage/AddAddress.jsx";
 import WishlistPage from "./Components/Wish List/WishlistPage.jsx";
 import OrderSummery from './Components/Order Summery/OrderSummery.jsx'
+import PaymentSuccess from "./Components/Order Summery/PaymentSuccess.jsx";
+import Feedback from "./Components/Feedback/Feedback.jsx";
+import OrderSuccess from "./Components/Order Summery/OrderSuccess.jsx";
+import Chatbot from "./Components/ChatBot/Chatbot.jsx";
 
 function App() {
   return (
@@ -34,8 +37,11 @@ function App() {
         {/* <Route path="/checkout" element={<Checkout/>}/> */}
         <Route path="/addaddress" element={<AddAddress/>}/>
         <Route path="/ordersummery" element={<OrderSummery/>}/>
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path='/feedback' element={<Feedback/>}/>
       </Routes>
-      <ChatBot/>
+      <Chatbot/>
       <Footer/>
     </>
   );

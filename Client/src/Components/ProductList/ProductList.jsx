@@ -67,7 +67,7 @@ function ProductList() {
             {products.length > 0 ? (
               products.map((product) => (
                 <div key={product._id} className="productItem bg-white rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 max-w-xs">
-                  <Link to={`/productDetails/${product._id}`}>
+                  <Link to={`/products/${product._id}`}>
                     <div className="imgWrapper w-[320px] h-[320px] sm:h-[280px] overflow-hidden pb-2">
                       <img
                         src={product?.images?.[0]?.url || "/default-image.jpg"}

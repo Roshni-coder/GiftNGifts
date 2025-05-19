@@ -7,6 +7,60 @@ import Wishlist from '../model/wishlist.js';
 import Product from '../model/addproduct.js'
 import Profile from '../model/userprofile.js';
 
+export const loginRequestOtp = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const user = await usermodel.findOne({ email });
+      if (!user || !(await user.comparePassword(password))) {
+        return res.status(400).json({ success: false, message: "Invalid credentials" });
+      }
+  
+      const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+      otpStore[email] = otp;
+  
+      await sendMail({
+        to: email,
+        subject: "Your Login OTP",
+        text: `Your OTP is: ${otp}`,
+      });
+  
+      res.status(200).json({ success: true, message: "OTP sent to email" });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Server error" });
+    }
+  };
+
+export const verifyLoginOtp = async (req, res) => {
+    const { email, otp } = req.body;
+  
+    try {
+      const user = await usermodel.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: "Please first Register ..." });
+      }
+  
+      if (user.verifyotp !== otp) {
+        return res.status(400).json({ success: false, message: "Invalid OTP" });
+      }
+  
+      if (user.verifyotpexpAt < Date.now()) {
+        return res.status(400).json({ success: false, message: "OTP expired" });
+      }
+  
+      // Clear OTP fields (optional but recommended)
+      user.verifyotp = undefined;
+      user.verifyotpexpAt = undefined;
+      await user.save();
+  
+      // Create JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+  
+      res.status(200).json({ success: true, message: "Login successful", token });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Server error" });
+    }
+  };
 // for register function----
 export const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -64,7 +118,7 @@ export const register = async (req, res) => {
         //sending a email-
         await transporter.sendMail(mailOption)
 
-        return res.json({ success: true });
+        return res.json({ success: true ,token});
 
     } catch (error) {
         res.json({
@@ -74,7 +128,6 @@ export const register = async (req, res) => {
     }
 
 }
-
 
 //for login function------
 export const login = async (req, res) => {
@@ -126,7 +179,6 @@ export const login = async (req, res) => {
     }
 }
 
-
 //for logout functtion----
 export const logout = async (req, res) => {
     try {
@@ -143,7 +195,6 @@ export const logout = async (req, res) => {
         })
     }
 }
-
 
 //OTP  verify send by email---
 export const sendverifyotp = async (req, res) => {

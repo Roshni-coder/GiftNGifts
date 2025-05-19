@@ -43,28 +43,7 @@ function SubCategoryList() {
     });
   };
 
-  // const handleSubcategoryBlur = async (e, id, originalValue) => {
-  //   const newValue = e.target.innerText.trim();
-
-  //   // Don’t update if nothing changed or is empty
-  //   if (!newValue || newValue === originalValue) return;
-
-  //   try {
-  //     await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/updatesubcategory/${id}`, {
-  //       subcategory: newValue,
-  //     });
-
-  //     setSubcategories((prev) =>
-  //       prev.map((item) =>
-  //         item._id === id ? { ...item, subcategory: newValue } : item
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error("Error updating subcategory:", error);
-  //     alert("Failed to update subcategory. Please try again.");
-  //   }
-  // };
-
+  
   return (
     <div className="products shadow-md rounded-md py-2 !px-5 bg-white">
       <div className="flex justify-between pt-3 items-center">
