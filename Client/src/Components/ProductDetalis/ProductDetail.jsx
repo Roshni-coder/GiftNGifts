@@ -20,7 +20,7 @@ function ProductDetail() {
   useEffect(() => {
     if (productId) {
       axios
-        .get(`http://localhost:7000/api/products/${productId}`)
+        .get(`${import.meta.env.VITE_BACKEND_URL}/api/products/${productId}`)
         .then((response) => {
           setProduct(response.data);
           console.log("fetched product successfully.....")

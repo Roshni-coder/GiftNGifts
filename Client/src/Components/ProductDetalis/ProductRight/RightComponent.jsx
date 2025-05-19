@@ -43,7 +43,7 @@ function RightComponent({ product }) {
   
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/auth/wishlist",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/wishlist`,
         { productId: product._id },
         {
           headers: {
@@ -73,7 +73,7 @@ function RightComponent({ product }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/auth/Cart",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/Cart`,
         {
           productId: product._id,
           quantity: 1,

@@ -36,7 +36,7 @@ function AddCategory() {
     formData.append("image", category.image);
 
     try {
-      const response = await axios.post("http://localhost:7000/api/addcategory", formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/addcategory`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

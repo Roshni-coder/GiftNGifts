@@ -15,7 +15,7 @@ function OrdersList() {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:7000/api/seller/orders",
+     `${import.meta.env.VITE_BACKEND_URL}/api/seller/orders`,
         {
           headers: { stoken },
         }

@@ -29,7 +29,7 @@ function AddAddress() {
 
   const getProfile = async () => {
     try {
-      const { data } = await axios.get('http://localhost:7000/api/user/profile', {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/profile`, {
         headers: { token },
       });
       if (data.success) {
@@ -70,8 +70,7 @@ function AddAddress() {
 
     try {
       if (editAddressId) {
-        const { data } = await axios.put(
-          `http://localhost:7000/api/user/updateaddress/${editAddressId}`,
+        const { data } = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/user/updateaddress/${editAddressId}`,
           { userId: profile.user || profile._id, address: newAddress },
           { headers: { token } }
         );
@@ -80,7 +79,7 @@ function AddAddress() {
         }
       } else {
         const { data } = await axios.post(
-          'http://localhost:7000/api/user/addaddress',
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/addaddress`,
           { address: newAddress },
           { headers: { token } }
         );
@@ -101,7 +100,7 @@ function AddAddress() {
     if (!window.confirm("Are you sure you want to delete this address?")) return;
     try {
       const { data } = await axios.delete(
-        `http://localhost:7000/api/user/deleteaddress/${addressId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/deleteaddress/${addressId}`,
         {
           data: { userId: profile.user || profile._id },
           headers: { token },

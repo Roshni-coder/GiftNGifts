@@ -10,20 +10,10 @@ function WishlistPage() {
   const { profile, wishlistItems, setWishlistItems, fetchWishlist } = useContext(AppContext);
   const token = localStorage.getItem("token");
 
-  // const fetchWishlist = async () => {
-  //   try {
-  //     const res = await axios.get("http://localhost:7000/api/auth/wishlist", {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     setWishlistItems(res.data.wishlist || []);
-  //   } catch (err) {
-  //     console.error("Error fetching wishlist:", err);
-  //   }
-  // };
-
+ 
   const handleRemove = async (productId) => {
     try {
-      await axios.delete(`http://localhost:7000/api/auth/delete-wishlist/${productId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/auth/delete-wishlist/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlistItems((prev) =>

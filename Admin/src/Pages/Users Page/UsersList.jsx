@@ -12,7 +12,7 @@ function UsersList() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:7000/api/seller/users-list",{headers:{stoken}});
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/seller/users-list`,{headers:{stoken}});
       if (res.data.success) {
         setUsers(res.data.users);
       } else {

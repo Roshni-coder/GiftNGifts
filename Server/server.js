@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors({
-  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175','http://localhost:5176'], // Explicitly allow your frontend URL
+  origin: ['http://localhost:5173','http://localhost:5174','http://localhost:5175','http://localhost:5176','http://srv814093.hstgr.cloud'], // Explicitly allow your frontend URL
   credentials: true // Allow cookies and auth headers
 }));
   

@@ -27,7 +27,7 @@ function ProductSlider() {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:7000/api/client/productsbycategory");
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
       if (data.success && Array.isArray(data.categories)) {
         setCategories(data.categories);
       } else {

@@ -19,7 +19,7 @@ function OrderSummery() {
 
   const handleRemove = async (cartItemId) => {
     try {
-      await axios.delete(`http://localhost:7000/api/auth/delete/${cartItemId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/auth/delete/${cartItemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCartItems((prev) => prev.filter((item) => item.product._id !== cartItemId));
@@ -31,7 +31,7 @@ function OrderSummery() {
   const handleUpdateQuantity = async (productId, newQty) => {
     try {
       await axios.put(
-        "http://localhost:7000/api/auth/update-quantity",
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/update-quantity`,
         { productId, quantity: newQty },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -86,7 +86,7 @@ function OrderSummery() {
     }
 
     try {
-      const response = await axios.post("http://localhost:7000/api/client/place-order", orderData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/client/place-order`, orderData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.data.success) navigate("/order-success");
@@ -103,8 +103,8 @@ function OrderSummery() {
     );
 
     try {
-      const { data: { key } } = await axios.get("http://localhost:7000/api/getkey");
-      const { data: { order } } = await axios.post("http://localhost:7000/api/checkout", {
+      const { data: { key } } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getkey`);
+      const { data: { order } } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/checkout`, {
         amount: totalAmount,
       });
 
@@ -119,7 +119,7 @@ function OrderSummery() {
           try {
             const orderData = { ...buildOrderPayload(), paymentId: response.razorpay_payment_id };
             const res = await axios.post(
-              "http://localhost:7000/api/client/place-order",
+              `${import.meta.env.VITE_BACKEND_URL}/api/client/place-order`,
               orderData,
               { headers: { Authorization: `Bearer ${token}` } }
             );

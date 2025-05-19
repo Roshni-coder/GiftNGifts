@@ -19,7 +19,7 @@ function SubCategoryList() {
 
   const fetchSubcategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/getsubcategories");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`);
       setSubcategories(response.data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
@@ -28,7 +28,7 @@ function SubCategoryList() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:7000/api/deletesubcategory/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deletesubcategory/${id}`);
       setSubcategories(prev => prev.filter((item) => item._id !== id));
     } catch (error) {
       console.error("Error deleting subcategory:", error);
@@ -43,28 +43,7 @@ function SubCategoryList() {
     });
   };
 
-  const handleSubcategoryBlur = async (e, id, originalValue) => {
-    const newValue = e.target.innerText.trim();
-
-    // Don’t update if nothing changed or is empty
-    if (!newValue || newValue === originalValue) return;
-
-    try {
-      await axios.put(`http://localhost:7000/api/updatesubcategory/${id}`, {
-        subcategory: newValue,
-      });
-
-      setSubcategories((prev) =>
-        prev.map((item) =>
-          item._id === id ? { ...item, subcategory: newValue } : item
-        )
-      );
-    } catch (error) {
-      console.error("Error updating subcategory:", error);
-      alert("Failed to update subcategory. Please try again.");
-    }
-  };
-
+  
   return (
     <div className="products shadow-md rounded-md py-2 !px-5 bg-white">
       <div className="flex justify-between pt-3 items-center">
@@ -95,23 +74,17 @@ function SubCategoryList() {
               <tr key={subcategory._id} className="border border-gray-300">
                 <td className="px-6 py-2 border border-gray-200">
                   <img
-                    src={`http://localhost:7000/${subcategory.category?.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${subcategory.category?.image}`}
                     alt="Category"
-                    className="w-[60px] h-[60px] object-cover rounded-md border"
+                    className="w-[60px] h-[60px] object-cover rounded-md !m-auto"
                   />
                 </td>
                 <td className="px-6 py-2 border border-gray-200 text-gray-700">
                   {subcategory.category?.categoryname || "No Category"}
                 </td>
                 <td className="px-6 py-2 border border-gray-200">
-                  <div
-                    contentEditable
-                    suppressContentEditableWarning
-                    onBlur={(e) => handleSubcategoryBlur(e, subcategory._id, subcategory.subcategory)}
-                    className="border px-2 py-1 rounded-md cursor-text inline-block min-w-[100px] text-gray-700"
-                    title="Click to edit"
-                  >
-                    {subcategory.subcategory}
+                  <div >
+                    <Chip label={subcategory.subcategory} onDelete={handleDelete} />
                   </div>
                 </td>
                 <td className="px-6 py-2 border border-gray-200 space-x-2">

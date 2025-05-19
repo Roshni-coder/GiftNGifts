@@ -16,7 +16,7 @@ const NavCatSlider = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/getcategories");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -55,7 +55,7 @@ const NavCatSlider = () => {
               <Link to={`/products?category=${category.categoryname}`}>
                 <div className="link text-center mt-2">
                   <img
-                    src={`http://localhost:7000/${category.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
                     alt={category.categoryname}
                     className="mx-auto sm:w-20 sm:h-20 lg:w-25 lg:h-25 w-15 h-15 rounded-full shadow-lg object-cover"
                   />

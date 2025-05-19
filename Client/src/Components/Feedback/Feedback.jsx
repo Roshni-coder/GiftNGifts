@@ -16,7 +16,7 @@ function Feedback() {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:7000/api/feedback', form);
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/feedback`, form);
       toast.success('Feedback submitted successfully!');
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => navigate('/'), 2000); // Redirect after toast

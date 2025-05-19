@@ -10,7 +10,7 @@ function AddSubCategory() {
 
   // Fetch categories on mount
   useEffect(() => {
-    axios.get("http://localhost:7000/api/getcategories") // Make sure this endpoint exists
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`) // Make sure this endpoint exists
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Error fetching categories", err));
   }, []);
@@ -24,7 +24,7 @@ function AddSubCategory() {
     }
 
     try {
-      const response = await axios.post("http://localhost:7000/api/addsubcategory", {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/addsubcategory`, {
         subcategory: subCategoryName.trim(),
         categoryId: selectedCategory,
       });

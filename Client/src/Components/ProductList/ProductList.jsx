@@ -15,7 +15,7 @@ function ProductList() {
   useEffect(() => {
     const fetchCategoryProducts = async () => {
       try {
-        const { data } = await axios.get("http://localhost:7000/api/client/productsbycategory");
+        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
         if (data.success && Array.isArray(data.categories)) {
           const categoryData = data.categories.find(cat => cat.category === category);
           if (categoryData) {
@@ -38,7 +38,7 @@ function ProductList() {
   const applyFilters = async (appliedFilters) => {
     setFilters(appliedFilters);
     try {
-      const response = await axios.get("http://localhost:7000/api/filter", {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/filter`, {
         params: {
           categoryname: appliedFilters.selectedCategories.join(","),
           minPrice: appliedFilters.priceRange[0],

@@ -19,7 +19,7 @@ function Orders() {
       const orderId = orders[index]._id;
       try {
         const res = await axios.get(
-          `http://localhost:7000/api/client/order/${orderId}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/client/order/${orderId}`
         );
         if (res.data.success) {
           setDetailedOrder(res.data.order);
@@ -38,7 +38,7 @@ function Orders() {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:7000/api/client/get-orders"
+          `${import.meta.env.VITE_BACKEND_URL}/api/client/get-orders`
         );
         if (res.data.success) {
           setOrders(res.data.orders);

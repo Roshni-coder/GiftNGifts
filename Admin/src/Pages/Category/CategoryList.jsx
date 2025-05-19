@@ -19,7 +19,7 @@ function CategoryList() {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:7000/api/getcategories");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -29,7 +29,7 @@ function CategoryList() {
   const handleDeleteCategory = async (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        await axios.delete(`http://localhost:7000/api/deletecategory/${id}`);
+        await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deletecategory/${id}`);
         fetchCategories(); // Refresh category list
       } catch (error) {
         console.error("Error deleting category", error);
@@ -44,7 +44,7 @@ function CategoryList() {
         return;
       }
 
-      await axios.put(`http://localhost:7000/api/updatecategory/${id}`, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/updatecategory/${id}`, {
         categoryname: newName,
       });
 
@@ -69,7 +69,7 @@ function CategoryList() {
     formData.append("image", file);
 
     try {
-      await axios.put(`http://localhost:7000/api/updatecategory/${id}`, formData, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/updatecategory/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -105,10 +105,10 @@ function CategoryList() {
           </thead>
           <tbody>
             {categories.map((category) => (
-              <tr key={category._id}>
-                <td className="!px-6 py-4 relative">
+              <tr key={category._id} className="border border-gray-100">
+                <td className="!px-6 py-4 relative  border border-gray-200">
                   <img
-                    src={`http://localhost:7000/${category.image}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
                     alt={category.categoryname}
                     className="w-[50px] h-[50px] object-cover rounded-full mx-auto cursor-pointer border-2 border-transparent hover:border-blue-500"
                     onClick={() => handleImageClick(category._id)}
@@ -121,7 +121,7 @@ function CategoryList() {
                     onChange={(e) => handleImageChange(e, category._id)}
                   />
                 </td>
-                <td className="!px-6 py-4">
+                <td className="!px-6 py-4  border border-gray-200">
                   <div
                     contentEditable
                     suppressContentEditableWarning
@@ -131,7 +131,7 @@ function CategoryList() {
                     {category.categoryname}
                   </div>
                 </td>
-                <td className="!px-6 py-4">
+                <td className="!px-6 py-4  border border-gray-200">
                   <div className="flex justify-center items-center gap-3">
                     <Tooltip title="Edit Image">
   <span className="text-xl text-blue-500 cursor-default">
