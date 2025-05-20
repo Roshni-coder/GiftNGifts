@@ -17,7 +17,7 @@ import OrderSummery from './Components/Order Summery/OrderSummery.jsx'
 import PaymentSuccess from "./Components/Order Summery/PaymentSuccess.jsx";
 import Feedback from "./Components/Feedback/Feedback.jsx";
 import OrderSuccess from "./Components/Order Summery/OrderSuccess.jsx";
-import Chatbot from "./Components/ChatBot/Chatbot.jsx";
+import Chatbot from "./Components/ChatBot/ChatBot.jsx";
 
 function App() {
   return (

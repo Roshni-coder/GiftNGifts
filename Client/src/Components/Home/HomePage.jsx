@@ -6,7 +6,7 @@ import Adevert from '../Home/Advertise/Adevert.jsx'
 import ProductSlider from '../Home/ProductSlider/Productslider.jsx'
 import MiddelAds from '../Home/Advertise/MiddelAds.jsx'
 import RelationSlider from './RelationshipSlider/RelationSlider.jsx'
-import Chatbot from '../ChatBot/Chatbot.jsx'
+import Chatbot from '../ChatBot/ChatBot.jsx'
 
 
 

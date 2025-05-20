@@ -1,6 +1,7 @@
 #!/bin/bash
-
 # This script builds the project using the specified build tool.
+
+set -eux
 # Build Client
 echo "Building Client...\n"
 cd Client && yarn build && cd ..
