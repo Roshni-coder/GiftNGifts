@@ -23,47 +23,53 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true); // allow server-to-server or tools like Postman
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (!origin) return callback(null, true); // allow server-to-server or tools like Postman
 
-    const allowedOrigins = ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'];
+//     const allowedOrigins = ['http://localhost:5173','http://localhost:5174','http://localhost:5175', 'http://srv814093.hstgr.cloud'];
 
-    const hostname = new URL(origin).hostname;
+//     const hostname = new URL(origin).hostname;
 
-    if (
-      allowedOrigins.includes(origin) ||
-      hostname === 'ishisofttech.com' ||
-      hostname.endsWith('.ishisofttech.com')
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
+//     if (
+//       allowedOrigins.includes(origin) ||
+//       hostname === 'ishisofttech.com' ||
+//       hostname.endsWith('.ishisofttech.com')
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+//   setHeaders: (res, req) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*');
+//     res.setHeader('Access-Control-Allow-Credentials', 'true');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   }
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
-const allowedOrigins = [
-  'http://gng.ishisofttech.com',
-  'http://client.gng.ishisofttech.com',
-  'http://admin.gng.ishisofttech.com',
-  'http://seller.gng.ishisofttech.com'
-];
+// const allowedOrigins = [
+//   'http://gng.ishisofttech.com',
+//   'http://client.gng.ishisofttech.com',
+//   'http://admin.gng.ishisofttech.com',
+//   'http://seller.gng.ishisofttech.com'
+// ];
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
+// app.use((req, res, next) => {
+//   const origin = req.headers.origin;
 
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
+//   if (allowedOrigins.includes(origin)) {
+//     res.setHeader('Access-Control-Allow-Origin', origin);
+//   }
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 // API End-points--
 app.use('/api/auth',router)
