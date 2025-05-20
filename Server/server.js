@@ -45,7 +45,25 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-  
+
+const allowedOrigins = [
+  'http://gng.ishisofttech.com',
+  'http://client.gng.ishisofttech.com',
+  'http://admin.gng.ishisofttech.com',
+  'http://seller.gng.ishisofttech.com'
+];
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 // API End-points--
 app.use('/api/auth',router)
