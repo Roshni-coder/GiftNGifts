@@ -4,19 +4,15 @@
 set -eux
 # Build Client
 echo "Building Client...\n"
-cd Client && yarn build && cd ..
-
-# Build Server
-echo "Building Server...\n"
-cd Server && yarn build && cd ..
+cd Client && yarn install && yarn build && cd ..
 
 # Build Admin
 echo "Building Admin...\n"
-cd Admin && yarn build && cd ..
+cd Admin && yarn install && yarn build && cd ..
 
 # Build Seller
 echo "Building Seller...\n"
-cd Seller && yarn build && cd ..
+cd Seller && yarn install && yarn build && cd ..
 
 echo "\nBuild completed successfully!\n"
 
