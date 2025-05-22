@@ -17,9 +17,17 @@ const NavCatSlider = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
-      setCategories(response.data);
+      
+      // Ensure the response is an array
+      if (Array.isArray(response.data)) {
+        setCategories(response.data);
+      } else {
+        console.error("Unexpected response structure:", response.data);
+        setCategories([]); // fallback
+      }
     } catch (error) {
       console.error("Error fetching categories", error);
+      setCategories([]); // fallback
     }
   };
 
@@ -35,37 +43,30 @@ const NavCatSlider = () => {
             disableOnInteraction: false,
           }}
           breakpoints={{
-            350: {
-              slidesPerView: 5,
-            },
-            550: {
-              slidesPerView: 6,
-            },
-            768: {
-              slidesPerView: 7,
-            },
-            900: {
-              slidesPerView: 8,
-            },
+            350: { slidesPerView: 5 },
+            550: { slidesPerView: 6 },
+            768: { slidesPerView: 7 },
+            900: { slidesPerView: 8 },
           }}
           className="mySwiper"
         >
-          {categories.map((category, index) => (
-            <SwiperSlide key={index}>
-              <Link to={`/products?category=${category.categoryname}`}>
-                <div className="link text-center mt-2">
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
-                    alt={category.categoryname}
-                    className="mx-auto sm:w-20 sm:h-20 lg:w-25 lg:h-25 w-15 h-15 rounded-full shadow-lg object-cover"
-                  />
-                  <h3 className="mt-2 hidden sm:block text-sm font-semibold text-gray-800">
-                    {category.categoryname}
-                  </h3>
-                </div>
-              </Link>
-            </SwiperSlide>
-          ))}
+          {Array.isArray(categories) &&
+            categories.map((category, index) => (
+              <SwiperSlide key={index}>
+                <Link to={`/products?category=${category.categoryname}`}>
+                  <div className="link text-center mt-2">
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
+                      alt={category.categoryname}
+                      className="mx-auto sm:w-20 sm:h-20 lg:w-25 lg:h-25 w-15 h-15 rounded-full shadow-lg object-cover"
+                    />
+                    <h3 className="mt-2 hidden sm:block text-sm font-semibold text-gray-800">
+                      {category.categoryname}
+                    </h3>
+                  </div>
+                </Link>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
       <ChatBot />
@@ -73,4 +74,4 @@ const NavCatSlider = () => {
   );
 };
 
-export default NavCatSlider;
+export default NavCatSlider;

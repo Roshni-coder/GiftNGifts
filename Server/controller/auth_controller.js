@@ -6,11 +6,12 @@ import Cart from '../model/cart.js'
 import Wishlist from '../model/wishlist.js';
 import Product from '../model/addproduct.js'
 import Profile from '../model/userprofile.js';
+import otpGenerator from "otp-generator";
 
 export const loginRequestOtp = async (req, res) => {
     const { email, password } = req.body;
     try {
-      const user = await usermodel.findOne({ email });
+      const user = await User.findOne({ email });
       if (!user || !(await user.comparePassword(password))) {
         return res.status(400).json({ success: false, message: "Invalid credentials" });
       }
@@ -21,7 +22,7 @@ export const loginRequestOtp = async (req, res) => {
       await sendMail({
         to: email,
         subject: "Your Login OTP",
-        text: `Your OTP is: ${otp}`,
+        text:` Your OTP is: ${otp}`,
       });
   
       res.status(200).json({ success: true, message: "OTP sent to email" });
@@ -37,7 +38,7 @@ export const verifyLoginOtp = async (req, res) => {
       const user = await usermodel.findOne({ email });
   
       if (!user) {
-        return res.status(404).json({ success: false, message: "Please first Register ..." });
+        return res.status(404).json({ success: false, message: "User not found" });
       }
   
       if (user.verifyotp !== otp) {
