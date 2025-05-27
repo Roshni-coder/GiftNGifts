@@ -1,69 +1,70 @@
 import React, { useContext, useState } from 'react';
 import { Admincontext } from '../../Components/context/admincontext';
 import axios from 'axios';
-import {toast} from "react-toastify"
-import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [state, setState] = useState('Admin'); // Admin or Seller
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(''); // For seller registration only
-  const {backendurl,setatoken}=useContext(Admincontext)
+  const [name, setName] = useState('');
+  const { backendurl, setatoken } = useContext(Admincontext);
   const navigate = useNavigate();
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-      try{
-      if( state === 'Seller') {
-        if (isRegister){
-      const {data}=await axios.post(backendurl + '/api/seller/register',{name,email,password})
-               
-   if(data.success){
-       localStorage.setItem('stoken',data.token)
-       localStorage.setItem('name',data.name)
-       setatoken(data.token)
-       console.log("token",data.token)
-       toast.success(data.message)
-       navigate('/')
-   }
-   else{
-    toast.error(data.message)
-   }
+    try {
+      if (state === 'Seller') {
+        if (isRegister) {
+          // Seller Registration
+          const { data } = await axios.post(backendurl + '/api/seller/register', {
+            name,
+            email,
+            password,
+          });
+
+          if (data.success) {
+            localStorage.setItem('stoken', data.token);
+            localStorage.setItem('name', data.name);
+            setatoken(data.token);
+            toast.success('Registration successfully');
+            navigate('/');
+          } else {
+            toast.error(data.message || 'Registration failed');
+          }
+        } else {
+          // Seller Login
+          const { data } = await axios.post(backendurl + '/api/seller/login', {
+            email,
+            password,
+          });
+
+          if (data.success) {
+            localStorage.setItem('stoken', data.token);
+            localStorage.setItem('name', data.user.name);
+            setatoken(data.token);
+            toast.success('Login successfully');
+            navigate('/');
+          } else {
+            toast.error(data.message || 'Login failed');
+          }
         }
-      else{
-        const {data}=await axios.post(backendurl + '/api/seller/login',{email,password})
-                
-        if(data.success){
-         localStorage.setItem('stoken',data.token)
-         localStorage.setItem('name',data.user.name)
-         setatoken(data.token)
-         console.log(data.token)
-         toast.success(data.message)
-         navigate('/')
-        }
-  
-        else{
-          toast.error(data.message)
-         }
+      } else {
+        toast.info('Admin login is not implemented yet.');
       }
-      
+    } catch (e) {
+      toast.error(e.response?.data?.message || 'Something went wrong');
     }
-   
-      }
-      catch(e){
-       toast.error(e.message)
-      }
-    
   };
 
   return (
     <form onSubmit={handleSubmit} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5e5e5e] text-sm shadow-lg">
         <p className="text-2xl font-semibold m-auto">
-          <span className="text-[#5f6fff] ">{state}</span>
-          &nbsp;{isRegister ? 'Register' : 'Login'}
+          <span className="text-[#5f6fff]">{state}</span>&nbsp;
+          {isRegister ? 'Register' : 'Login'}
         </p>
 
         {isRegister && state === 'Seller' && (
@@ -102,11 +103,14 @@ function Login() {
           />
         </div>
 
-        <button type="submit" className="bg-[#5f6fff] text-white w-full py-2 rounded-md text-base cursor-pointer">
+        <button
+          type="submit"
+          className="bg-[#5f6fff] text-white w-full py-2 rounded-md text-base cursor-pointer"
+        >
           {isRegister ? 'Register' : 'Login'}
         </button>
 
-        {/* Switch between Admin and Seller */}
+        {/* Toggle between Admin and Seller */}
         {state === 'Admin' ? (
           <p>
             Want to login as Seller?{' '}
@@ -135,7 +139,7 @@ function Login() {
           </p>
         )}
 
-        {/* Register link only for Seller */}
+        {/* Register option only for Seller */}
         {state === 'Seller' && (
           <p>
             {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}

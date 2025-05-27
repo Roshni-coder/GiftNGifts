@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/Appcontext";
 import axios from "axios";
@@ -6,14 +6,24 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendurl, setIsLoggedin, getuserData } = useContext(AppContext);
+  const { backendurl, setIsLoggedin, getuserData, setUserData } = useContext(AppContext);
 
   const [state, setState] = useState("Login"); // Login or Sign Up
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isOtpPage, setIsOtpPage] = useState(false); // OTP screen toggle
+
   const inputRefs = useRef([]);
+
+  // Reset form when switching between Login and Sign Up
+  useEffect(() => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setIsOtpPage(false);
+    inputRefs.current.forEach(input => (input.value = ""));
+  }, [state]);
 
   // Focus handling for OTP fields
   const handleInput = (e, index) => {
@@ -29,13 +39,17 @@ const Login = () => {
   };
 
   const handlePaste = (e) => {
-    const paste = e.clipboardData.getData("text");
+    e.preventDefault();
+    const paste = e.clipboardData.getData("text").slice(0, 6); // Limit paste to 6 chars
     const pasteArray = paste.split("");
     pasteArray.forEach((char, index) => {
       if (inputRefs.current[index]) {
         inputRefs.current[index].value = char;
       }
     });
+    if (pasteArray.length > 0 && inputRefs.current[pasteArray.length - 1]) {
+      inputRefs.current[pasteArray.length - 1].focus();
+    }
   };
 
   // Handle Sign Up or Login submission
@@ -54,23 +68,29 @@ const Login = () => {
         if (data.success) {
           toast.success("Account created successfully!");
           setState("Login");
-          navigate("/"); 
+          // Optionally clear fields here
+          setName("");
+          setEmail("");
+          setPassword("");
+          navigate("/");
         } else {
           toast.error(data.message);
         }
       } else {
+        // Login: request to send OTP to email
         const { data } = await axios.post(`${backendurl}/api/auth/login`, {
           email,
           password,
         });
 
         if (data.success) {
-          // Send OTP to the email after successful login
-          await sendOtpToEmail();
-
           // Show OTP page for user to enter the OTP
           setIsOtpPage(true);
           toast.success("OTP sent to your email.");
+          setPassword(""); // Clear password for security
+          // Optionally reset OTP inputs
+          inputRefs.current.forEach(input => (input.value = ""));
+          if (inputRefs.current[0]) inputRefs.current[0].focus();
         } else {
           toast.error(data.message);
         }
@@ -80,41 +100,45 @@ const Login = () => {
     }
   };
 
-  // Function to request the backend to send OTP to the email
-  const sendOtpToEmail = async () => {
-    try {
-      const { data } = await axios.post(`${backendurl}/api/auth/send-verify-otp`, { email });
-      if (data.success) {
-        toast.success("OTP has been sent to your email.");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Error sending OTP.");
+ const verifyOtpHandler = async (e) => {
+  e.preventDefault();
+
+  try {
+    const otpArray = inputRefs.current.map(input => input?.value.trim());
+    const otp = otpArray.join("");
+
+    if (!/^\d{6}$/.test(otp)) {
+      toast.error("Please enter a valid 6-digit OTP.");
+      return;
     }
-  };
 
-  // Handle OTP verification
-  const verifyOtpHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const otpArray = inputRefs.current.map((input) => input.value);
-      const otp = otpArray.join("");
+    const { data } = await axios.post(`${backendurl}/api/auth/verify-login-otp`, {
+      email,
+      otp,
+    });
 
-      const { data } = await axios.post(`${backendurl}/api/auth/verify-login-otp`, { email, otp });
+    if (data.success) {
+      toast.success("Login successful!");
+      setIsLoggedin(true);
 
-      if (data.success) {
-        toast.success(data.message);
-        setIsLoggedin(true);
-        getuserData();
-        navigate("/"); // Redirect to home after successful login
-      } else {
-        toast.error(data.message);
+      if (data.user) {
+        setUserData({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+        });
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "OTP verification failed.");
+
+      navigate("/");
+    } else {
+      toast.error(data.message || "OTP verification failed.");
     }
-  };
+  } catch (error) {
+    const message = error?.response?.data?.message || "OTP verification failed due to a server error.";
+    toast.error(message);
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center mt-5 px-6 sm:px-0 bg-gradient-to-br">
@@ -133,6 +157,8 @@ const Login = () => {
                   <input
                     key={index}
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     maxLength={1}
                     required
                     ref={(el) => (inputRefs.current[index] = el)}
@@ -142,7 +168,7 @@ const Login = () => {
                   />
                 ))}
             </div>
-            <button type="submit" className="w-full py-3 bg-[#fb541b] text-white rounded">
+            <button type="submit" className="w-full !py-3 bg-[#fb541b] text-white rounded">
               Verify OTP
             </button>
           </form>
@@ -190,7 +216,7 @@ const Login = () => {
               Forgot Password?
             </p>
 
-            <button type="submit" className="w-full py-3 bg-[#fb541b] text-white rounded font-medium">
+            <button type="submit" className="w-full !py-3 bg-[#fb541b] text-white rounded font-medium">
               {state}
             </button>
           </form>

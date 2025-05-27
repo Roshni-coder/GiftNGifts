@@ -15,8 +15,8 @@ router.get('/is-auth',userAuth,isAuthenticated)
 router.post('/send-reset-otp',sendResetpassword)
 router.post('/reset-password',resetpassword)
 router.post('/login-request-otp', loginRequestOtp);
-router.post('/verify-login-otp', verifyLoginOtp)
-
+// router.post("/verify-login-otp", verifyLoginOtp); // ✅ Add this if missing
+router.post("/verify-login-otp", verifyLoginOtp);
 //Add and get and Delete to cart------
 router.post('/Cart',auth,Addtocart)
 router.get('/Cart',auth,GetCart)

@@ -9,7 +9,8 @@ import { Button } from "@mui/material";
 function EmailVerify() {
   axios.defaults.withCredentials = true;
 
-  const { backendurl, isLoggedin, userData, getuserData } = useContext(AppContext);
+  const { backendurl, isLoggedin, userData, getuserData } =
+    useContext(AppContext);
   const [loading, setLoading] = useState(false); // Disable button during API calls
   const inputRefs = useRef([]);
   const navigate = useNavigate();
@@ -37,40 +38,53 @@ function EmailVerify() {
   };
 
   // Handle OTP verification
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const otpArray = inputRefs.current.map((input) => input.value);
-      const otp = otpArray.join(""); // Convert to string
-      console.log("OTP entered:", otp); // Debugging log
+  try {
+    const otpArray = inputRefs.current.map((input) => input?.value.trim());
+    const otp = otpArray.join("");
 
-      const { data } = await axios.post(`${backendurl}/api/auth/verify-Account`, { otp });
-
-      console.log("API Response:", data); // Debugging log
-
-      if (data.success) {
-        toast.success(data.message);
-        getuserData();
-        navigate("/");
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.error("Verification Error:", error); // Debugging log
-      toast.error(error.response?.data?.message || "OTP verification failed.");
-    } finally {
-      setLoading(false);
+    if (!/^\d{6}$/.test(otp)) {
+      toast.error("Please enter a valid 6-digit OTP.");
+      return;
     }
-  };
+
+    if (!userData?._id) {
+      toast.error("User ID not found. Please log in again.");
+      return;
+    }
+
+    const { data } = await axios.post(`${backendurl}/api/auth/verify-Account`, {
+      userId: userData._id,
+      otp,
+    });
+
+    if (data.success) {
+      toast.success(data.message || "Email verified successfully!");
+      getuserData();
+      navigate("/");
+    } else {
+      toast.error(data.message || "OTP verification failed.");
+    }
+  } catch (error) {
+    const message = error?.response?.data?.message || "OTP verification failed due to a server error.";
+    toast.error(message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Resend OTP function
   const resendOtp = async () => {
     try {
-      const { data } = await axios.post(`${backendurl}/api/auth/send-verify-otp`, {
-        email: userData?.email, // Ensure email is available
-      });
+      const { data } = await axios.post(
+        `${backendurl}/api/auth/send-verify-otp`,
+        {
+          email: userData?.email, // Ensure email is available
+        }
+      );
 
       if (data.success) {
         toast.success("OTP resent successfully!");
@@ -91,9 +105,16 @@ function EmailVerify() {
 
   return (
     <div className="flex items-center justify-center mt-5 px-6 sm:px-0 bg-gradient-to-br">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg sm:w-100 xl:w-[35%] text-sm">
-        <h1 className="text-2xl font-semibold text-center mb-4">Email Verification</h1>
-        <p className="text-center mb-6 text-lg">Enter the 6-digit code sent to your email.</p>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-lg sm:w-100 xl:w-[35%] text-sm"
+      >
+        <h1 className="text-2xl font-semibold text-center mb-4">
+          Email Verification
+        </h1>
+        <p className="text-center mb-6 text-lg">
+          Enter the 6-digit code sent to your email.
+        </p>
 
         {/* OTP Input Fields */}
         <div className="flex justify-between mb-8" onPaste={handlePaste}>
@@ -114,14 +135,21 @@ function EmailVerify() {
         </div>
 
         {/* Verify Button */}
-        <Button type="submit" className="w-full !py-3 !bg-[#fb541b] text-white rounded" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full !py-3 !bg-[#fb541b] text-white rounded"
+          disabled={loading}
+        >
           {loading ? "Verifying..." : "Verify Email"}
         </Button>
 
         {/* Resend OTP */}
         <p className="text-center text-sm mt-4">
           Didn't receive the code?{" "}
-          <span onClick={resendOtp} className="text-blue-700 cursor-pointer underline">
+          <span
+            onClick={resendOtp}
+            className="text-blue-700 cursor-pointer underline"
+          >
             Resend OTP
           </span>
         </p>
@@ -130,4 +158,4 @@ function EmailVerify() {
   );
 }
 
-export default EmailVerify;
+export default EmailVerify;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button } from '@mui/material';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 function SellerProfile() {
   const [profile, setProfile] = useState({
@@ -48,7 +49,7 @@ if(stoken){
     try {
       const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/seller/updateprofile`, profile,{headers:{stoken}});
       if (data.message) {
-        alert(data.message);
+        toast.success(data.message);
         setEditing(false);
         getProfile(); // refresh profile after update
       }
