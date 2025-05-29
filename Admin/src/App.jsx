@@ -24,6 +24,7 @@ import SubCategoryList from './Pages/Category/SubCategoryList.jsx';
 import AddSubCategory from './Pages/Category/AddSubCategory.jsx';
 import UsersList from './Pages/Users Page/UsersList.jsx';
 import { ToastContainer } from 'react-toastify';
+import ProtectedRoute from '../src/Pages/ProtectedRoute.jsx';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -54,40 +55,68 @@ function App() {
     model:''
   });
 
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Layout><DashBoard /></Layout>
-    },
-    {
-      path: '/login',
-      element: <Login />
-    },
-    {
-      path: '/products',
-      element: <Layout><ProductList /></Layout>
-    },
-    {
-      path: '/orders',
-      element: <Layout><OrdersList/></Layout>
-    },
-    {
-      path: '/Homesliderbanners',
-      element: <Layout><HomeSliderBaneerList/></Layout>
-    },
-    {
-      path: '/categorylist',
-      element: <Layout><CategoryList/></Layout>
-    },
-    {
-      path: '/subcategorylist',
-      element: <Layout><SubCategoryList/></Layout>
-    },
-    {
-      path: '/users',
-      element: <Layout><UsersList/></Layout>
-    },
-  ]);
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <Layout><DashBoard /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/products',
+    element: (
+      <ProtectedRoute>
+        <Layout><ProductList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/orders',
+    element: (
+      <ProtectedRoute>
+        <Layout><OrdersList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/Homesliderbanners',
+    element: (
+      <ProtectedRoute>
+        <Layout><HomeSliderBaneerList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/categorylist',
+    element: (
+      <ProtectedRoute>
+        <Layout><CategoryList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/subcategorylist',
+    element: (
+      <ProtectedRoute>
+        <Layout><SubCategoryList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/users',
+    element: (
+      <ProtectedRoute>
+        <Layout><UsersList /></Layout>
+      </ProtectedRoute>
+    ),
+  },
+]);
 
   const values = {
     isOpenAddProductPanel,

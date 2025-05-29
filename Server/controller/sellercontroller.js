@@ -6,6 +6,23 @@ import sellermodel from "../model/sellermodel.js";
 import addproductmodel from "../model/addproduct.js";
 import {v2 as cloudinary} from "cloudinary"
 import orderModel from "../model/order.js";
+import usermodel from "../model/mongobd_usermodel.js";
+
+
+export const userlist=async(req,res)=>{
+  try{
+     const users=await usermodel.find() ;
+     if(!users){
+      return res.json({success:false,message:"no users found"});
+     }
+     return res.json({success:true,users});
+  }
+
+  catch (e) {
+    console.error(e);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 
 export const registerseller=async(req,res)=>{
 try{
@@ -48,21 +65,6 @@ catch(e){
 
 }
 
-
-
-// const Changeavailabilty = async (req, res) => {
-//   try {
-//     const { id } = req.body;
-//     const sellerdata = await sellermodel.findById(id);
-
-//     await sellermodel.findByIdAndUpdate(id, { available: !docdata.available });
-//     res.json({ success: true, message: "Availability Changed" });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ success: false, message: error.message });
-//   }
-// };
-
 export const loginseller = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -96,21 +98,6 @@ export const loginseller = async (req, res) => {
   }
 };
 
-
-// export const sellerorders = async (req, res) => {
-//   try {
-//     const { sellerid } = req.body;
-//     const orders = await orderModel.find({ sellerid });
-//     if(!orders){
-//       return res.status(404).json({message:"no orders"})
-//     }
-//     return res.status(201).json({ success: true, orders });
-//   } catch (error) {
-//     console.log(error);
-//     res.json({ success: false, message: error.message });
-//   }
-// };
-
 export const ordercomplete = async (req, res) => {
   try {
     const { sellerid, orderid } = req.body;
@@ -129,7 +116,6 @@ export const ordercomplete = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-
 
 export const addproducts = async (req, res) => {
   try {
@@ -185,8 +171,6 @@ export const addproducts = async (req, res) => {
     });
   }
 };
-
-
 
 export const getSellerProfile = async (req, res) => {
   try {

@@ -21,7 +21,7 @@ function ProductList() {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getproducts`);
       setProducts(response.data.data);
-    
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -30,15 +30,16 @@ function ProductList() {
   };
   const [categories, setCategories] = useState([]);
 
-
   useEffect(() => {
     fetchCategories();
-    console.log(categories)
+    console.log(categories);
   }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/getcategories`
+      );
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -46,12 +47,14 @@ function ProductList() {
   };
   useEffect(() => {
     fetchProducts();
-    console.log(products)
+    console.log(products);
   }, []);
 
   const removeproduct = async (_id) => {
     try {
-      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/deleteproduct/${_id}`);
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/deleteproduct/${_id}`
+      );
       if (response.data.success) {
         setProducts(products.filter((product) => product._id !== _id));
       } else {
@@ -69,7 +72,10 @@ function ProductList() {
     }
 
     try {
-      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/updateproduct/${_id}`, updatetask[_id]);
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/updateproduct/${_id}`,
+        updatetask[_id]
+      );
       if (response.data.success) {
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
@@ -89,23 +95,25 @@ function ProductList() {
 
   useEffect(() => {
     fetchSubcategories();
-    console.log(subcategories)
+    console.log(subcategories);
   }, []);
 
   const fetchSubcategories = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`
+      );
       setSubcategories(response.data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
     }
   };
   const getCategoryNameById = (id) => {
-    const category = categories.find(cat => cat._id === id);
+    const category = categories.find((cat) => cat._id === id);
     return category ? category.categoryname : "Not found";
   };
   const getSubCategoryNameById = (id) => {
-    const sub = subcategories.find(cat => cat._id === id);
+    const sub = subcategories.find((cat) => cat._id === id);
     return sub ? sub.subcategory : "Not found";
   };
   const handleupdate = (id, value, field) => {
@@ -144,7 +152,6 @@ function ProductList() {
                 <th className="!px-6 py-4 whitespace-nowrap">Category</th>
                 <th className="!px-6 py-4 whitespace-nowrap">Sub Category</th>
                 <th className="!px-6 py-4 whitespace-nowrap">Price</th>
-                <th className="!px-6 py-4 whitespace-nowrap">Rating</th>
                 <th className="!px-6 py-4 whitespace-nowrap">Action</th>
               </tr>
             </thead>
@@ -156,11 +163,11 @@ function ProductList() {
                   </td>
                 </tr>
               ) : (
-                products.map((product,index) => (
+                products.map((product, index) => (
                   <tr key={product._id} className="border-b border-gray-200 ">
-                    <td className="px-6 py-2 cursor-pointer">
+                    <td className="px-6  py-2 cursor-pointer border border-gray-100">
                       <Link to="" style={{ textDecoration: "none" }}>
-                        <div className="flex items-center gap-4 w-[300px]">
+                        <div className="flex  !w-[100%] items-center gap-4 m-auto ">
                           <div className="img !w-[65px] !h-[65px] rounded-md overflow-hidden">
                             <img
                               src={product.images[0]?.url}
@@ -174,7 +181,11 @@ function ProductList() {
                               contentEditable
                               suppressContentEditableWarning
                               onBlur={(e) =>
-                                handleupdate(product._id, e.target.innerText, "title")
+                                handleupdate(
+                                  product._id,
+                                  e.target.innerText,
+                                  "title"
+                                )
                               }
                             >
                               {product.title}
@@ -183,62 +194,65 @@ function ProductList() {
                         </div>
                       </Link>
                     </td>
-                    <td
-                      className="px-6 py-2"
+                    <td className="px-6 py-2 border border-gray-100 "
                       contentEditable
                       suppressContentEditableWarning
                       onBlur={(e) =>
-                        handleupdate(product._id, e.target.innerText, "categoryname")
+                        handleupdate(
+                          product._id,
+                          e.target.innerText,
+                          "categoryname"
+                        )
                       }
                     >
-                     {getCategoryNameById(product.categoryname)}
+                      {getCategoryNameById(product.categoryname)}
                     </td>
-                    <td
-                      className="px-6 py-2"
+                    <td className="px-6 py-2 border border-gray-100"
                       contentEditable
                       suppressContentEditableWarning
                       onBlur={(e) =>
-                        handleupdate(product._id, e.target.innerText, "subcategory")
+                        handleupdate(
+                          product._id,
+                          e.target.innerText,
+                          "subcategory"
+                        )
                       }
                     >
-                       {getSubCategoryNameById(product.subcategory)}
+                      {getSubCategoryNameById(product.subcategory)}
                     </td>
-                    <td className="px-6 py-2">
-  <div className="flex items-center gap-1 flex-col">
-    <span
-      className="oldPrice line-through text-gray-500 text-[14px] font-[500]"
-      contentEditable
-      suppressContentEditableWarning
-      onBlur={(e) =>
-        handleupdate(product._id, e.target.innerText.replace("₹", ""), "oldprice")
-      }
-    >
-      ₹{product.oldprice}
-    </span>
-    <span
-      className="newPrice text-black text-[15px] font-[600]"
-      contentEditable
-      suppressContentEditableWarning
-      onBlur={(e) =>
-        handleupdate(product._id, e.target.innerText.replace("₹", ""), "price")
-      }
-    >
-      ₹{product.price}
-    </span>
-  </div>
-</td>
-
-                    <td
-                      className="px-6 py-2"
-                      contentEditable
-                      suppressContentEditableWarning
-                      onBlur={(e) =>
-                        handleupdate(product._id, e.target.innerText, "rating")
-                      }
-                    >
-                      {product.rating}
+                    <td className="px-6 py-2 border border-gray-100">
+                      <div className="flex items-center gap-2 flex-row items-center justify-center">
+                        <span
+                          className="newPrice text-black text-[15px] font-[600]"
+                          contentEditable
+                          suppressContentEditableWarning
+                          onBlur={(e) =>
+                            handleupdate(
+                              product._id,
+                              e.target.innerText.replace("₹", ""),
+                              "price"
+                            )
+                          }
+                        >
+                          ₹{product.price}
+                        </span>
+                        <span
+                          className="oldPrice line-through text-gray-500 text-[14px] font-[500]"
+                          contentEditable
+                          suppressContentEditableWarning
+                          onBlur={(e) =>
+                            handleupdate(
+                              product._id,
+                              e.target.innerText.replace("₹", ""),
+                              "oldprice"
+                            )
+                          }
+                        >
+                          ₹{product.oldprice}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-2">
+                    <td className="px-6 py-2 border border-gray-100">
                       <div className="flex items-center justify-center gap-2">
                         <Tooltip title="Update">
                           <button

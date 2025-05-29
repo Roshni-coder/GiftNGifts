@@ -3,7 +3,6 @@ import { register, login, logout, sendverifyotp, verifyingEmail,isAuthenticated,
 import userAuth from "../middleware/userAuth.js";
 import auth from "../middleware/cartmiddleare.js"
 
-
 const router = express.Router();
 
 router.post('/register',register);

@@ -1,57 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { PiSignOutBold } from "react-icons/pi";
-import { Link, useNavigate } from "react-router-dom"; // Add useNavigate hook for redirect
+import { useNavigate } from "react-router-dom";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Divider } from "@mui/material";
 
+import { Admincontext } from "../context/admincontext"; // Update path based on your structure
+
 function Header() {
-  const [anchorMyAccount, setAnchorMyAccount] = useState(null); // Fixed typo
+  const [anchorMyAccount, setAnchorMyAccount] = useState(null);
   const openMyAccount = Boolean(anchorMyAccount);
-  const token = localStorage.getItem("stoken");
+  const { atoken, setatoken } = useContext(Admincontext);
   const name = localStorage.getItem("name") || "";
-  const navigate = useNavigate(); // Hook for navigation after logout
+  const navigate = useNavigate();
 
   const handleClickMyAccount = (event) => {
-    if (token) {
-      setAnchorMyAccount(event.currentTarget); // Fixed typo
+    if (atoken) {
+      setAnchorMyAccount(event.currentTarget);
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("stoken");
+    localStorage.removeItem("atoken");
     localStorage.removeItem("name");
-    navigate("/login"); // Redirect to login page after logout
+    setatoken(""); // clear context token
+    navigate("/login");
   };
 
   const handleCloseMyAccount = () => {
-    setAnchorMyAccount(null); // Fixed typo
+    setAnchorMyAccount(null);
   };
 
   return (
     <>
-      <header className="ml-auto shadow-md w-[82%] !py-4 h-auto items-center bg-white">
+      <header className="ml-auto shadow-md w-[82%] py-4 h-auto items-center bg-white">
         <div className="loginBtn flex justify-end w-full pr-6">
-          {token ? (
+          {atoken && (
             <div
               onClick={handleClickMyAccount}
               className="cursor-pointer bg-[#5f6fff] text-white text-[18px] font-semibold rounded-full w-10 h-10 flex items-center justify-center"
               title="Account"
             >
-              {name && name[0] ? name[0].toUpperCase() : ""} {/* Fix applied here */}
+              {name[0]?.toUpperCase()}
             </div>
-          ) : (
-            <Link to="/login">
-              <button className="cursor-pointer border-2 border-gray-300 text-[18px] text-gray-500 rounded pt-1 pb-2 px-8">
-                Login
-              </button>
-            </Link>
           )}
         </div>
 
-        {/* Dropdown Menu */}
         <Menu
           anchorEl={anchorMyAccount}
           id="account-menu"
@@ -83,30 +79,27 @@ function Header() {
           transformOrigin={{ horizontal: "right", vertical: "top" }}
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <MenuItem className="!bg-white">
+          <MenuItem>
             <div className="flex items-center gap-2">
               <div className="rounded-full w-[38px] h-[38px] bg-[#5f6fff] text-white flex items-center justify-center text-lg font-semibold">
-                {name && name[0] ? name[0].toUpperCase() : ""}
+                {name[0]?.toUpperCase()}
               </div>
               <div className="info">
-                <h3 className="text-[16px] font-[500] !leading-5">
-                  {name}
-                </h3>
-                {/* Optional email or role here */}
+                <h3 className="text-[16px] font-[500] leading-5">{name}</h3>
               </div>
             </div>
           </MenuItem>
 
           <Divider />
 
-          <MenuItem className="flex items-center gap-3 !ml-2">
+          <MenuItem className="flex items-center gap-3 ml-2">
             <FaRegUser className="text-[16px]" />
-            <span className="text-[14px]">My account</span>
+            <span className="text-[14px]">My Account</span>
           </MenuItem>
 
           <MenuItem
             onClick={handleLogout}
-            className="flex items-center gap-3 !ml-2"
+            className="flex items-center gap-3 ml-2"
           >
             <PiSignOutBold className="text-[16px]" />
             <span className="text-[14px]">Sign Out</span>
@@ -117,4 +110,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Header;

@@ -1,8 +1,8 @@
 import express from "express"
 import authseller from "../middleware/authseller.js"
-import { addproducts, getSellerOrders, getSellerProfile, loginseller, registerseller, updateSellerProfile } from "../controller/sellercontroller.js";
+import { addproducts, getSellerOrders, getSellerProfile, loginseller, registerseller, updateSellerProfile, userlist } from "../controller/sellercontroller.js";
 import upload from "../middleware/multer.js";
-import { userlist } from "../controller/admincontroller.js";
+
 const sellerrouter=express.Router();
 
 sellerrouter.post('/register',registerseller);

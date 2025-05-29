@@ -24,10 +24,14 @@ function SideBar() {
       setSubmenuIndex(index);
     }
   };
-  const handlelogout=async()=>{
-    localStorage.removeItem("stoken");
-    navigate("/login")
-  }
+ 
+  const handlelogout = () => {
+  localStorage.removeItem('atoken');
+  localStorage.removeItem('name');
+  setatoken('');
+  navigate('/login');
+};
+
   return (
     <>
       <div className="sidebar  fixed top-[0] left-0 w-[18%] bg-white h-full border-r border-[rgba(0,0,0,0.1)]">
