@@ -81,7 +81,7 @@ export const AppContextProvider = (props) => {
     if (!token) return;
     try {
       const res = await axios.get(`${backendurl}/api/auth/wishlist`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token} `},
       });
       setWishlistItems(res.data.wishlist || []);
     } catch (err) {
@@ -131,5 +131,5 @@ export const AppContextProvider = (props) => {
     <AppContext.Provider value={value}>
       {props.children}
     </AppContext.Provider>
-  );
+  );
 };

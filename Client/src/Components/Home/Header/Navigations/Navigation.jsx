@@ -23,7 +23,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     padding: "0 4px",
   },
 }));
-
+const token=localStorage.getItem('token')
 function Navigation() {
   const navigate = useNavigate();
   const { userData, logout, cartItems, wishlistItems } = useContext(AppContext);
@@ -65,7 +65,7 @@ function Navigation() {
           <ul className="flex items-center justify-center xl:gap-3 w-full">
 
             {/* USER LOGGED IN MENU */}
-            {userData ? (
+            {userData?(
               <li ref={userMenuRef} className="relative">
                 <div
                   className="w-8 h-8 flex justify-center items-center rounded-full bg-black text-white cursor-pointer select-none"
@@ -153,4 +153,4 @@ function Navigation() {
   );
 }
 
-export default Navigation;
+export default Navigation;
