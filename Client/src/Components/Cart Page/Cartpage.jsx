@@ -56,7 +56,7 @@ function Cartpage() {
 
   return (
     <section className="section py-3">
-      <div className="container w-[70%] lg:w-[80%] w-full  lg:flex gap-4">
+      <div className="container  lg:w-[80%] w-full flex flex-col !gap-1  lg:gap-4 lg:flex ">
         <div className="leftPart lg:w-[70%] w-full bg-white !h-[600] ">
           <div className="py-2 sm:px-3 px-2 border-b border-gray-200">
             <h2 className="text-black">Your Cart</h2>
@@ -95,7 +95,7 @@ function Cartpage() {
             )}
           </div>
         </div>
-        <div className="rightPart lg:w-[30%] w-[30%] mt-4 lg:mt-0">
+        <div className="rightPart lg:w-[30%] w-full mt-4 lg:mt-0">
           <Totalprice handlePlaceOrder={handlePlaceOrder} />{" "}
           {/* Pass the function here */}
         </div>

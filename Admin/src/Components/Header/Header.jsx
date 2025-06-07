@@ -1,59 +1,66 @@
 import React, { useContext, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { PiSignOutBold } from "react-icons/pi";
-import { useNavigate } from "react-router-dom";
-
+import { FaGift } from "react-icons/fa6";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Divider } from "@mui/material";
-
-import { Admincontext } from "../context/admincontext"; // Update path based on your structure
+import { Link, useNavigate } from "react-router-dom";
+import { Admincontext } from "../context/admincontext";
 
 function Header() {
-  const [anchorMyAccount, setAnchorMyAccount] = useState(null);
-  const openMyAccount = Boolean(anchorMyAccount);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const { atoken, setatoken } = useContext(Admincontext);
-  const name = localStorage.getItem("name") || "";
   const navigate = useNavigate();
+  const name = localStorage.getItem("name") || "";
 
-  const handleClickMyAccount = (event) => {
-    if (atoken) {
-      setAnchorMyAccount(event.currentTarget);
-    }
+  const handleClick = (event) => {
+    if (atoken) setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("atoken");
     localStorage.removeItem("name");
-    setatoken(""); // clear context token
+    setatoken("");
     navigate("/login");
   };
 
-  const handleCloseMyAccount = () => {
-    setAnchorMyAccount(null);
-  };
-
   return (
-    <>
-      <header className="ml-auto shadow-md w-[82%] py-4 h-auto items-center bg-white">
-        <div className="loginBtn flex justify-end w-full pr-6">
-          {atoken && (
-            <div
-              onClick={handleClickMyAccount}
-              className="cursor-pointer bg-[#5f6fff] text-white text-[18px] font-semibold rounded-full w-10 h-10 flex items-center justify-center"
+    <header className=" !shadow-md  !bg-white  py-5 px-4 sm:px-6">
+      <div className="max-w-[1440px] w-[100%] mx-auto flex items-center justify-between">
+        {/* Logo Section */}
+        <div className="flex items-center pl-4 !w-[90%]  lg:p-3  !justify-center gap-2">
+          <FaGift className="text-[24px] text-black" />
+          <h1 className="text-black text-xl sm:text-[30px] font-bold">
+            GiftNGifts
+          </h1>
+        </div>
+
+        {/* Account Section */}
+        {atoken && (
+          <div className="w-[10%]  flex justify-end">
+            <button
+              onClick={handleClick}
+              className="bg-[#5f6fff] text-white font-semibold rounded-full w-10 h-10 flex items-center justify-center text-[18px]"
               title="Account"
             >
               {name[0]?.toUpperCase()}
-            </div>
-          )}
-        </div>
+            </button>
+          </div>
+        )}
 
+        {/* Dropdown Menu */}
         <Menu
-          anchorEl={anchorMyAccount}
+          anchorEl={anchorEl}
           id="account-menu"
-          open={openMyAccount}
-          onClose={handleCloseMyAccount}
-          onClick={handleCloseMyAccount}
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
           slotProps={{
             paper: {
               elevation: 0,
@@ -81,27 +88,26 @@ function Header() {
         >
           <MenuItem>
             <div className="flex items-center gap-2">
-              <div className="rounded-full w-[38px] h-[38px] bg-[#5f6fff] text-white flex items-center justify-center text-lg font-semibold">
+              <div className="w-[38px] h-[38px]  rounded-full bg-[#5f6fff] text-white flex items-center justify-center text-lg font-semibold">
                 {name[0]?.toUpperCase()}
               </div>
-              <div className="info">
-                <h3 className="text-[16px] font-[500] leading-5">{name}</h3>
+              <div>
+                <h3 className="text-[16px] text-center font-medium leading-5">{name}</h3>
               </div>
             </div>
           </MenuItem>
 
           <Divider />
-
           <MenuItem
             onClick={handleLogout}
-            className="flex items-center !justify-center gap-3 ml-2"
+            className="flex !items-center !justify-center gap-3 ml-2"
           >
             <PiSignOutBold className="text-[16px]" />
-            <span className="text-[14px] ">Sign Out</span>
+            <span className="text-[14px] text-center">Sign Out</span>
           </MenuItem>
         </Menu>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }
 

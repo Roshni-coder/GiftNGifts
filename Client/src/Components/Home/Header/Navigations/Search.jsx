@@ -16,7 +16,7 @@ const Search = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getproducts`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/getproducts`);
         setProducts(res.data.data);
       } catch (err) {
         console.error("Error fetching products:", err);

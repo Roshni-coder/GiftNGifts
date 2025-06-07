@@ -60,8 +60,8 @@ if(stoken){
 
   return (
     <>
-      <div className="card bg-white shadow-md rounded px-10">
-        <h1 className="text-[17px] py-4 font-[600]">Admin Profile</h1>
+      <div className="container !m-auto card bg-white shadow-md rounded px-10">
+        <h1 className="text-[17px] py-4 font-[600]">Seller Profile</h1>
         <div className="main flex justify-between">
           <div className="flex flex-col gap-1 pb-5">
             <p>Name: {profile.name}</p>
@@ -81,10 +81,10 @@ if(stoken){
       <br />
 
       {editing && (
-        <div className="card bg-white shadow-md rounded p-10">
+        <div className=" container m-auto card bg-white shadow-md rounded md:p-10 p-5">
           <form className="w-full items-center !m-auto" onSubmit={handleSubmit}>
             <h6 className="pt-3 mb-2 px-1 text-[13px] font-[500]">Name and Phone *</h6>
-            <div className="lg:flex items-center gap-3">
+            <div className="md:flex md:flex-row items-center  flex flex-col !gap-4">
               <TextField
                 className="w-full lg:w-[50%]"
                 label="Full Name"

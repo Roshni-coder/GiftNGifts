@@ -65,29 +65,43 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  const fetchCart = async () => {
-    if (!token) return;
-    try {
-      const res = await axios.get(`${backendurl}/api/auth/Cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCartItems(res.data.cart);
-    } catch (err) {
-      console.error("Error fetching cart:", err);
-    }
-  };
+const fetchCart = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.warn("No token found for fetching cart");
+    return;
+  }
+  try {
+    const res = await axios.get(`${backendurl}/api/auth/Cart`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setCartItems(res.data.cart);
+  } catch (err) {
+    console.error("Error fetching cart:", err.response?.data || err.message);
+  }
+};
 
-  const fetchWishlist = async () => {
-    if (!token) return;
-    try {
-      const res = await axios.get(`${backendurl}/api/auth/wishlist`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setWishlistItems(res.data.wishlist || []);
-    } catch (err) {
-      console.error("Error fetching wishlist:", err);
-    }
-  };
+const fetchWishlist = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.warn("No token found for fetching wishlist");
+    return;
+  }
+  try {
+    const res = await axios.get(`${backendurl}/api/auth/wishlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setWishlistItems(res.data.wishlist || []);
+  } catch (err) {
+    console.error("Error fetching wishlist:", err.response?.data || err.message);
+  }
+};
+
+
 
   const logout = async () => {
     try {
@@ -131,5 +145,5 @@ export const AppContextProvider = (props) => {
     <AppContext.Provider value={value}>
       {props.children}
     </AppContext.Provider>
-  );
+  );
 };

@@ -6,8 +6,9 @@ import React, { useContext, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa6";
 import Badges from "../../Components/DashbordBoxes/Badges.jsx";
-import {MyContext}  from "../../App.jsx";
+import { MyContext } from "../../App.jsx";
 import OrdersList from "../Orders Pages/OrdersList.jsx";
+
 function DashBoard() {
   const { setIsOpenAddProductPanel } = useContext(MyContext);
   const [isOpenOrderdProduct, setOpenOrderdProduct] = useState(null);
@@ -19,29 +20,32 @@ function DashBoard() {
       setOpenOrderdProduct(index);
     }
   };
+
   return (
     <>
       <DashBordBox />
-      <div className="!w-full !bg-[#e7edfd] !px-10 py-2  flex items-center gap-8 mt-2 justify-between rounded-md">
-        <div className="info">
-          <h1 className=" text-[35px] font-bold leading-10 mb-3">
-            Welcome To GiftnGifts{" "}
+
+      <div className="w-full bg-[#e7edfd] px-4 md:px-10 py-4 flex flex-col md:flex-row items-center  md:gap-8 mt-2 justify-evenly rounded-md">
+        <div className="info text-center md:text-left">
+          <h1 className="text-2xl md:text-3xl font-bold leading-10 mb-3">
+            Welcome To GiftnGifts
           </h1>
-          <p>
-            Here's What happening on your store todyday. See the statistics at
-            once.
+          <p className="text-sm md:text-base">
+            Here's what’s happening on your store today. See the statistics at once.
           </p>
           <br />
-          <Button className="btn-blue " onClick={() => setIsOpenAddProductPanel({open:true,model:'Add Product'})}>
-            <FiPlus className="!pr-1 text-[22px]" />
+          <Button
+            className="btn-blue"
+            onClick={() => setIsOpenAddProductPanel({ open: true, model: "Add Product" })}
+          >
+            <FiPlus className="pr-1 text-lg" />
             Add Product
           </Button>
         </div>
-        <img src={image} alt="" className="w-[250px]" />
+        <img src={image} alt="Admin Welcome" className="w-[150px] md:w-[250px]" />
       </div>
-     
-      
-     <OrdersList/>
+
+      <OrdersList/>
     </>
   );
 }

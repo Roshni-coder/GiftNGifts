@@ -16,45 +16,47 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [updatetask, setUpdatetask] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getproducts`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/getproducts`);
       setProducts(response.data.data);
-
       setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
       setLoading(false);
     }
   };
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    fetchCategories();
-    console.log(categories);
-  }, []);
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/getcategories`
-      );
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories", error);
     }
   };
+
+  const fetchSubcategories = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`);
+      setSubcategories(response.data);
+    } catch (error) {
+      console.error("Error fetching subcategories:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
-    console.log(products);
+    fetchCategories();
+    fetchSubcategories();
   }, []);
 
   const removeproduct = async (_id) => {
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/deleteproduct/${_id}`
-      );
+      const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/product/deleteproduct/${_id}`);
       if (response.data.success) {
         setProducts(products.filter((product) => product._id !== _id));
       } else {
@@ -70,12 +72,8 @@ function ProductList() {
       alert("No changes detected for update.");
       return;
     }
-
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/updateproduct/${_id}`,
-        updatetask[_id]
-      );
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/product/updateproduct/${_id}`, updatetask[_id]);
       if (response.data.success) {
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
@@ -91,31 +89,17 @@ function ProductList() {
       console.error("Error updating product:", error);
     }
   };
-  const [subcategories, setSubcategories] = useState([]);
 
-  useEffect(() => {
-    fetchSubcategories();
-    console.log(subcategories);
-  }, []);
-
-  const fetchSubcategories = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/getsubcategories`
-      );
-      setSubcategories(response.data);
-    } catch (error) {
-      console.error("Error fetching subcategories:", error);
-    }
-  };
   const getCategoryNameById = (id) => {
     const category = categories.find((cat) => cat._id === id);
     return category ? category.categoryname : "Not found";
   };
+
   const getSubCategoryNameById = (id) => {
     const sub = subcategories.find((cat) => cat._id === id);
     return sub ? sub.subcategory : "Not found";
   };
+
   const handleupdate = (id, value, field) => {
     setUpdatetask((prev) => ({
       ...prev,
@@ -124,167 +108,138 @@ function ProductList() {
   };
 
   return (
-    <>
-      <div className="products shadow-md rounded-md py-2 !px-5 bg-white">
-        <h2 className="text-[25px] py-1 text-left font-[600]">Products List</h2>
-        <div className="flex items-center py-1 justify-between">
-          <div className="col w-[80%]">
-            <SearchBox />
-          </div>
-          <div className="col w-[15%] pl-3">
-            <Button
-              className="btn-blue !ml-auto"
-              onClick={() =>
-                setIsOpenAddProductPanel({ open: true, model: "Add Product" })
-              }
-            >
-              <FiPlus className="!pr-1 text-[20px]" />
-              Add Product
-            </Button>
-          </div>
-        </div>
+    <div className=" products shadow-md  rounded-md !my-2 px-1 md:px-6 bg-white">
+      <h2 className="text-xl md:text-2xl font-semibold py-2 sm:text-left text-center">Products List</h2>
 
-        <div className="relative pb-5 overflow-auto max-h-[550px] mt-5">
-          <table className="w-full text-sm text-center text-gray-500 dark:text-gray-500">
-            <thead className="text-xs uppercase text-[12px] bg-gray-100 !text-[rgba(0,0,0,0.8)]">
-              <tr>
-                <th className="!px-6 py-4">Products</th>
-                <th className="!px-6 py-4 whitespace-nowrap">Category</th>
-                <th className="!px-6 py-4 whitespace-nowrap">Sub Category</th>
-                <th className="!px-6 py-4 whitespace-nowrap">Price</th>
-                <th className="!px-6 py-4 whitespace-nowrap">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="6" className="py-4 text-center">
-                    <Progress />
-                  </td>
-                </tr>
-              ) : (
-                products.map((product, index) => (
-                  <tr key={product._id} className="border-b border-gray-200 ">
-                    <td className="px-6  py-2 cursor-pointer border border-gray-100">
-                      <Link to="" style={{ textDecoration: "none" }}>
-                        <div className="flex  !w-[100%] items-center gap-4 m-auto ">
-                          <div className="img !w-[65px] !h-[65px] rounded-md overflow-hidden">
-                            <img
-                              src={product.images[0]?.url}
-                              className="w-full h-full object-cover"
-                              alt="Product"
-                            />
-                          </div>
-                          <div className="info !w-[75%] text-left">
-                            <h3
-                              className="!font-[600] text-[13px] text-black"
-                              contentEditable
-                              suppressContentEditableWarning
-                              onBlur={(e) =>
-                                handleupdate(
-                                  product._id,
-                                  e.target.innerText,
-                                  "title"
-                                )
-                              }
-                            >
-                              {product.title}
-                            </h3>
-                          </div>
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-2 border border-gray-100 "
-                      contentEditable
-                      suppressContentEditableWarning
-                      onBlur={(e) =>
-                        handleupdate(
-                          product._id,
-                          e.target.innerText,
-                          "categoryname"
-                        )
-                      }
-                    >
-                      {getCategoryNameById(product.categoryname)}
-                    </td>
-                    <td className="px-6 py-2 border border-gray-100"
-                      contentEditable
-                      suppressContentEditableWarning
-                      onBlur={(e) =>
-                        handleupdate(
-                          product._id,
-                          e.target.innerText,
-                          "subcategory"
-                        )
-                      }
-                    >
-                      {getSubCategoryNameById(product.subcategory)}
-                    </td>
-                    <td className="px-6 py-2 border border-gray-100">
-                      <div className="flex items-center gap-2 flex-row items-center justify-center">
-                        <span
-                          className="newPrice text-black text-[15px] font-[600]"
-                          contentEditable
-                          suppressContentEditableWarning
-                          onBlur={(e) =>
-                            handleupdate(
-                              product._id,
-                              e.target.innerText.replace("₹", ""),
-                              "price"
-                            )
-                          }
-                        >
-                          ₹{product.price}
-                        </span>
-                        <span
-                          className="oldPrice line-through text-gray-500 text-[14px] font-[500]"
-                          contentEditable
-                          suppressContentEditableWarning
-                          onBlur={(e) =>
-                            handleupdate(
-                              product._id,
-                              e.target.innerText.replace("₹", ""),
-                              "oldprice"
-                            )
-                          }
-                        >
-                          ₹{product.oldprice}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-2 border border-gray-100">
-                      <div className="flex items-center justify-center gap-2">
-                        <Tooltip title="Update">
-                          <button
-                            className="text-blue-600 text-[18px]"
-                            onClick={() => update(product._id)}
-                          >
-                            <MdOutlineEdit />
-                          </button>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                          <button
-                            className="text-red-600 text-[18px]"
-                            onClick={() => removeproduct(product._id)}
-                          >
-                            <LuTrash2 />
-                          </button>
-                        </Tooltip>
-                        <Tooltip title="Preview">
-                          <button className="text-green-600 text-[18px]">
-                            <FaRegEye />
-                          </button>
-                        </Tooltip>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      <div className="flex !flex-col  sm:!flex-row items-start sm:items-center  !justify-center sm:justify-between gap-3 py-2">
+        <div className="w-full sm:w-[75%]">
+          <SearchBox />
+        </div>
+        <div className="w-full sm:w-[25%]  text-center">
+          <Button
+            className="btn-blue sm:w-full"
+            onClick={() => setIsOpenAddProductPanel({ open: true, model: "Add Product" })}
+          >
+            <FiPlus className="pr-1 text-[20px] " />
+            Add Product
+          </Button>
         </div>
       </div>
-    </>
+
+      {/* Responsive Table Wrapper */}
+      <div className="w-full overflow-x-auto mt-4 max-h-[550px]">
+        <table className="min-w-[1000px] w-full text-sm text-center text-gray-600">
+          <thead className="text-xs uppercase bg-gray-100 text-black">
+            <tr>
+              <th className="px-6 py-4">Products</th>
+              <th className="px-6 py-4 whitespace-nowrap">Category</th>
+              <th className="px-6 py-4 whitespace-nowrap">Sub Category</th>
+              <th className="px-6 py-4 whitespace-nowrap">Price</th>
+              <th className="px-6 py-4 whitespace-nowrap">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="6" className="py-4 text-center">
+                  <Progress />
+                </td>
+              </tr>
+            ) : (
+              products.map((product) => (
+                <tr key={product._id} className="border-b border-gray-200">
+                  <td className="px-6 py-2 border">
+                    <Link to="#">
+                      <div className="flex items-center gap-4">
+                        <div className="w-[65px] h-[65px] rounded-md overflow-hidden">
+                          <img
+                            src={product.images[0]?.url}
+                            className="w-full h-full object-cover"
+                            alt="Product"
+                          />
+                        </div>
+                        <div className="text-left w-[75%]">
+                          <h3
+                            className="font-semibold text-sm text-black"
+                            contentEditable
+                            suppressContentEditableWarning
+                            onBlur={(e) => handleupdate(product._id, e.target.innerText, "title")}
+                          >
+                            {product.title}
+                          </h3>
+                        </div>
+                      </div>
+                    </Link>
+                  </td>
+                  <td
+                    className="px-6 py-2 border"
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={(e) => handleupdate(product._id, e.target.innerText, "categoryname")}
+                  >
+                    {getCategoryNameById(product.categoryname)}
+                  </td>
+                  <td
+                    className="px-6 py-2 border"
+                    contentEditable
+                    suppressContentEditableWarning
+                    onBlur={(e) => handleupdate(product._id, e.target.innerText, "subcategory")}
+                  >
+                    {getSubCategoryNameById(product.subcategory)}
+                  </td>
+                  <td className="px-6 py-2 border">
+                    <div className="flex items-center gap-2 justify-center">
+                      <span
+                        className="text-black text-[15px] font-semibold"
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={(e) =>
+                          handleupdate(product._id, e.target.innerText.replace("₹", ""), "price")
+                        }
+                      >
+                        ₹{product.price}
+                      </span>
+                      <span
+                        className="line-through text-gray-500 text-sm"
+                        contentEditable
+                        suppressContentEditableWarning
+                        onBlur={(e) =>
+                          handleupdate(product._id, e.target.innerText.replace("₹", ""), "oldprice")
+                        }
+                      >
+                        ₹{product.oldprice}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-2 border">
+                    <div className="flex items-center justify-center gap-2">
+                      <Tooltip title="Update">
+                        <button className="text-blue-600 text-lg" onClick={() => update(product._id)}>
+                          <MdOutlineEdit />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <button
+                          className="text-red-600 text-lg"
+                          onClick={() => removeproduct(product._id)}
+                        >
+                          <LuTrash2 />
+                        </button>
+                      </Tooltip>
+                      <Tooltip title="Preview">
+                        <button className="text-green-600 text-lg">
+                          <FaRegEye />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

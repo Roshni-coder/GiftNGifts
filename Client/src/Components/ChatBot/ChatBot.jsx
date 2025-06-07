@@ -84,14 +84,14 @@ const Chatbot = () => {
       {!isOpen && (
         <button
           onClick={toggleChat}
-          className="chat-button fixed -right-1 !font-[400]  bottom-10 !py-2 rounded-full px-2 !text-[12px] text-white flex gap-1 bg-purple-950 text-white p-3 rounded hover:brightness-110 transition"
+          className="chat-button fixed -right-1 !font-[400]  md:bottom-10 bottom-5  !py-2 !px-2 !text-[12px]  flex gap-1 bg-purple-950 text-white p-3 rounded hover:brightness-110 transition"
         >
           <TbHeadphonesFilled  className='text-[16px]'/>Chat with us</button>
          
       )}
 
       {isOpen && (
-        <div className="!w-75  sm:w-72 border border-gray-300 h-[500px] bg-white !mb-15 !shadow-md rounded shadow-lg flex flex-col overflow-hidden">
+        <div className="!w-75  sm:w-62 border h-[450px] border-gray-300 md:h-[500px] bg-white !mb-15 !shadow-md rounded  flex flex-col overflow-hidden">
           <div className="bg-[#7d0492] text-white p-4 flex justify-between items-center">
             <span className="text-[18px]">FAQ Bot</span>
             <button onClick={toggleChat} className="!text-white hover:text-gray-200 "><IoMdClose className='!text-[18px]' /></button>

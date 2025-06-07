@@ -1,59 +1,43 @@
-import React from 'react';
-import Carousel from 'react-multi-carousel';
-import "react-multi-carousel/lib/styles.css";
-import { styled } from '@mui/material';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-// Styled Image component for consistent styling
 
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 1, // 1 image per slide on desktop
-    partialVisibilityGutter: 40, // Space between slides
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 1, // 1 image per slide on tablet
-    partialVisibilityGutter: 30, // Space between slides on tablet
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1, // 1 image per slide on mobile
-    partialVisibilityGutter: 20, // Space between slides on mobile
-  },
-};
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function Banner() {
   return (
-    <div className="relative">
-      <Carousel
-        responsive={responsive}
-        swipeable={true} // Enable swipe on touch devices
-        draggable={true} // Enable dragging
-        infinite={true}
-        autoPlay={true}
-        autoPlaySpeed={5000}
-        dotListClass="custom-dot-list-style"
-        itemClass="carousel-item-padding-40-px"
-        containerClass="carousel-container"
-        // Tailwind classes for responsive styling
-        className="w-full"
+    <div className="relative w-full">
+      <Swiper
+        spaceBetween={30}
+        slidesPerView={1}
+        loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        breakpoints={{
+          0: { navigation: false, pagination: true },
+          464: { navigation: true, pagination: true },
+          1024: { navigation: true, pagination: true },
+        }}
       >
-        <div className="flex justify-center items-center">
+        <SwiperSlide >
           <img
             src="https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Wedding_Desk-15-01-2025.jpg"
             alt="Banner Image 1"
-            className="w-full h-auto  object-cover"
+            className="w-full h-35 sm:h-45 md:h-55 lg:h-80"
           />
-        </div>
-        <div className="flex justify-center items-center">
+        </SwiperSlide>
+        <SwiperSlide>
           <img
             src="https://www.fnp.com/assets/images/custom/new-desk-home/hero-banners/Wedding_Desk-15-01-2025.jpg"
             alt="Banner Image 2"
-            className="w-full h-auto object-cover"
+            className="w-full h-35 sm:h-45 md:h-55 lg:h-80"
           />
-        </div>
-      </Carousel>
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 }

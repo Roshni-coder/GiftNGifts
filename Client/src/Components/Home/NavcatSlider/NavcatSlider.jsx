@@ -24,8 +24,8 @@ const NavCatSlider = () => {
   };
 
   return (
-    <div className="NavcatSlider bg-gray-100 md:py-8">
-      <div className="container !m-auto px-1">
+    <div className="NavcatSlider bg-gray-100 ">
+      <div className="container py-6 md:py-10 !m-auto  px-1">
         <Swiper
           slidesPerView={4}
           spaceBetween={10}
@@ -57,7 +57,7 @@ const NavCatSlider = () => {
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
                     alt={category.categoryname}
-                    className="mx-auto sm:w-20 sm:h-20 lg:w-25 lg:h-25 w-15 h-15 rounded-full shadow-lg object-cover"
+                    className="mx-auto sm:w-20 sm:h-20 lg:w-25 md:h-25 md:w-25 lg:h-25 w-18 h-18 rounded-full shadow-lg object-cover"
                   />
                   <h3 className="mt-2 hidden sm:block text-sm font-semibold text-gray-800">
                     {category.categoryname}

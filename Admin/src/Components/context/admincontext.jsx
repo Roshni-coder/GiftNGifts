@@ -6,6 +6,7 @@ export const AdminProvider = ({ children }) => {
   const [atoken, setatoken] = useState(localStorage.getItem('atoken') || '');
 
   const backendurl = import.meta.env.VITE_BACKEND_URL;
+  console.log("Backend URL:", backendurl); // ✅ Debug this
 
   return (
     <Admincontext.Provider value={{ backendurl, atoken, setatoken }}>

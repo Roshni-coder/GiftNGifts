@@ -146,7 +146,7 @@ function OrderSummery() {
 
   return (
     <section className="section py-3">
-      <div className="container w-[70%] lg:w-[80%] w-full lg:flex gap-4">
+      <div className="container   !w-full lg:flex gap-4">
         <div className="leftPart lg:w-[70%] w-full">
           <div className="py-2 bg-white sm:px-3 px-2 border-b border-gray-200">
             <h2 className="text-black">Your Orders</h2>
@@ -189,7 +189,7 @@ function OrderSummery() {
             )}
           </div>
         </div>
-        <div className="rightPart lg:w-[30%] w-[30%] mt-4 lg:mt-0">
+        <div className="rightPart lg:w-[30%] w-full mt-4 lg:mt-0">
           <Totalprice />
         </div>
       </div>
