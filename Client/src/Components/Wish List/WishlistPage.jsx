@@ -30,12 +30,12 @@ function WishlistPage() {
 
   return (
     <section className="section py-3">
-      <div className="container flex gap-5">
-      <div className="col1 w-[20%]">
+      <div className="container flex flex-col md:flex gap-5">
+      <div className="col1 w-full md:w-[20%]">
            <SideMenu />
         </div>
 
-        <div className="col2 w-[80%] shadow-md py-5 px-5 rounded-md bg-white">
+        <div className="col2 md:w-[80%] w-full shadow-md py-5 px-5 rounded-md bg-white">
           <h2 className="text-black text-lg font-semibold">Your Wishlist</h2>
           <p>
             You have <span className="font-bold">{wishlistItems.length}</span> items in your wishlist.

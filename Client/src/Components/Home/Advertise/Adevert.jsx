@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 
 function Adevert() {
   return (
-    <section className="pt-6">
+    <section className="my-2 sm:my-3 md:my-4 lg:my-6">
       {/* Curated Gifts Section */}
-      <div className="container mx-auto px-4 md:px-8 bg-white rounded-lg shadow-lg">
+      <div className="container mx-auto  md:px-8 bg-white rounded-lg shadow-lg">
         
         {/* Title */}
-        <div className="mb-6 px-6 py-4 border-b border-gray-200 text-center">
+        <div className="mb-6  sm:py-6 py-4 border-b  border-gray-200 text-center">
           <h3 className="text-xl md:text-2xl font-semibold text-gray-800">
             Thoughtfully Curated Gifts
           </h3>
         </div>
 
         {/* Images Section */}
-        <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-6 pb-10">
+        <div className="flex flex-col sm:!px-8 sm:!py-2 sm:!pb-8 md:!p-0 md:!pb-6 lg:pb-8   md:flex-row gap-4 md:gap-6 px-4 pb-6">
           
           {/* Image 1 */}
           <Link to="#" className="w-full md:w-1/2 overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all">

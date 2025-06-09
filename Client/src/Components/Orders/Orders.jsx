@@ -53,13 +53,13 @@ function Orders() {
   }, []);
 
   return (
-    <section className="py-6 w-full">
-      <div className="container flex gap-3">
-        <div className="col1 w-[20%]">
+    <section className="py-6 w-full ">
+      <div className="container md:flex flex flex-col gap-3">
+        <div className="col1 md:w-[20%] w-full">
           <SideMenu />
         </div>
 
-        <div className="col2 w-[80%] shadow-md py-4 px-2 rounded-md bg-white">
+        <div className="col2 md:w-[80%]  w-full shadow-md py-4 px-2 rounded-md bg-white">
           <h2 className="text-black !pb-1 px-1 text-[18px]">My Orders</h2>
           <p className="mt-0 mb-0 px-1 text-[15px]">
             There Are{" "}

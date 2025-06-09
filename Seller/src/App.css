@@ -1,8 +1,11 @@
+body {
+    margin: 0;
+    padding: 0;
+    width:100% !important;
+     background:#f1f1f1 !important;
+}
 .ReactCollapse--collapse{
     transition:height 500ms;
-}
-body{
-    background:#f1f1f1 !important;
 }
 .btn-blue{
     background:#3872fa !important;

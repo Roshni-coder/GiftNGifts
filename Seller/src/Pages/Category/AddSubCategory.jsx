@@ -8,9 +8,9 @@ function AddSubCategory() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  // Fetch categories on mount
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`) // Make sure this endpoint exists
+    axios
+      .get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`)
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Error fetching categories", err));
   }, []);
@@ -24,10 +24,13 @@ function AddSubCategory() {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/addsubcategory`, {
-        subcategory: subCategoryName.trim(),
-        categoryId: selectedCategory,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/addsubcategory`,
+        {
+          subcategory: subCategoryName.trim(),
+          categoryId: selectedCategory,
+        }
+      );
 
       alert(response.data.message || "Subcategory added!");
       setSubCategoryName("");
@@ -39,9 +42,9 @@ function AddSubCategory() {
   };
 
   return (
-    <section className="p-5 bg-gray-50">
-      <form className="h-[80vh] py-2 px-10">
-        <div className="grid grid-cols-1 gap-4 mb-3 w-[50%]">
+    <section className="p-4 bg-gray-50">
+      <form className="h-auto sm:h-[80vh] py-4 px-4 sm:px-10">
+        <div className="grid grid-cols-1 gap-4 mb-6 w-full sm:w-[90%] md:w-[70%] lg:w-[50%]">
           <div>
             <h3 className="text-sm font-medium mb-2">Subcategory Name</h3>
             <input
@@ -53,15 +56,15 @@ function AddSubCategory() {
           </div>
 
           <div>
-            <h3 className="text-sm font-medium mb-2">Select Category</h3>
+            <h3 className="text-sm font-medium mb-2 ">Select Category</h3>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full p-3 text-sm h-[40px] border border-[rgba(0,0,0,0.4)] bg-white focus:outline-none"
+              className="w-full !py-2 !p-3 text-sm h-[40px] border border-[rgba(0,0,0,0.4)] bg-white focus:outline-none"
             >
-              <option value="">-- Select Category --</option>
+              <option value="" className="!py-2">-- Select Category --</option>
               {categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
+                <option key={cat._id} value={cat._id}  className="!py-2">
                   {cat.categoryname}
                 </option>
               ))}
@@ -69,14 +72,17 @@ function AddSubCategory() {
           </div>
         </div>
 
-        <Button
-          type="button"
-          className="flex items-center justify-center gap-2 btn-blue btn-lg w-[20%]"
-          onClick={handleSubmit}
-        >
-          <MdOutlineCloudUpload className="text-[22px]" />
-          Upload Subcategory
-        </Button>
+        <div className="w-full sm:w-[60%] md:w-[40%] lg:w-[20%]">
+          <Button
+            type="button"
+            fullWidth
+            className="flex items-center justify-center gap-2 btn-blue btn-lg"
+            onClick={handleSubmit}
+          >
+            <MdOutlineCloudUpload className="text-[22px]" />
+            Upload Subcategory
+          </Button>
+        </div>
       </form>
     </section>
   );

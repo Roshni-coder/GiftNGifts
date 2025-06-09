@@ -14,7 +14,7 @@ function Home() {
   return (
     <>
      <Banner/> 
-     <section className='py-3 bg-white mt-2 mb-2'><h5 className='text-[10px] sm:text-[15px] font-[600] text-center'>Celebrate Occasions with India's #1 Online Gift Store</h5> </section>
+     <section className='py-3 bg-white sm:mt-2 sm:mb-2 mt-1 mb-1'><h5 className='text-[10px] sm:text-[15px] font-[600] text-center'>Celebrate Occasions with India's #1 Online Gift Store</h5> </section>
      <NavCatSlider/>
      <FreeShip/>
      <Adevert/>
