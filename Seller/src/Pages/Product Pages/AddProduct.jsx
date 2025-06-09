@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { Button, Rating, FormControl, InputLabel } from '@mui/material';
+import { Button,  FormControl, InputLabel } from '@mui/material';
 import { MdOutlineCloudUpload } from 'react-icons/md';
 
 function AddProduct() {
@@ -71,7 +71,6 @@ function AddProduct() {
     setProduct((prev) => ({ ...prev, images: updated }));
   };
 
-  // ✅ Auto-calculate price when oldprice and discount change
   useEffect(() => {
     const oldPrice = parseFloat(Product.oldprice);
     const discount = parseFloat(Product.discount);
@@ -88,33 +87,17 @@ function AddProduct() {
   const addproduct = async () => {
     try {
       const formData = new FormData();
-      formData.append("title", Product.title);
-      formData.append("description", Product.description);
-      formData.append("price", Product.price);
-      formData.append("oldprice", Product.oldprice);
-      formData.append("discount", Product.discount);
-      formData.append("ingredients", Product.ingredients);
-      formData.append("brand", Product.brand);
-      formData.append("additional_details", Product.additional_details);
-      formData.append("size", Product.size);
-      formData.append("categoryname", Product.categoryname);
-      formData.append("subcategory", Product.subcategory);
-
-      images.forEach((img) => {
-        formData.append("images", img);
+      Object.entries(Product).forEach(([key, value]) => {
+        if (key !== "images") formData.append(key, value);
       });
+      images.forEach((img) => formData.append("images", img));
 
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/seller/addproducts`,
         formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+        { headers: { 'Content-Type': 'multipart/form-data' } }
       );
 
-      console.log('Product added:', response.data);
       alert('Product added successfully!');
     } catch (error) {
       console.error('Error adding product:', error.response || error);
@@ -123,36 +106,36 @@ function AddProduct() {
   };
 
   return (
-    <section className="p-5 bg-gray-50">
-      <form className="py-2 px-10">
-        <div className="grid grid-cols-1 mb-3">
-          <h3 className="text-[14px] font-[500] mb-1">Product Title</h3>
+    <section className="p-4 md:p-6 lg:p-10 bg-gray-50">
+      <form className="mx-auto w-full md:w-[90%] lg:w-[70%]">
+        {/* Title */}
+        <div className="mb-4">
+          <label className="text-sm font-semibold mb-1 block">Product Title</label>
           <input
             type="text"
             name="title"
             value={Product.title}
             onChange={handleChange}
-            className="w-full p-3 text-sm h-[40px] border bg-white"
+            className="w-full p-3 text-sm border bg-white"
           />
         </div>
 
-        <div className="grid grid-cols-1 mb-3">
-          <h3 className="text-[14px] font-[500] mb-1">Product Description</h3>
+        {/* Description */}
+        <div className="mb-4">
+          <label className="text-sm font-semibold mb-1 block">Product Description</label>
           <textarea
             name="description"
             value={Product.description}
             onChange={handleChange}
-            className="w-full p-3 text-sm h-[100px] border bg-white"
+            className="w-full p-3 text-sm border bg-white h-24"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-5 mb-3">
+        {/* Category + Subcategory + Price */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <FormControl fullWidth>
             <InputLabel>Category</InputLabel>
-            <Select
-              value={Product.categoryname}
-              onChange={handleSelectChange('categoryname')}
-            >
+            <Select value={Product.categoryname} onChange={handleSelectChange('categoryname')}>
               {categories.map((cat) => (
                 <MenuItem key={cat._id} value={cat._id}>
                   {cat.categoryname}
@@ -163,10 +146,7 @@ function AddProduct() {
 
           <FormControl fullWidth>
             <InputLabel>Subcategory</InputLabel>
-            <Select
-              value={Product.subcategory}
-              onChange={handleSelectChange('subcategory')}
-            >
+            <Select value={Product.subcategory} onChange={handleSelectChange('subcategory')}>
               {subcategories.map((sub) => (
                 <MenuItem key={sub._id} value={sub._id}>
                   {sub.subcategory}
@@ -176,25 +156,26 @@ function AddProduct() {
           </FormControl>
 
           <div>
-            <h3 className="text-[14px] font-[500] mb-1">Price (Auto)</h3>
             <input
               type="number"
               name="price"
               value={Product.price}
-              onChange={handleChange}
-              className="w-full p-3 text-sm h-[40px] border bg-gray-100"
+              readOnly
+               placeholder="GnG Price"
+              className="w-full p-3 text-sm border bg-gray-100"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-5 mb-3">
+        {/* Old price, Discount, Ingredients */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <input
             type="number"
             name="oldprice"
             value={Product.oldprice}
             onChange={handleChange}
             placeholder="Old Price"
-            className="col p-3 text-sm h-[40px] border bg-white"
+            className="p-3 text-sm border bg-white"
           />
           <input
             type="number"
@@ -202,62 +183,62 @@ function AddProduct() {
             value={Product.discount}
             onChange={handleChange}
             placeholder="Discount (%)"
-            className="col p-3 text-sm h-[40px] border bg-white"
+            className="p-3 text-sm border bg-white"
           />
           <input
             type="text"
             name="ingredients"
             value={Product.ingredients}
             onChange={handleChange}
-            placeholder="Ingredients"
-            className="col p-3 text-sm h-[40px] border bg-white"
+            placeholder="Materials"
+            className="p-3 text-sm border bg-white"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-5 mb-3">
+        {/* Brand, Size, Rating */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <input
             type="text"
             name="brand"
             value={Product.brand}
             onChange={handleChange}
             placeholder="Brand"
-            className="col p-3 text-sm h-[40px] border bg-white"
+            className="p-3 text-sm border bg-white"
           />
           <input
             type="text"
             name="size"
             value={Product.size}
             onChange={handleChange}
-            placeholder="Size"
-            className="col p-3 text-sm h-[40px] border bg-white"
+            placeholder="Size,Kg"
+            className="p-3 text-sm border bg-white"
           />
-          <div className="col">
-            <h3 className="text-[14px] font-[500] mb-1">Product Rating</h3>
-            <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 mb-3">
+        {/* Additional details */}
+        <div className="mb-4">
           <input
             type="text"
             name="additional_details"
             value={Product.additional_details}
             onChange={handleChange}
             placeholder="Additional Details"
-            className="p-3 bg-white border"
+            className="w-full p-3 bg-white border"
           />
         </div>
 
-        <h1 className='text-black font-bold text-2xl m-2'>Upload images</h1>
-        <div className="flex flex-wrap gap-4 mb-8 text-gray-500">
+        {/* Image Upload */}
+        <h1 className="text-black font-bold text-xl mb-3">Upload Images</h1>
+        <div className="flex flex-wrap gap-4 mb-6">
           {images.map((img, index) => (
             <div key={index} className="relative">
               <img
-                className="w-24 h-24 object-cover rounded border cursor-pointer"
+                className="w-24 h-24 object-cover rounded border"
                 src={URL.createObjectURL(img)}
                 alt={`preview-${index}`}
               />
               <button
+                type="button"
                 onClick={() => handleImageRemove(index)}
                 className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded-full"
               >
@@ -265,13 +246,11 @@ function AddProduct() {
               </button>
             </div>
           ))}
-
           <label htmlFor="multi-img" className="cursor-pointer">
             <div className="w-24 h-24 flex items-center justify-center border-2 border-dashed bg-gray-100 text-sm text-center">
               + Upload
             </div>
           </label>
-
           <input
             id="multi-img"
             type="file"
@@ -282,17 +261,22 @@ function AddProduct() {
           />
         </div>
 
-        <Button
-          type="button"
-          className="flex items-center justify-center gap-2 btn-blue btn-lg w-[30%]"
-          onClick={addproduct}
-        >
-          <MdOutlineCloudUpload className="text-[22px]" />
-          Upload Product
-        </Button>
+        {/* Upload Button */}
+        <div className="text-center">
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            onClick={addproduct}
+            className="w-full md:w-[50%] flex justify-center gap-2 mx-auto"
+          >
+            <MdOutlineCloudUpload className="text-xl" />
+            Upload Product
+          </Button>
+        </div>
       </form>
     </section>
   );
 }
 
-export default AddProduct;
+export default AddProduct;

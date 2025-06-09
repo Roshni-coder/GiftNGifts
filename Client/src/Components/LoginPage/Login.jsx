@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendurl, setIsLoggedin, getuserData, setUserData } = useContext(AppContext);
+  const { backendurl, setIsLoggedin, getuserData, setUserdata,userData } =
+    useContext(AppContext);
 
   const [state, setState] = useState("Login"); // Login or Sign Up
   const [name, setName] = useState("");
@@ -22,7 +23,7 @@ const Login = () => {
     setEmail("");
     setPassword("");
     setIsOtpPage(false);
-    inputRefs.current.forEach(input => (input.value = ""));
+    inputRefs.current.forEach((input) => (input.value = ""));
   }, [state]);
 
   // Focus handling for OTP fields
@@ -67,7 +68,7 @@ const Login = () => {
 
         if (data.success) {
           toast.success("Account created successfully!");
-          setState("Login");
+          setState("login");
           // Optionally clear fields here
           setName("");
           setEmail("");
@@ -86,10 +87,11 @@ const Login = () => {
         if (data.success) {
           // Show OTP page for user to enter the OTP
           setIsOtpPage(true);
+
           toast.success("OTP sent to your email.");
           setPassword(""); // Clear password for security
           // Optionally reset OTP inputs
-          inputRefs.current.forEach(input => (input.value = ""));
+          inputRefs.current.forEach((input) => (input.value = ""));
           if (inputRefs.current[0]) inputRefs.current[0].focus();
         } else {
           toast.error(data.message);
@@ -100,51 +102,66 @@ const Login = () => {
     }
   };
 
- const verifyOtpHandler = async (e) => {
-  e.preventDefault();
+  const verifyOtpHandler = async (e) => {
+    e.preventDefault();
 
-  try {
-    const otpArray = inputRefs.current.map(input => input?.value.trim());
-    const otp = otpArray.join("");
+    try {
+      const otpArray = inputRefs.current.map((input) => input?.value.trim());
+      const otp = otpArray.join("");
 
-    if (!/^\d{6}$/.test(otp)) {
-      toast.error("Please enter a valid 6-digit OTP.");
-      return;
-    }
-
-    const { data } = await axios.post(`${backendurl}/api/auth/verify-login-otp`, {
-      email,
-      otp,
-    });
-
-    if (data.success) {
-      toast.success("Login successful!");
-      setIsLoggedin(true);
-
-      if (data.user) {
-        setUserData({
-          id: data.user.id,
-          name: data.user.name,
-          email: data.user.email,
-        });
+      if (!/^\d{6}$/.test(otp)) {
+        toast.error("Please enter a valid 6-digit OTP.");
+        return;
       }
 
-      navigate("/");
-    } else {
-      toast.error(data.message || "OTP verification failed.");
+      const { data } = await axios.post(
+      `${backendurl}/api/auth/verify-login-otp`,
+        {
+          email,
+          otp,
+        }
+      );
+
+       try {
+
+        if(data.success){
+          localStorage.setItem("token",data.token)
+             setIsLoggedin(true);
+        }
+ 
+
+    if (data.user) {
+      setUserdata({
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+      });
     }
-  } catch (error) {
-    const message = error?.response?.data?.message || "OTP verification failed due to a server error.";
-    toast.error(message);
+
+    navigate("/");
+  } catch (innerError) {
+    console.error("Error after successful login:", innerError);
+    toast.error("Something went wrong after login.");
   }
-};
-
-
+    } catch (error) {
+      const message =
+        error?.response?.data?.message ||
+        "OTP verification failed due to a server error.";
+      toast.error(message);
+    }
+  };
+useEffect(()=>{
+  console.log("user",userData)
+},[userData])
   return (
     <div className="flex justify-center items-center mt-5 px-6 sm:px-0 bg-gradient-to-br">
       <div className="bg-white p-6 sm:p-10 rounded-lg shadow-lg w-full sm:w-100 xl:w-[35%] text-black-300 text-sm">
         <h2 className="text-2xl font-semibold text-center mb-10">
-          {isOtpPage ? "Verify OTP" : state === "Sign Up" ? "Create Account" : "Login"}
+          {isOtpPage
+            ? "Verify OTP"
+            : state === "Sign Up"
+            ? "Create Account"
+            : "Login"}
         </h2>
 
         {/* OTP Verification Form */}
@@ -168,7 +185,10 @@ const Login = () => {
                   />
                 ))}
             </div>
-            <button type="submit" className="w-full !py-3 bg-[#fb541b] text-white rounded">
+            <button
+              type="submit"
+              className="w-full !py-3 bg-[#fb541b] text-white rounded"
+            >
               Verify OTP
             </button>
           </form>
@@ -216,7 +236,10 @@ const Login = () => {
               Forgot Password?
             </p>
 
-            <button type="submit" className="w-full !py-3 bg-[#fb541b] text-white rounded font-medium">
+            <button
+              type="submit"
+              className="w-full !py-3 bg-[#fb541b] text-white rounded font-medium"
+            >
               {state}
             </button>
           </form>
@@ -227,14 +250,20 @@ const Login = () => {
             {state === "Sign Up" ? (
               <>
                 Already have an account?{" "}
-                <span className="text-blue-700 cursor-pointer underline" onClick={() => setState("Login")}>
+                <span
+                  className="text-blue-700 cursor-pointer underline"
+                  onClick={() => setState("Login")}
+                >
                   Login here
                 </span>
               </>
             ) : (
               <>
                 Don't have an account?{" "}
-                <span className="text-blue-700 cursor-pointer underline" onClick={() => setState("Sign Up")}>
+                <span
+                  className="text-blue-700 cursor-pointer underline"
+                  onClick={() => setState("Sign Up")}
+                >
                   Sign up here
                 </span>
               </>
@@ -246,4 +275,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;

@@ -7,7 +7,6 @@ import Tooltip from "@mui/material/Tooltip";
 import { Button } from "@mui/material";
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { AppContext } from "../../../context/Appcontext.jsx";
-
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { FiHeart } from "react-icons/fi";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -44,12 +43,12 @@ function Navigation() {
   }, []);
 
   return (
-    <nav className="navigation lg:py-2">
+    <nav className="navigation py-1 md:!py-4">
       <div className="container lg:gap-4 grid lg:grid-cols-12 m-auto">
-        <div className="col1 lg:col-span-2 p-2">
+        <div className="col1 lg:col-span-2 ">
           <Link to="/">
             <h1
-              className="text-center text-[#7d0492] text-[25px] font-[600] sm:text-2xl"
+              className="text-center text-[#7d0492] text-[26px] font-[600] sm:!text-[30px]"
               style={{ fontStyle: "italic" }}
             >
               GiftNGifts

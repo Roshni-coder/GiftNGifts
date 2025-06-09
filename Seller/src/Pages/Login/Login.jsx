@@ -60,18 +60,24 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-[80vh] flex items-center">
-      <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5e5e5e] text-sm shadow-lg">
-        <p className="text-2xl font-semibold m-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="min-h-[90vh] mt-10 flex items-center justify-center px-4"
+    >
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 text-[#5e5e5e] text-sm">
+        <p className="text-3xl font-semibold text-center mb-6">
           <span className="text-[#5f6fff]">{state}</span>&nbsp;
           {isRegister ? 'Register' : 'Login'}
         </p>
 
         {isRegister && state === 'Seller' && (
-          <div className="w-full">
-            <p>Name</p>
+          <div className="mb-4">
+            <label className="block mb-1 font-medium" htmlFor="name">
+              Name
+            </label>
             <input
-              className="border border-[#dadada] rounded w-full p-2 mt-1"
+              id="name"
+              className="border border-[#dadada] rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-[#5f6fff]"
               type="text"
               required
               placeholder="Enter your name"
@@ -81,10 +87,13 @@ function Login() {
           </div>
         )}
 
-        <div className="w-full">
-          <p>Email</p>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium" htmlFor="email">
+            Email
+          </label>
           <input
-            className="border border-[#dadada] rounded w-full p-2 mt-1"
+            id="email"
+            className="border border-[#dadada] rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-[#5f6fff]"
             type="email"
             required
             value={email}
@@ -92,10 +101,13 @@ function Login() {
           />
         </div>
 
-        <div className="w-full">
-          <p>Password</p>
+        <div className="mb-6">
+          <label className="block mb-1 font-medium" htmlFor="password">
+            Password
+          </label>
           <input
-            className="border border-[#dadada] rounded w-full p-2 mt-1"
+            id="password"
+            className="border border-[#dadada] rounded w-full p-2 focus:outline-none focus:ring-2 focus:ring-[#5f6fff]"
             type="password"
             required
             value={password}
@@ -105,43 +117,51 @@ function Login() {
 
         <button
           type="submit"
-          className="bg-[#5f6fff] text-white w-full py-2 rounded-md text-base cursor-pointer"
+          className="bg-[#5f6fff] hover:bg-[#4e5de7] text-white w-full py-3 rounded-md text-base font-semibold transition"
         >
           {isRegister ? 'Register' : 'Login'}
         </button>
 
         {/* Toggle between Admin and Seller */}
-        {state === 'Admin' ? (
-          <p>
-            Want to login as Seller?{' '}
-            <span
-              className="text-[#5f6fff] cursor-pointer underline"
-              onClick={() => {
-                setState('Seller');
-                setIsRegister(false);
-              }}
-            >
-              Click here
-            </span>
-          </p>
-        ) : (
-          <p>
-            Admin Login?{' '}
-            <span
-              className="text-[#5f6fff] cursor-pointer underline"
-              onClick={() => {
-                setState('Admin');
-                setIsRegister(false);
-              }}
-            >
-              Click here
-            </span>
-          </p>
-        )}
+        <p className="text-center mt-5 text-sm text-gray-600">
+          {state === 'Admin' ? (
+            <>
+              Want to login as Seller?{' '}
+              <span
+                className="text-[#5f6fff] cursor-pointer underline"
+                onClick={() => {
+                  setState('Seller');
+                  setIsRegister(false);
+                  setEmail('');
+                  setPassword('');
+                  setName('');
+                }}
+              >
+                Click here
+              </span>
+            </>
+          ) : (
+            <>
+              Admin Login?{' '}
+              <span
+                className="text-[#5f6fff] cursor-pointer underline"
+                onClick={() => {
+                  setState('Admin');
+                  setIsRegister(false);
+                  setEmail('');
+                  setPassword('');
+                  setName('');
+                }}
+              >
+                Click here
+              </span>
+            </>
+          )}
+        </p>
 
         {/* Register option only for Seller */}
         {state === 'Seller' && (
-          <p>
+          <p className="text-center mt-2 text-sm text-gray-600">
             {isRegister ? 'Already have an account?' : "Don't have an account?"}{' '}
             <span
               className="text-[#5f6fff] cursor-pointer underline"

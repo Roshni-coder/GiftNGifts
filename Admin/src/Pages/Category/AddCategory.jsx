@@ -50,29 +50,45 @@ function AddCategory() {
   };
 
   return (
-    <section className="p-5 bg-gray-50">
-      <form className="h-[80vh] py-2 px-10">
+    <section className="p-5 bg-gray-50 min-h-[80vh] flex justify-start items-start">
+      <form className="w-full max-w-xl py-2 px-6">
         <div className="grid grid-cols-1 mb-3">
-          <div className="col w-[50%]">
+          <div className="w-full sm:w-1/2">
             <h3 className="text-[14px] font-[500] mb-2">Category Name</h3>
             <input
               type="text"
               name="categoryname"
               value={category.categoryname}
               onChange={handleCategoryChange}
-              className="w-full p-3 text-sm h-[40px] border border-[rgba(0,0,0,0.4)] bg-white"
+              className="w-full p-3 text-sm h-[40px] border border-[rgba(0,0,0,0.4)] bg-white rounded-md"
+              placeholder="Enter category name"
             />
           </div>
         </div>
 
         <div className="uploadimg w-full p-2 px-1">
-          <h3 className="font-[600] text-[18px]">Category Image</h3>
-          <input type="file" accept="image/*" onChange={handleImageChange} className="w-full p-3 text-sm h-[40px]" />
-          {preview && <img src={preview} alt="Preview" width="100" height="100" className="mt-2" />}
+          <h3 className="font-[600] text-[18px] mb-2">Category Image</h3>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full  text-sm h-[40px] py-2  rounded-md "
+          />
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              className="mt-2 max-w-[100px] max-h-[100px] object-cover rounded-md"
+            />
+          )}
         </div>
 
         <br />
-        <Button className="flex items-center justify-center gap-2 btn-blue btn-lg w-[16%]" onClick={addCategory}>
+        <Button
+          className="flex items-center justify-center gap-2 btn-blue btn-lg w-[160px] sm:w-[180px] md:w-[200px]"
+          onClick={addCategory}
+          type="submit"
+        >
           <MdOutlineCloudUpload className="text-[22px]" />
           Upload Category
         </Button>

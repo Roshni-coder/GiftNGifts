@@ -38,7 +38,7 @@ function ProductDetail() {
   return (
     <div className="bg-white shadow-md">
       <div className="container lg:pl-3 lg:flex gap-1 ">
-        <div className="leftContainer !my-4 lg:w-[40%]  w-full">
+        <div className="leftContainer md:!my-4 py-2 sm:py-1 lg:w-[40%]  w-full">
           <LeftComponent product={product} />
         </div>
 

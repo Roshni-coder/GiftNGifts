@@ -12,7 +12,7 @@ import { Autoplay } from "swiper/modules";
 function MiddelAds() {
   return (
     <>
-      <div className="mt-5  w-[80%] m-auto">
+      <div className=" container !m-auto !mt-4   !w-[80%]">
         <Swiper
           spaceBetween={30}
           autoplay={{
@@ -23,10 +23,10 @@ function MiddelAds() {
           className="mySwiper"
         >
             <SwiperSlide>
-                <img src="https://www.fnp.com/assets/images/custom/new-desk-home/offer-banners/New-arrival-gift-1-desk-8-sept-2022.jpg" alt="" />
+                <img src="https://www.fnp.com/assets/images/custom/new-desk-home/offer-banners/New-arrival-gift-1-desk-8-sept-2022.jpg" alt="" className="w-[100%] m-auto" />
             </SwiperSlide>
             <SwiperSlide>
-                <img src="https://www.fnp.com/assets/images/custom/new-desk-home/offer-banners/Franchisee-Banner_Desktop_01_01.jpg" alt="" />
+                <img src="https://www.fnp.com/assets/images/custom/new-desk-home/offer-banners/Franchisee-Banner_Desktop_01_01.jpg" alt="" className="w-[100%] m-auto " />
             </SwiperSlide>
         </Swiper>
       </div>
