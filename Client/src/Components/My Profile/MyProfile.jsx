@@ -42,7 +42,7 @@ function Myprofile() {
   return (
     <>
       <section className="py-6 w-full">
-        <div className="container w-[100%] md:flex  flex flex-col gap-5">
+        <div className="container w-[100%] md:!flex  md:flex-row  flex flex-col gap-5">
           <div className="col1 md:w-[20%] w-full ">
             <SideMenu />
           </div>

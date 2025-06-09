@@ -140,7 +140,7 @@ function AddAddress() {
   };
 
   return (
-    <div className="container !my-4 lg:flex flex flex-col w-[100%] lg:w-[80%] lg:gap-4 !gap-1 mx-auto">
+    <div className="container !my-4 lg:flex lg:flex-row flex flex-col w-[100%] lg:w-[80%] lg:!gap-5 !gap-1 mx-auto">
       <div className="leftPart bg-white p-5 w-full lg:w-[70%]">
         <div className="flex justify-between py-2 my-2 items-center">
           <h2 className="text-[16px] font-[600]">Delivery Addresses</h2>

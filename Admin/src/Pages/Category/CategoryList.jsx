@@ -108,15 +108,15 @@ function CategoryList() {
         <table className="min-w-[600px] w-full border border-gray-300 text-sm text-center text-gray-500">
           <thead className="text-xs uppercase bg-gray-100 text-gray-800">
             <tr>
-              <th className="px-6 py-4 border">Image</th>
-              <th className="px-6 py-4 border">Name</th>
-              <th className="px-6 py-4 border">Action</th>
+              <th className="px-6 py-4">Image</th>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Action</th>
             </tr>
           </thead>
           <tbody>
             {categories.map((cat) => (
-              <tr key={cat._id} className="border border-gray-200">
-                <td className="px-6 py-2 border">
+              <tr key={cat._id} className="border border-gray-200 border-gray-200">
+                <td className="px-6 py-2 border border-gray-200">
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/${cat.image}`}
                     alt="Category"
@@ -131,7 +131,7 @@ function CategoryList() {
                     onChange={(e) => handleImageChange(e, cat._id)}
                   />
                 </td>
-                <td className="px-6 py-2 border">
+                <td className="px-6 py-2 border border-gray-200">
                   {editingId === cat._id ? (
                     <TextField
                       size="small"
@@ -143,7 +143,7 @@ function CategoryList() {
                     <span className="text-gray-700 font-medium">{cat.categoryname}</span>
                   )}
                 </td>
-                <td className="px-6 py-2 border">
+                <td className="px-6 py-2 border border-gray-200">
                   <div className="flex items-center justify-center gap-2">
                     {editingId === cat._id ? (
                       <>

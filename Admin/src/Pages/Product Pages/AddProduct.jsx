@@ -160,6 +160,7 @@ function AddProduct() {
               type="number"
               name="price"
               value={Product.price}
+              onChange={handleChange}
               readOnly
                placeholder="GnG Price"
               className="w-full p-3 text-sm border bg-gray-100"

@@ -40,10 +40,10 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-[80vh] flex items-center justify-center px-4 sm:px-6">
+    <form onSubmit={handleSubmit} className="min-h-[80vh] flex items-center justify-center md:mt-15 px-4 sm:px-6">
       <div className="flex flex-col gap-4 items-start p-6 sm:p-8 w-full max-w-md border rounded-xl text-[#5e5e5e] text-sm shadow-lg bg-white">
-        <p className="text-2xl font-semibold w-full text-center sm:text-left">
-          <span className="text-[#5f6fff]">Admin</span>&nbsp;
+        <p className="text-2xl font-semibold w-full !text-center sm:text-left">
+          <span className="text-[#5f6fff] ">Admin</span>&nbsp;
           {isRegister ? 'Register' : 'Login'}
         </p>
 

@@ -35,7 +35,7 @@ function SideBar() {
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
-        className="fixed z-[1050] top-6 !left-5 sm:text-xl text-[15px] px-4 py-2 bg-white text-black rounded shadow-lg border border-gray-200 hover:bg-gray-100"
+        className="fixed z-[1050] top-8 !left-5 sm:text-xl text-[15px] px-4 py-2 bg-white text-black rounded shadow-lg border border-gray-200 hover:bg-gray-100"
         aria-label= "Open menu"
       >
          <FaBars />

@@ -32,7 +32,8 @@ app.use(cookieParser());
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    const allowed = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://srv814093.hstgr.cloud'];
+    const allowed = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175','http://localhost:5176', 'http://srv814093.hstgr.cloud'];
+    //  const allowed = ['*', 'http://srv814093.hstgr.cloud'];
     const hostname = new URL(origin).hostname;
     if (allowed.includes(origin) || hostname.endsWith('.ishisofttech.com')) {
       callback(null, true);
