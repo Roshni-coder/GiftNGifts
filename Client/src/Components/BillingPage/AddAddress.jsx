@@ -170,9 +170,9 @@ function AddAddress() {
               onClick={() => setSelectedAddress(addr)}
             >
               <div className="card flex flex-col  sm:gap-1 px-4 p-3 bg-white mb-2 rounded">
-                <p className='!text-[12px] sm:text-[14px]'>{addr.fullName}</p>
-                <p className='!text-[12px] sm:text-[14px]'>{addr.phoneNumber}</p>
-                <p className='!text-[12px] sm:text-[14px]'>{addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.fullName}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.phoneNumber}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}</p>
                 {addr.isDefaultBilling && (
                   <p className="text-green-600 font-semibold">Default Billing</p>
                 )}

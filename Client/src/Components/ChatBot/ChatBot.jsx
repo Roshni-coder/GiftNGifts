@@ -80,11 +80,11 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 font-sans">
+    <div className="fixed bottom-4  right-4 z-50 font-sans">
       {!isOpen && (
         <button
           onClick={toggleChat}
-          className="chat-button fixed -right-1 !font-[400]  md:bottom-10 bottom-5  !py-2 !px-2 !text-[12px]  flex gap-1 bg-purple-950 text-white p-3 rounded hover:brightness-110 transition"
+          className="chat-button fixed -right-1 !font-[400]  md:bottom-10 !bottom-2  !py-2 !px-2 !text-[12px]  flex gap-1 bg-purple-950 text-white p-3 rounded hover:brightness-110 transition"
         >
           <TbHeadphonesFilled  className='text-[16px]'/>Chat with us</button>
          

@@ -42,18 +42,18 @@ function Myprofile() {
   return (
     <>
       <section className="py-6 w-full">
-        <div className="container w-[100%] md:!flex  md:flex-row  flex flex-col gap-5">
-          <div className="col1 md:w-[20%] w-full ">
+        <div className="container w-[100%] lg:!flex  lg:flex-row  flex flex-col gap-5">
+          <div className="col1 lg:w-[20%] w-full ">
             <SideMenu />
           </div>
-          <div className="clo2 md:w-[80%] w-full">
-            <div className="card bg-white shadow-md rounded px-10">
+          <div className="clo2 lg:w-[80%] w-full">
+            <div className="card bg-white shadow-md rounded px-6">
               <h1 className="text-[17px] py-4 font-[600]">My Profile</h1>
               <div className="main flex justify-between">
                 <div className="flex flex-col gap-1 pb-5">
-                  <p>Name: {profile.name}</p>
-                  <p>Phone: {profile.phone}</p>
-                  <p>Email: {profile.email}</p>
+                  <p className='!flex '>Name: {profile.name}</p>
+                  <p className='!flex '>Phone: {profile.phone}</p>
+                  <p className='!flex '>Email: {profile.email}</p>
                 </div>
                 <div className="btn ">
                   <button

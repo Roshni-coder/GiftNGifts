@@ -56,9 +56,9 @@ const ProductSlider = () => {
   }
 
   return (
-    <section className="pt-6">
+    <section className="pt-4 lg:pt-6">
       {categories.map((cat, idx) => (
-        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-6 bg-white  rounded-lg shadow-lg">
+        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-4 bg-white  rounded-lg shadow-lg">
           {/* Category Header */}
           <div className="flex items-center justify-between mb-4 px-6 py-4 border-b border-gray-200">
             <h3 className="text-[14px] sm:text-2xl font-semibold text-gray-800 capitalize">

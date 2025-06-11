@@ -157,7 +157,7 @@ function RightComponent({ product }) {
       </div>
       <div className="addToCartSection py-2 flex gap-2">
         <Button
-          className=" h-[50px] w-[200px] sm:w-[300px] !bg-[#ff9f00]"
+          className=" h-[50px] !w-[200px] sm:!w-[300px] !bg-[#ff9f00]"
           variant="contained"
           onClick={() => handleAddToCart(product)}
           startIcon={<Cart />}
@@ -166,7 +166,7 @@ function RightComponent({ product }) {
         </Button>
         <Link to="/addaddress">
           <Button
-            className=" h-[50px] w-[200px] sm:w-[300px] !bg-[#fb541b] "
+            className=" h-[50px] !w-[200px] sm:!w-[300px] !bg-[#fb541b] "
             variant="contained"
             startIcon={<Flash />}
           >
