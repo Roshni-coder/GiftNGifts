@@ -140,7 +140,7 @@ function AddAddress() {
   };
 
   return (
-    <div className="container !my-4 lg:flex flex flex-col w-[100%] lg:w-[80%] lg:gap-4 !gap-1 mx-auto">
+    <div className="container !my-4 lg:flex lg:flex-row flex flex-col w-[100%] lg:w-[80%] lg:!gap-5 !gap-1 mx-auto">
       <div className="leftPart bg-white p-5 w-full lg:w-[70%]">
         <div className="flex justify-between py-2 my-2 items-center">
           <h2 className="text-[16px] font-[600]">Delivery Addresses</h2>
@@ -170,9 +170,9 @@ function AddAddress() {
               onClick={() => setSelectedAddress(addr)}
             >
               <div className="card flex flex-col  sm:gap-1 px-4 p-3 bg-white mb-2 rounded">
-                <p className='!text-[12px] sm:text-[14px]'>{addr.fullName}</p>
-                <p className='!text-[12px] sm:text-[14px]'>{addr.phoneNumber}</p>
-                <p className='!text-[12px] sm:text-[14px]'>{addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.fullName}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.phoneNumber}</p>
+                <p className='!text-[12px] sm:!text-[14px]'>{addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}</p>
                 {addr.isDefaultBilling && (
                   <p className="text-green-600 font-semibold">Default Billing</p>
                 )}

@@ -38,7 +38,7 @@ function ProductList() {
   const applyFilters = async (appliedFilters) => {
     setFilters(appliedFilters);
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/filter`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/product/filter`, {
         params: {
           categoryname: appliedFilters.selectedCategories.join(","),
           minPrice: appliedFilters.priceRange[0],
@@ -54,41 +54,49 @@ function ProductList() {
   };
 
   return (
-    <div>
-      <h1 className="text-center !text-[20px] font-[600] text-gray-800 my-4">
-        {category ? `${category} Products` : 'Birthday Wish List'}
-      </h1>
-      <div className="container-fluid w-[100%] flex justify-between gap-2">
-        <div className="leftpart bg-white py-2 !w-[20%]">
-          <LeftFilter onApplyFilters={applyFilters} />
-        </div>
-        <div className="rightpart bg-white !w-[80%]">
-          <div className="items flex !py-6 !gap-5 flex-wrap justify-center">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <div key={product._id} className="productItem bg-white rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 max-w-xs">
-                  <Link to={`/products/${product._id}`}>
-                    <div className="imgWrapper w-[320px] h-[320px] sm:h-[280px] overflow-hidden pb-2">
-                      <img
-                        src={product?.images?.[0]?.url || "/default-image.jpg"}
-                        alt={product?.images?.[0]?.altText || product?.title}
-                        className="!w-full !h-full object-cover duration-300 group-hover:scale-105 transition-all"
-                      />
-                    </div>
-                  </Link>
-                  <div className="info pb-4 px-4 text-center">
-                    <h3 className="text-gray-700 text-sm md:text-base font-semibold p-1">{product.title}</h3>
-                    <h2 className="text-gray-900 text-sm md:text-lg font-semibold mb-2">₹{product.price}</h2>
-                  </div>
+    <div className="w-full px-2">
+  <h1 className="text-center text-lg sm:text-xl font-semibold text-gray-800 my-4">
+    {category ? `${category} Products` : 'Birthday Wish List'}
+  </h1>
+
+  <div className="flex flex-col lg:flex-row gap-4">
+    {/* Left Filter */}
+    <div className="w-full lg:w-1/4 bg-white rounded shadow-md">
+      <LeftFilter onApplyFilters={applyFilters} />
+    </div>
+
+    {/* Products */}
+    <div className="w-full lg:w-3/4 bg-white rounded shadow-md">
+      <div className="flex flex-wrap justify-center gap-4 p-4">
+        {products.length > 0 ? (
+          products.map((product) => (
+            <div
+              key={product._id}
+              className="bg-white rounded overflow-hidden shadow hover:shadow-lg transition max-w-[300px] w-full"
+            >
+              <Link to={`/products/${product._id}`}>
+                <div className="w-full h-65  sm:h-70  overflow-hidden">
+                  <img
+                    src={product?.images?.[0]?.url || "/default-image.jpg"}
+                    alt={product?.images?.[0]?.altText || product?.title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  />
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-sm">No products found for this criteria.</p>
-            )}
-          </div>
-        </div>
+              </Link>
+              <div className="text-center p-2">
+                <h3 className="text-gray-700 !text-[14px] sm:text-[16px] font-semibold mb-1">{product.title}</h3>
+                <p className="text-gray-900 text-sm sm:text-lg font-semibold">₹{product.price}</p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500 text-sm">No products found for this criteria.</p>
+        )}
       </div>
     </div>
+  </div>
+</div>
+
   );
 }
 

@@ -30,7 +30,7 @@ function WishlistPage() {
 
   return (
     <section className="section py-3">
-      <div className="container flex flex-col md:flex gap-5">
+      <div className="container flex flex-col md:flex md:flex-row gap-5">
       <div className="col1 w-full md:w-[20%]">
            <SideMenu />
         </div>

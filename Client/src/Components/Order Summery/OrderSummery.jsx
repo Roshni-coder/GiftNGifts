@@ -169,16 +169,16 @@ function OrderSummery() {
                   />
                 ))}
                 <Divider />
-                <div className="flex justify-end gap-3 m-4">
+                <div className="flex  justify-end gap-3 m-4">
                   <Button
                     onClick={handlePlaceOrder}
-                    className="w-[30%] !text-white pt-2 !bg-[#fb541b] !rounded-none !h-[45px]"
+                    className="w-[50%] md:w-[30%] !text-white pt-2  !bg-[#fb541b] !rounded-none !h-[45px]"
                   >
                     Cash On Delivery
                   </Button>
                   <Button
                     onClick={checkoutHandler}
-                    className="w-[30%] !text-white pt-2 !bg-[#ff9f00] !rounded-none !h-[45px]"
+                    className="w-[50%] md:w-[30%] !text-white pt-2 !bg-[#ff9f00] !rounded-none !h-[45px]"
                   >
                     Pay Now
                   </Button>

@@ -54,7 +54,7 @@ function Orders() {
 
   return (
     <section className="py-6 w-full ">
-      <div className="container md:flex flex flex-col gap-3">
+      <div className="container md:flex flex md:flex-row flex-col gap-3">
         <div className="col1 md:w-[20%] w-full">
           <SideMenu />
         </div>

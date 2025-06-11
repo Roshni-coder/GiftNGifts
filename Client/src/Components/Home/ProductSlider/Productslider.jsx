@@ -4,10 +4,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-
+import axios from 'axios';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import axios from 'axios';
 
 const ViewBtn = styled(Button)`
   color: white;
@@ -17,11 +16,13 @@ const ViewBtn = styled(Button)`
   border-radius: 4px;
   box-shadow: none;
   font-weight: 600;
-  float: right;
   height: 35px;
+  &:hover {
+    background: #5c0170;
+  }
 `;
 
-function ProductSlider() {
+const ProductSlider = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +30,9 @@ function ProductSlider() {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
       if (data.success && Array.isArray(data.categories)) {
-        setCategories(data.categories);
+        // Only keep categories that have at least one product
+        const filtered = data.categories.filter((cat) => Array.isArray(cat.products) && cat.products.length > 0);
+        setCategories(filtered);
       } else {
         console.error("Unexpected response format:", data);
       }
@@ -44,31 +47,29 @@ function ProductSlider() {
     getProducts();
   }, []);
 
-  if (loading) return <div className="text-center py-10">Loading products...</div>;
+  if (loading) {
+    return <div className="text-center py-10 text-lg font-medium text-gray-600">Loading products...</div>;
+  }
 
-  if (!categories || categories.length === 0) {
-    return <div className="text-center py-10">No products found.</div>;
+  if (!categories.length) {
+    return <div className="text-center py-10 text-lg font-medium text-gray-600">No products found.</div>;
   }
 
   return (
-    <section className="pt-6">
-    {categories?.slice(0, 4).map((cat, idx) => {
-      const products = cat?.products || [];
-      if (products.length === 0) return null; // Skip this category if no products
-  
-      return (
-        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-3 bg-white rounded-lg shadow-lg mb-10">
+    <section className="pt-4 lg:pt-6">
+      {categories.map((cat, idx) => (
+        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-4 bg-white  rounded-lg shadow-lg">
           {/* Category Header */}
           <div className="flex items-center justify-between mb-4 px-6 py-4 border-b border-gray-200">
-            <h3 className="text-[14px] sm:text-2xl font-semibold text-gray-800">
-              {cat?.category || 'Untitled Category'}
+            <h3 className="text-[14px] sm:text-2xl font-semibold text-gray-800 capitalize">
+              {cat.category || 'Untitled Category'}
             </h3>
             <Link to="/productlist" state={{ category: cat.category }}>
               <ViewBtn>View</ViewBtn>
             </Link>
           </div>
-  
-          {/* Product Slider */}
+
+          {/* Product Swiper */}
           <Swiper
             spaceBetween={20}
             className="mySwiper"
@@ -79,26 +80,24 @@ function ProductSlider() {
               1280: { slidesPerView: 4 },
             }}
           >
-            {products.map((product) => (
+            {cat.products.map((product) => (
               <SwiperSlide key={product._id}>
                 <Link to={`/products/${product._id}`}>
-                  <div className="productItem bg-white mb-4 rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                    {/* Image */}
-                    <div className="imgWrapper w-full h-[300px] sm:h-[280px] overflow-hidden pb-2">
+                  <div className="bg-white mb-4 rounded overflow-hidden !shadow-md   hover:shadow-lg transition duration-300">
+                    {/* Product Image */}
+                    <div className="w-full h-[260px] overflow-hidden">
                       <img
                         src={product?.images?.[0]?.url || '/default-image.jpg'}
                         alt={product?.images?.[0]?.altText || product?.title}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-  
-                    {/* Info */}
-                    <div className="info pb-4 px-2 text-center">
-                      <h3 className="text-gray-700 !text-[13px] md:text-base p-1">
-                        {product?.title || "No Title"}
-                      </h3>
-                      <h2 className="text-gray-900 !text-[14px] md:text-lg font-semibold">
-                        ₹{product?.price || "N/A"}
+
+                    {/* Product Info */}
+                    <div className="p-3 text-center">
+                      <h3 className="text-gray-700 text-sm sm:text-base truncate">{product.title}</h3>
+                      <h2 className="text-gray-900 text-sm sm:text-lg font-semibold mt-1">
+                        ₹{product.price || "N/A"}
                       </h2>
                     </div>
                   </div>
@@ -107,12 +106,9 @@ function ProductSlider() {
             ))}
           </Swiper>
         </div>
-      );
-    })}
-  </section>
-  
-    
+      ))}
+    </section>
   );
-}
+};
 
 export default ProductSlider;
