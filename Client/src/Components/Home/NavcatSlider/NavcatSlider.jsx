@@ -17,15 +17,21 @@ const NavCatSlider = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getcategories`);
-      setCategories(response.data);
+      
+      // Make sure you're accessing the actual array
+      const categoryArray = Array.isArray(response.data)
+        ? response.data
+        : response.data.categories || [];
+
+      setCategories(categoryArray);
     } catch (error) {
       console.error("Error fetching categories", error);
     }
   };
 
   return (
-    <div className="NavcatSlider bg-gray-100 ">
-      <div className="container py-6 md:py-10 !m-auto  px-1">
+    <div className="NavcatSlider bg-gray-100">
+      <div className="container py-6 md:py-10 m-auto px-1">
         <Swiper
           slidesPerView={4}
           spaceBetween={10}
@@ -35,25 +41,17 @@ const NavCatSlider = () => {
             disableOnInteraction: false,
           }}
           breakpoints={{
-            350: {
-              slidesPerView: 5,
-            },
-            550: {
-              slidesPerView: 6,
-            },
-            768: {
-              slidesPerView: 7,
-            },
-            900: {
-              slidesPerView: 8,
-            },
+            350: { slidesPerView: 5 },
+            550: { slidesPerView: 6 },
+            768: { slidesPerView: 7 },
+            900: { slidesPerView: 8 },
           }}
           className="mySwiper"
         >
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
               <Link to={`/products?category=${category.categoryname}`}>
-                <div className="link text-center mt-2">
+                <div className="text-center mt-2">
                   <img
                     src={`${import.meta.env.VITE_BACKEND_URL}/${category.image}`}
                     alt={category.categoryname}
@@ -73,4 +71,4 @@ const NavCatSlider = () => {
   );
 };
 
-export default NavCatSlider;
+export default NavCatSlider;

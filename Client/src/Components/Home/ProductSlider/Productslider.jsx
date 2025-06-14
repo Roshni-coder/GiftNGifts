@@ -28,16 +28,22 @@ const ProductSlider = () => {
 
   const getProducts = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`);
-      if (data.success && Array.isArray(data.categories)) {
-        // Only keep categories that have at least one product
-        const filtered = data.categories.filter((cat) => Array.isArray(cat.products) && cat.products.length > 0);
+      const url = `${import.meta.env.VITE_BACKEND_URL}/api/client/productsbycategory`;
+      const { data } = await axios.get(url, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Check if API returned valid structure
+      if (data?.success && Array.isArray(data.categories)) {
+        const filtered = data.categories.filter(
+          (cat) => Array.isArray(cat.products) && cat.products.length > 0
+        );
         setCategories(filtered);
       } else {
         console.error("Unexpected response format:", data);
       }
     } catch (error) {
-      console.error("Error fetching products by category:", error);
+      console.error("Error fetching products by category:", error.message);
     } finally {
       setLoading(false);
     }
@@ -58,8 +64,7 @@ const ProductSlider = () => {
   return (
     <section className="pt-4 lg:pt-6">
       {categories.map((cat, idx) => (
-        <div key={idx} className="container mx-auto px-4 md:px-6 !mb-4 bg-white  rounded-lg shadow-lg">
-          {/* Category Header */}
+        <div key={idx} className="container mx-auto px-4 md:px-6 mb-6 bg-white rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-4 px-6 py-4 border-b border-gray-200">
             <h3 className="text-[14px] sm:text-2xl font-semibold text-gray-800 capitalize">
               {cat.category || 'Untitled Category'}
@@ -69,7 +74,6 @@ const ProductSlider = () => {
             </Link>
           </div>
 
-          {/* Product Swiper */}
           <Swiper
             spaceBetween={20}
             className="mySwiper"
@@ -83,8 +87,7 @@ const ProductSlider = () => {
             {cat.products.map((product) => (
               <SwiperSlide key={product._id}>
                 <Link to={`/products/${product._id}`}>
-                  <div className="bg-white mb-4 rounded overflow-hidden !shadow-md   hover:shadow-lg transition duration-300">
-                    {/* Product Image */}
+                  <div className="bg-white mb-4 rounded overflow-hidden shadow-md hover:shadow-lg transition duration-300">
                     <div className="w-full h-[260px] overflow-hidden">
                       <img
                         src={product?.images?.[0]?.url || '/default-image.jpg'}
@@ -92,8 +95,6 @@ const ProductSlider = () => {
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     </div>
-
-                    {/* Product Info */}
                     <div className="p-3 text-center">
                       <h3 className="text-gray-700 text-sm sm:text-base truncate">{product.title}</h3>
                       <h2 className="text-gray-900 text-sm sm:text-lg font-semibold mt-1">
