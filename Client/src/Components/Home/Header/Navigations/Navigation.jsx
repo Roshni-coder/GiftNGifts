@@ -42,6 +42,7 @@ function Navigation() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  
   return (
     <nav className="navigation py-1 md:!py-4">
       <div className="container lg:gap-4 grid lg:grid-cols-12 m-auto">
@@ -62,7 +63,6 @@ function Navigation() {
 
         <div className="col3 lg:col-span-3 pt-1 ">
           <ul className="flex items-center justify-center xl:gap-3 w-full">
-
             {/* USER LOGGED IN MENU */}
             {userData ? (
               <li ref={userMenuRef} className="relative">
@@ -75,13 +75,19 @@ function Navigation() {
                 {userMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 z-20 bg-white rounded shadow-lg w-40 text-black">
                     <ul className="list-none m-0 p-2">
-                      <Link to="/myProfile" onClick={() => setUserMenuOpen(false)}>
+                      <Link
+                        to="/myProfile"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
                         <li className="py-2 px-2 flex gap-2 items-center hover:bg-gray-100 cursor-pointer">
                           <FaRegUserCircle className="text-[#7d0492] text-[15px]" />
                           My Account
                         </li>
                       </Link>
-                      <Link to="/wishlist" onClick={() => setUserMenuOpen(false)}>
+                      <Link
+                        to="/wishlist"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
                         <li className="py-2 flex items-center gap-2 px-2 hover:bg-gray-100 cursor-pointer">
                           <FaRegHeart className="text-[#7d0492] text-[15px]" />
                           Wishlist
@@ -125,7 +131,10 @@ function Navigation() {
               <Tooltip title="Wishlist">
                 <Link to="/wishlist">
                   <IconButton aria-label="like">
-                    <StyledBadge badgeContent={wishlistItems.length} color="secondary">
+                    <StyledBadge
+                      badgeContent={wishlistItems.length}
+                      color="secondary"
+                    >
                       <FiHeart className="md:text-[25px] text-[20px]" />
                     </StyledBadge>
                   </IconButton>
@@ -138,7 +147,10 @@ function Navigation() {
               <Tooltip title="Cart">
                 <Link to="/cartlist">
                   <IconButton aria-label="cart">
-                    <StyledBadge badgeContent={cartItems.length} color="secondary">
+                    <StyledBadge
+                      badgeContent={cartItems.length}
+                      color="secondary"
+                    >
                       <MdOutlineShoppingCart className="md:text-[25px] text-[20px]" />
                     </StyledBadge>
                   </IconButton>

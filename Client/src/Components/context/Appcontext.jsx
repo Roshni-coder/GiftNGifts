@@ -77,13 +77,13 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  const fetchWishlist = async () => {
+   const fetchWishlist = async () => {
     if (!token) return;
     try {
       const res = await axios.get(`${backendurl}/api/auth/wishlist`, {
-        headers: { Authorization: `Bearer ${token} `},
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setWishlistItems(res.data.wishlist || []);
+      setWishlistItems(res.data.wishlist);
     } catch (err) {
       console.error("Error fetching wishlist:", err);
     }
