@@ -13,12 +13,12 @@ export const AppContextProvider = (props) => {
   const [userData, setUserdata] = useState(false);
 
   // New profile state for detailed user profile info
-  const [profile, setProfile] = useState({ name: '', phone: '', email: '' });
 
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setWishlistItems] = useState([]);
 
   const token = localStorage.getItem('token') || null;
+  const [profile, setProfile] = useState({ name: '', phone: '', email: '' });
 
   // Fetch detailed profile info (name, phone, email)
   const fetchProfile = async () => {
@@ -65,6 +65,7 @@ export const AppContextProvider = (props) => {
     }
   };
 
+    
   const fetchCart = async () => {
     if (!token) return;
     try {
@@ -77,6 +78,17 @@ export const AppContextProvider = (props) => {
     }
   };
 
+  const clearCartAfterOrder = async () => {
+    setCartItems([]); // Clear from UI
+    try {
+      await axios.delete(`${backendurl}/api/auth/clear-cart`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      await fetchCart(); // Refresh to reflect updated backend cart (empty)
+    } catch (err) {
+      console.error("Error clearing backend cart:", err);
+    }
+  };
    const fetchWishlist = async () => {
     if (!token) return;
     try {
@@ -124,7 +136,7 @@ export const AppContextProvider = (props) => {
     wishlistItems,
     setWishlistItems,
     fetchCart,
-    fetchWishlist,
+    fetchWishlist,clearCartAfterOrder
   };
 
   return (

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -22,7 +23,6 @@ const Search = () => {
         console.error("Error fetching products:", err);
       }
     };
-
     fetchData();
   }, []);
 
@@ -50,8 +50,8 @@ const Search = () => {
 
     const filtered = products.filter((product) => {
       const title = product.title?.toLowerCase() || "";
-      const category = product.category?.toLowerCase() || "";
-      const subcategory = product.subcategoryname?.toLowerCase() || "";
+      const category = product.categoryname?.name?.toLowerCase() || "";
+      const subcategory = product.subcategory?.name?.toLowerCase() || "";
 
       return (
         title.includes(searchTerm) ||
@@ -67,35 +67,20 @@ const Search = () => {
   const handleSelect = (product) => {
     setInput(product.title);
     setShowResult(false);
-    console.log("Selected product:", product);
     navigate(`/products/${product._id}`);
   };
 
   const handleSearchClick = () => {
-    if (!input.trim()) return;
+  if (!input.trim()) return;
 
-    const searchTerm = input.toLowerCase();
+  const searchTerm = input.toLowerCase().trim();
+  console.log("Search query:", input);
 
-    const matchedProduct = products.find((product) => {
-      const title = product.title?.toLowerCase() || "";
-      const category = product.category?.toLowerCase() || "";
-      const subcategory = product.subcategoryname?.toLowerCase() || "";
+  // Navigate to search results page (this will show all matching items)
+  navigate(`/search-results?query=${encodeURIComponent(searchTerm)}`);
 
-      return (
-        title.includes(searchTerm) ||
-        category.includes(searchTerm) ||
-        subcategory.includes(searchTerm)
-      );
-    });
+};
 
-    if (matchedProduct) {
-      setShowResult(false);
-      console.log("Searched product:", matchedProduct);
-      navigate(`/products/${matchedProduct._id}`);
-    } else {
-      console.log("No matching product found.");
-    }
-  };
 
   return (
     <div
@@ -109,7 +94,14 @@ const Search = () => {
         value={input}
         onFocus={() => setShowResult(true)}
         onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            handleSearchClick();
+          }
+        }}
       />
+
       <Button
         onClick={handleSearchClick}
         className="!absolute top-[4px] right-[5px] z-50 !w-[37px] !min-w-[35px] h-[35px] !rounded-full !text-black"

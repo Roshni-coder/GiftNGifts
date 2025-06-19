@@ -26,6 +26,7 @@ import AddSubCategory from './Pages/Category/AddSubCategory.jsx';
 import UsersList from './Pages/Users Page/UsersList.jsx';
 import Login from './Pages/Login/Login.jsx';
 import ProtectedRoute from './Pages/ProtectedRoute.jsx';
+import SellerList from './Pages/Sellers page/SellerList.jsx';
 
 export const MyContext = createContext();
 
@@ -71,6 +72,7 @@ function App() {
     { path: '/categorylist', element: <ProtectedRoute><Layout><CategoryList /></Layout></ProtectedRoute> },
     { path: '/subcategorylist', element: <ProtectedRoute><Layout><SubCategoryList /></Layout></ProtectedRoute> },
     { path: '/users', element: <ProtectedRoute><Layout><UsersList /></Layout></ProtectedRoute> },
+    { path: '/sellers', element: <ProtectedRoute><Layout><SellerList /></Layout></ProtectedRoute> },
   ]);
 
   return (

@@ -1,16 +1,15 @@
+// src/components/OrderSummery.jsx
 import { useContext, useEffect } from "react";
-import { AppContext } from "../context/Appcontext.jsx";
+import { AppContext } from "../context/AppContext.jsx";
 import CartItems from "../Cart Page/CartItems.jsx";
 import Totalprice from "../Cart Page/Totalprice.jsx";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Divider } from "@mui/material";
 
-// Imports omitted for brevity
-
 function OrderSummery() {
   const navigate = useNavigate();
-  const { cartItems, setCartItems, fetchCart } = useContext(AppContext);
+  const { cartItems, setCartItems, fetchCart, clearCartAfterOrder } = useContext(AppContext);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -77,7 +76,6 @@ function OrderSummery() {
 
   const handlePlaceOrder = async () => {
     if (!cartItems.length) return alert("Cart is empty.");
-
     let orderData;
     try {
       orderData = buildOrderPayload();
@@ -86,11 +84,17 @@ function OrderSummery() {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/client/place-order`, orderData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (response.data.success) navigate("/order-success");
-      else alert("Order failed.");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/client/place-order`,
+        orderData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.data.success) {
+        await clearCartAfterOrder();
+        navigate("/order-success");
+      } else {
+        alert("Order failed.");
+      }
     } catch (error) {
       alert("Error placing order.");
     }
@@ -117,14 +121,21 @@ function OrderSummery() {
         order_id: order.id,
         handler: async function (response) {
           try {
-            const orderData = { ...buildOrderPayload(), paymentId: response.razorpay_payment_id };
+            const orderData = {
+              ...buildOrderPayload(),
+              paymentId: response.razorpay_payment_id,
+            };
             const res = await axios.post(
               `${import.meta.env.VITE_BACKEND_URL}/api/client/place-order`,
               orderData,
               { headers: { Authorization: `Bearer ${token}` } }
             );
-            if (res.data.success) navigate("/payment-success");
-            else alert("Order save failed.");
+            if (res.data.success) {
+              await clearCartAfterOrder();
+              navigate("/payment-success");
+            } else {
+              alert("Order save failed.");
+            }
           } catch {
             alert("Order save failed after payment.");
           }
@@ -146,13 +157,12 @@ function OrderSummery() {
 
   return (
     <section className="section py-3">
-      <div className="container   !w-full lg:flex gap-4">
+      <div className="container !w-full lg:flex gap-4">
         <div className="leftPart lg:w-[70%] w-full">
           <div className="py-2 bg-white sm:px-3 px-2 border-b border-gray-200">
             <h2 className="text-black">Your Orders</h2>
             <p>
-              There are <span className="font-bold">{cartItems.length}</span>{" "}
-              products in your Orders.
+              There are <span className="font-bold">{cartItems.length}</span> products in your Orders.
             </p>
           </div>
           <div className="shadow-md rounded-md bg-white max-h-[450px] overflow-y-scroll">
@@ -169,10 +179,10 @@ function OrderSummery() {
                   />
                 ))}
                 <Divider />
-                <div className="flex  justify-end gap-3 m-4">
+                <div className="flex justify-end gap-3 m-4">
                   <Button
                     onClick={handlePlaceOrder}
-                    className="w-[50%] md:w-[30%] !text-white pt-2  !bg-[#fb541b] !rounded-none !h-[45px]"
+                    className="w-[50%] md:w-[30%] !text-white pt-2 !bg-[#fb541b] !rounded-none !h-[45px]"
                   >
                     Cash On Delivery
                   </Button>
@@ -198,4 +208,3 @@ function OrderSummery() {
 }
 
 export default OrderSummery;
-

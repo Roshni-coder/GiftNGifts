@@ -231,3 +231,18 @@ export const getSellerOrders = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch orders" });
   }
 };
+
+export const getAllSellers = async (req, res) => {
+  try {
+    const sellers = await sellermodel.find({}, "name email phone"); // Select only needed fields
+
+    if (!sellers || sellers.length === 0) {
+      return res.status(404).json({ success: false, message: "No sellers found" });
+    }
+
+    return res.status(200).json({ success: true, sellers });
+  } catch (error) {
+    console.error("Error fetching sellers:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

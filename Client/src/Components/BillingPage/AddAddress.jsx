@@ -156,52 +156,59 @@ function AddAddress() {
           </Button>
         </div>
 
-        {addresses.length === 0 ? (
-          <div className="card px-2 shadow-sm pt-3 pb-1 bg-white mb-4">
-            <p>No address added yet.</p>
-          </div>
-        ) : (
-          addresses.map((addr) => (
-            <div
-              key={addr._id}
-              className={`flex felx-row items-center mb-4 !w-[100%] justify-between shadow ${
-                selectedAddress?._id === addr._id ? 'border border-gray-200 shadow-xl' : 'bg-white'
-              }`}
-              onClick={() => setSelectedAddress(addr)}
-            >
-              <div className="card flex flex-col  sm:gap-1 px-4 p-3 bg-white mb-2 rounded">
-                <p className='!text-[12px] sm:!text-[14px]'>{addr.fullName}</p>
-                <p className='!text-[12px] sm:!text-[14px]'>{addr.phoneNumber}</p>
-                <p className='!text-[12px] sm:!text-[14px]'>{addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}</p>
-                {addr.isDefaultBilling && (
-                  <p className="text-green-600 font-semibold">Default Billing</p>
-                )}
-              </div>
-              <div className="flex justify-end items-center gap-2">
-                <button
-                  className="h-8 p-0"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEditAddressId(addr._id);
-                    setNewAddress({ ...addr });
-                    setShowAddForm(true);
-                  }}
-                >
-                  <MdModeEdit className="text-blue-400 text-[22px]" />
-                </button>
-                <button
-                  className="h-8 p-0"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteAddress(addr._id);
-                  }}
-                >
-                  <MdDelete className="text-red-600 text-[22px]" />
-                </button>
-              </div>
-            </div>
-          ))
+      {addresses.map((addr) => (
+  <div key={addr._id} className="flex items-start gap-3 mb-4 p-3 shadow bg-white rounded">
+    <input
+      type="checkbox"
+      checked={selectedAddress?._id === addr._id}
+      onChange={(e) => {
+        if (e.target.checked) {
+          setSelectedAddress(addr);
+        } else {
+          setSelectedAddress(null);
+        }
+      }}
+      className="mt-2"
+    />
+    <div className="flex justify-between w-full">
+      <div
+        className={`flex flex-col sm:gap-1`}
+      >
+        <p className='text-[12px] sm:text-[14px]'>{addr.fullName}</p>
+        <p className='text-[12px] sm:text-[14px]'>{addr.phoneNumber}</p>
+        <p className='text-[12px] sm:text-[14px]'>
+          {addr.address}, {addr.city} - {addr.pin}, {addr.state}, {addr.country}
+        </p>
+        {addr.isDefaultBilling && (
+          <p className="text-green-600 font-semibold">Default Billing</p>
         )}
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          className="h-8 p-0"
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditAddressId(addr._id);
+            setNewAddress({ ...addr });
+            setShowAddForm(true);
+          }}
+        >
+          <MdModeEdit className="text-blue-400 text-[22px]" />
+        </button>
+        <button
+          className="h-8 p-0"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteAddress(addr._id);
+          }}
+        >
+          <MdDelete className="text-red-600 text-[22px]" />
+        </button>
+      </div>
+    </div>
+  </div>
+))}
+
 
         {/* Conditionally show button if there is at least one address */}
         {addresses.length > 0 && (

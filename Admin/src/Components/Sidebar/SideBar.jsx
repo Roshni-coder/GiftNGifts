@@ -214,6 +214,14 @@ function SideBar() {
             </Link>
           </li>
           <li>
+            <Link to="/sellers" onClick={closeSidebar}>
+              <Button className="w-full !py-3 !font-[600] !justify-start !px-6 flex  !gap-3 !text-[16px] !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]">
+                <LuUsers className="text-[18px]" />
+                <span style={{ textTransform: "initial" }}>Seller List</span>
+              </Button>
+            </Link>
+          </li>
+          <li>
             <Button className="w-full !py-3   !font-[600] !justify-start !px-6 flex  !gap-3 !text-[16px] !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]">
               <CiLogout className="text-[18px] !font-bold" />
               <span

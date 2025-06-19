@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, logout, sendverifyotp, verifyingEmail,isAuthenticated,sendResetpassword,resetpassword,Addtocart, AddToWishlist,GetWishlist,GetCart,DeleteFromCart,RemoveFromWishlist,ToggleCartQuantity, loginRequestOtp, verifyLoginOtp } from "../controller/auth_controller.js";
+import { register, login, logout, sendverifyotp, verifyingEmail,isAuthenticated,sendResetpassword,resetpassword,Addtocart, AddToWishlist,GetWishlist,GetCart,DeleteFromCart,RemoveFromWishlist,ToggleCartQuantity, loginRequestOtp, verifyLoginOtp, clearCart } from "../controller/auth_controller.js";
 import userAuth from "../middleware/userAuth.js";
 import auth from "../middleware/cartmiddleare.js"
 
@@ -21,6 +21,7 @@ router.post('/Cart',auth,Addtocart)
 router.get('/Cart',auth,GetCart)
 router.delete('/delete/:productId',auth,DeleteFromCart)
 router.put('/update-quantity', auth, ToggleCartQuantity);
+router.delete("/clear-cart", auth, clearCart);
 
 
 //ADD and get and delete wishlist------

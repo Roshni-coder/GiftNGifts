@@ -17,13 +17,9 @@ function SideMenu() {
         <div className='w-[90px] group h-[90px] overflow-hidden rounded-full mb-2 relative'>
           <Avatar
             alt={profile?.name || "User"}
-            src="https://bni-india.in/img/site/61b86b9dbc9e2500070cdb9a.jpg"
+            src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/profile-pic-female_0627fd.svg"
             sx={{ width: 90, height: 90 }}
           />
-          <div className='overlay w-full h-full absolute top-0 z-50 bg-[rgba(0,0,0,0.6)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all'>
-            <IoCloudUploadOutline className='text-white text-[18px]' />
-            <input type="file" className='absolute top-0 left-0 w-full h-full opacity-0' />
-          </div>
         </div>
         <h2 className='font-[600] text-[15px]'>{profile?.name || 'Name'}</h2>
         <p className='text-[12px] font-[500]'>{profile?.email || 'Email'}</p>

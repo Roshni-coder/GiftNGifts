@@ -21,11 +21,12 @@ function SideBar() {
     setSubmenuIndex((prev) => (prev === index ? null : index));
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("stoken");
-    navigate("/login");
-    setSidebarOpen(false);
-  };
+ const handleLogout = () => {
+  localStorage.removeItem("stoken");
+  // optionally clear other app states if needed
+  navigate("/login");
+};
+
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
@@ -214,18 +215,17 @@ function SideBar() {
             </Link>
           </li>
           <li>
-            <Button className="w-full !py-3   !font-[600] !justify-start !px-6 flex  !gap-3 !text-[16px] !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]">
-              <CiLogout className="text-[18px] !font-bold" />
-              <span
-                style={{ textTransform: "initial" }}
-                onClick={() => {
-                  handleLogout();
-                  closeSidebar();
-                }}
-              >
-                Logout
-              </span>
-            </Button>
+       <Button
+  onClick={() => {
+    handleLogout();
+    closeSidebar();
+  }}
+  className="w-full !py-3 !font-[600] !justify-start !px-6 flex gap-3 !text-[16px] !text-[rgba(0,0,0,0.8)] hover:!bg-[#f1f1f1]"
+>
+  <CiLogout className="text-[18px] !font-bold" />
+  <span style={{ textTransform: "initial" }}>Logout</span>
+</Button>
+
           </li>
         </ul>
       </div>

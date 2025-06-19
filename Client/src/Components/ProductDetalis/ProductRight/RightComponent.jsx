@@ -1,37 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Button,
-  Typography,
-  Box,
-  styled,
-} from "@mui/material";
-import LocalOffer from "@mui/icons-material/LocalOffer";
-import Rating from "@mui/material/Rating";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { ShoppingCart as Cart, FlashOn as Flash } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart as Cart } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AppContext } from "../../context/Appcontext";
 import { toast } from "react-toastify";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { PiLineVerticalBold } from "react-icons/pi";
 
-const SmallText = styled(Box)`
-  font-size: 13px;
-  & > p {
-    font-size: 13px;
-    margin-top: 5px;
-  }
-`;
-
-const StyledBedge = styled(LocalOffer)`
-  margin-right: 10px;
-  color: #00cc00;
-  font-size: 11px;
-`;
-
-function RightComponent({ product }) {
+const RightComponent = ({ product }) => {
   const navigate = useNavigate();
   const { isLoggedin, fetchWishlist, wishlistItems } = useContext(AppContext);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [pincode, setPincode] = useState("");
 
   useEffect(() => {
     const inWishlist = wishlistItems?.some((item) => item._id === product._id);
@@ -40,7 +21,7 @@ function RightComponent({ product }) {
 
   const handleToggleWishlist = async () => {
     if (!isLoggedin) {
-      toast.warning("Please login first to use wishlist");
+      toast.warning("Please login to manage your wishlist");
       return;
     }
 
@@ -49,7 +30,7 @@ function RightComponent({ product }) {
       const method = isWishlisted ? "delete" : "post";
       const data = { productId: product._id };
 
-      setIsWishlisted((prev) => !prev); // Immediate visual update
+      setIsWishlisted((prev) => !prev); // Optimistic update
 
       const response = await axios({
         method,
@@ -61,21 +42,18 @@ function RightComponent({ product }) {
       });
 
       if (response.data.success) {
-        toast.success(
-          isWishlisted ? "Removed from wishlist" : "Added to wishlist"
-        );
-        fetchWishlist(); // Update global state
+        toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
+        fetchWishlist();
       }
-      
     } catch (error) {
-      console.error("Wishlist error:", error.response?.data || error.message);
-      setIsWishlisted((prev) => !prev); // Revert visual update on error
+      console.error("Wishlist error:", error);
+      setIsWishlisted((prev) => !prev); // Revert on error
     }
   };
 
   const handleAddToCart = async () => {
     if (!isLoggedin) {
-      toast.warning("Please login first to add products to cart");
+      toast.warning("Please login to add products to cart");
       return;
     }
 
@@ -98,86 +76,99 @@ function RightComponent({ product }) {
         navigate("/cartlist");
       }
     } catch (error) {
-      console.error("Error adding to cart:", error.response?.data || error.message);
+      console.error("Add to cart error:", error);
     }
   };
 
   return (
-    <div className="productContent">
-      <h1 className="text-[20px] font-[600] py-1">{product.title}</h1>
+    <div className="bg-white p-2 px-4 rounded-lg space-y-4">
+      {/* Title */}
+      <h2 className="text-xl font-semibold text-gray-800">{product.title}</h2>
 
-      <div className="flex items-center py-1 gap-3">
-        <span className="text-gray-400 sm:text-[15px] text-[12px]">
-          Brands:
-          <span className="font-[400] text-[12px] sm:text-[14px] text-gray-600 pl-1">
-            {product.brand}
-          </span>
+      {/* Brand, Rating, Reviews */}
+      <div className="flex items-center gap-4 text-sm text-gray-600">
+        <span>
+          Brand: <strong>{product.brand}</strong>
         </span>
-        <Rating name="size-small" defaultValue={4} size="small" readOnly />
-        <span className="text-[13px] sm:text-[14px] cursor-pointer">Review {5}</span>
+        <span className="text-yellow-500">★★★★☆</span>
+        <span className="text-green-600 cursor-pointer font-medium">5 Reviews</span>
       </div>
 
-      <div className="flex items-center gap-4 py-1">
-        <span className="text-black text-[17px] font-[600]">₹{product.price}</span>
-        <span className="line-through text-gray-500 text-[13px] sm:text-[14px] font-[500]">
-          ₹{product.oldprice}
-        </span>
-        <span className="text-[#7d0492] text-[14px] font-[500]">
-          {product.discount}% off
-        </span>
+      {/* Price Info */}
+      <div className="flex items-center gap-3 text-base">
+        <span className="text-lg font-semibold text-primary">₹{product.price}</span>
+        <span className="line-through text-gray-400">₹{product.oldprice}</span>
+        <span className="text-green-600 text-sm">{product.discount}% OFF</span>
       </div>
 
-      <div className="offers">
-        <Typography style={{ fontSize: 15 }}>Available Offers</Typography>
-        <SmallText>
-          <Typography><StyledBedge /> Bank Offer: 10% off up to ₹749 on HDFC Credit Cards</Typography>
-          <Typography><StyledBedge /> Bank Offer: 5% off on ICICI EMI Transactions</Typography>
-          <Typography><StyledBedge /> 15% off on orders above ₹3000</Typography>
-        </SmallText>
-      </div>
-
-      <div className="additionalOptions  mt-2">
-        <div className="flex">
-          <button
-            onClick={handleToggleWishlist}
-            className="text-[15px] flex items-center "
-          >
-            {isWishlisted ? (
-              <p className="flex gap-2 items-center">
-                <FaHeart className="text-[20px] text-red-500" />
-                <span className="!text-black">Wishlisted</span>
-              </p>
-            ) : (
-              <p className="flex gap-2 items-center">
-                <FaRegHeart className="text-[20px] text-black" />
-                <span className="!text-black">Add to Wishlist</span>
-              </p>
-            )}
-          </button>
+      {/* Pincode */}
+      <div className="space-y-2">
+        <p className="font-medium">Check Delivery Availability</p>
+        <div className="flex items-center border rounded overflow-hidden w-[50%]">
+          <span className="px-3 text-black font-[600] text-[17px]">INR  </span>
+          <span> <PiLineVerticalBold/></span>
+          <input
+            type="text"
+            className="flex-1 px-3 !py-3 text-[16px] focus:outline-none"
+            placeholder="Enter Pincode"
+            value={pincode}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (/^\d{0,6}$/.test(val)) setPincode(val);
+            }}
+          />
         </div>
+        {pincode && (
+          <p className="text-green-600 text-sm">
+            Delivery available to {pincode}
+          </p>
+        )}
       </div>
 
-      <div className="addToCartSection py-2 flex gap-2">
-        <Button
-          className="h-[50px] !w-[200px] sm:!w-[300px] !bg-[#ff9f00]"
-          variant="contained"
-          onClick={handleAddToCart}
-          startIcon={<Cart />}
-        >
-          Add to Cart
-        </Button>
-        <Link to="/addaddress">
-          <Button
-            className="h-[50px] !w-[200px] sm:!w-[300px] !bg-[#fb541b]"
-            variant="contained"
-            startIcon={<Flash />}
-          >
-            Buy Now
-          </Button>
-        </Link>
+      {/* Offers */}
+      <div>
+        <h4 className="text-md font-semibold mb-2">Available Offers</h4>
+        <ul className="space-y-1 text-sm text-gray-700">
+          <li className="flex items-start gap-2">
+            <LocalOfferIcon className="text-green-600 mt-[2px]" fontSize="small" />
+            10% off up to ₹749 on HDFC Credit Cards
+          </li>
+          <li className="flex items-start gap-2">
+            <LocalOfferIcon className="text-green-600 mt-[2px]" fontSize="small" />
+            5% off on ICICI EMI Transactions
+          </li>
+          <li className="flex items-start gap-2">
+            <LocalOfferIcon className="text-green-600 mt-[2px]" fontSize="small" />
+            15% off on orders above ₹3000
+          </li>
+        </ul>
+      </div>
+
+      {/* Wishlist Button */}
+      <div className="flex">
+        {/* Add to Cart Button */}
+      <button
+        onClick={handleAddToCart}
+        className="w-full flex items-center justify-center gap-2 !bg-[#fb541b] !py-3  hover:bg-yellow-600 text-white font-semibold rounded transition"
+      >
+        <Cart fontSize="small" />
+        Add to Cart
+      </button>
+      <button
+        onClick={handleToggleWishlist}
+        className={`w-full flex items-center bg-yellow-500  justify-center gap-2 rounded py-2 font-semibold transition-all ${
+          isWishlisted
+            ? "text-red-600 "
+            : "!text-white "
+        }`}
+      >
+        {isWishlisted ? <FaHeart className="text-[18px]"/> : <FaRegHeart className="text-[18px]"/>}
+        {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
+      </button>
+      
       </div>
     </div>
   );
-}
+};
 
 export default RightComponent;

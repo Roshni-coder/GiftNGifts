@@ -22,7 +22,7 @@ function FreeShip() {
           {/* Description */}
           <div className="text-center md:text-left">
             <p className="!text-[12px] md:text-[14px] lg:text-[16px] text-gray-600 sm:pt-3 pt-3">
-              Free Delivery Now On Your First Order and Over <span className="font-semibold text-black">$200</span>
+              Free Delivery Now On Your First Order and Over <span className="font-semibold text-black">₹200</span>
             </p>
           </div>
 
@@ -30,8 +30,8 @@ function FreeShip() {
           <span className="hidden md:block h-6 w-px bg-gray-300"></span>
 
           {/* Highlighted Text */}
-          <p className="font-bold text-sm md:!text-[18px] text-black">
-            Only $200*
+          <p className="font-bold pt-3 text-sm md:!text-[18px] text-black">
+            Only ₹200*
           </p>
         </div>
       </div>
